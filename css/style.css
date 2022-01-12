@@ -1,0 +1,113 @@
+@charset "UTF-8";
+html {
+  font-size: 100%;
+}
+
+body {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  font-size: 0.9rem;
+  color: #383e45;
+}
+
+a {
+  color: #383e45;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-height: 100vh;
+}
+
+.wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/********************************
+ヘッダー
+********************************/
+#header {
+  padding: 10px;
+  background-color: #ecf1f3;
+}
+
+#header .header-inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#header .header-inner .link-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#header .header-inner .link-list li {
+  padding: 10px 0;
+  margin-right: 25px;
+}
+
+#header .header-inner .link-list li:last-child {
+  margin-right: 0;
+}
+
+/********************************
+メイン
+********************************/
+#main-contents {
+  width: 100%;
+}
+
+/********************************
+メイン：問題表示画面
+********************************/
+#board-container {
+  width: 90%;
+  min-width: 500px;
+  height: 330px;
+  margin: 20px auto;
+}
+
+#board-container #board {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  background-color: #33894d;
+  border-style: solid;
+  border-width: 9px;
+  border-color: #eb8e4b #e67d32 #b95d1c chocolate;
+  border-radius: 2px;
+}
+
+/********************************
+メイン：キーボード
+********************************/
+/********************************
+フッター
+********************************/
+#footer {
+  margin-top: auto;
+  padding: 10px;
+  background-color: #b6b5b5;
+}
+
+#footer .copyright {
+  text-align: center;
+}
+/*# sourceMappingURL=style.css.map */
