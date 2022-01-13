@@ -19,7 +19,7 @@ ul {
   list-style: none;
 }
 
-.container{
+.container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -57,20 +57,20 @@ ul {
 /********************************
 メイン
 ********************************/
-#main-contents{
+#main-contents {
   width: 100%;
 }
 
 /********************************
 メイン：問題表示画面
 ********************************/
-#board-container{
+#board-container {
   width: 90%;
   min-width: 500px;
   height: 330px;
-  margin: 20px auto;
+  margin: 10px auto;
 
-  #board{
+  #board {
     width: 100%;
     height: 100%;
     margin: 0 auto;
@@ -85,15 +85,207 @@ ul {
 /********************************
 メイン：キーボード
 ********************************/
+$key-color: rgb(156, 156, 156);
+$key-background-color: white;
+$key-border-color: #d8d8d8;
+$key-box-shadow-color: #c2c7ce;
+$target-key-color: blue;
+$target-key-background-color: red;
+
+#keyboard-container {
+  display: flex;
+  justify-content: center;
+  #keyboard {
+    padding: 20px;
+    .row {
+      display: flex;
+      margin-bottom: 5px;
+      &:last-child {
+        margin-bottom: 0px;
+      }
+      .key {
+        border: 1px solid $key-border-color;
+        border-radius: 3px;
+        box-shadow: 1px 1px 1px $key-box-shadow-color;
+        font-weight: bold;
+        font-size: 16px;
+        margin-right: 5px;
+        width: 35px;
+        height: 35px;
+        background-color: $key-background-color;
+        color: $key-color;
+        position: relative;
+        &:last-child {
+          margin-right: 0;
+        }
+        p {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+
+      .target-key {
+        background-color: $target-key-background-color;
+        color: $target-key-color;
+      }
+
+      .missed {
+        animation: flash 0.3s linear infinite;
+      }
+
+      @keyframes flash {
+        0%,
+        100% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0;
+        }
+      }
+
+      #key-tab {
+        width: 55px;
+      }
+
+      #key-enter-1 {
+        border-left: 1px solid $key-border-color;
+        border-top: 1px solid $key-border-color;
+        border-right: 1px solid $key-border-color;
+        border-radius: 3px 3px 0 3px;
+        box-shadow: 1px 0px $key-box-shadow-color;
+        width: 55px;
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          display: inline-block;
+          width: 10px;
+          height: 1px;
+          background-color: $key-border-color;
+        }
+      }
+
+      #key-caps {
+        width: 65px;
+      }
+
+      #key-enter-2 {
+        border-left: 1px solid $key-border-color;
+        border-bottom: 1px solid $key-border-color;
+        border-right: 1px solid $key-border-color;
+        border-radius: 0 0 3px 3px;
+        box-shadow: 1px 1px 1px $key-box-shadow-color;
+        width: 45px;
+        position: relative;
+        &::before {
+          content: "";
+          position: absolute;
+          top: -5px;
+          left: -1px;
+          display: inline-block;
+          width: 1px;
+          height: 6px;
+          background-color: $key-border-color;
+        }
+        &::after {
+          content: "";
+          position: absolute;
+          top: -5px;
+          right: -1px;
+          display: inline-block;
+          width: 1px;
+          height: 6px;
+          background-color: $key-border-color;
+          box-shadow: 1px 0px $key-box-shadow-color;
+        }
+      }
+
+      #key-shift-left {
+        width: 80px;
+      }
+
+      #key-shift-right {
+        width: 70px;
+      }
+
+      #key-ctrl {
+        width: 50px;
+      }
+
+      #key-space {
+        width: 140px;
+      }
+    }
+  }
+}
+
+/********************************
+メイン：キーボード対応指
+********************************/
+$finger-border-color: #d8d8d8;
+$target-finger-color: red;
+#hand-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+
+  #hand-left{
+    margin-right: 25px;
+  }
+
+  .hand{
+    display: flex;
+    align-items: flex-end;
+
+    .finger {
+      border: 1px solid $finger-border-color;
+      border-radius: 20px 20px 0 0;
+      margin-right: 10px;
+      width: 35px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    .target-finger {
+      background-color: $target-finger-color;
+    }
+
+    .finger-little {
+      height: 70px;
+    }
+
+    .finger-ring {
+      height: 90px;
+    }
+
+    .finger-middle {
+      height: 100px;
+    }
+
+    .finger-index {
+      height: 85px;
+    }
+
+    .finger-thumb {
+      height: 40px;
+    }
+  }
+}
 
 /********************************
 フッター
 ********************************/
-#footer{
+#footer {
   margin-top: auto;
   padding: 10px;
   background-color: rgb(182, 181, 181);
-  .copyright{
+  .copyright {
     text-align: center;
   }
 }

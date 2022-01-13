@@ -81,7 +81,7 @@ ul {
   width: 90%;
   min-width: 500px;
   height: 330px;
-  margin: 20px auto;
+  margin: 10px auto;
 }
 
 #board-container #board {
@@ -98,6 +98,229 @@ ul {
 /********************************
 メイン：キーボード
 ********************************/
+#keyboard-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#keyboard-container #keyboard {
+  padding: 20px;
+}
+
+#keyboard-container #keyboard .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 5px;
+}
+
+#keyboard-container #keyboard .row:last-child {
+  margin-bottom: 0px;
+}
+
+#keyboard-container #keyboard .row .key {
+  border: 1px solid #d8d8d8;
+  border-radius: 3px;
+  -webkit-box-shadow: 1px 1px 1px #c2c7ce;
+          box-shadow: 1px 1px 1px #c2c7ce;
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 5px;
+  width: 35px;
+  height: 35px;
+  background-color: white;
+  color: #9c9c9c;
+  position: relative;
+}
+
+#keyboard-container #keyboard .row .key:last-child {
+  margin-right: 0;
+}
+
+#keyboard-container #keyboard .row .key p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+#keyboard-container #keyboard .row .target-key {
+  background-color: red;
+  color: blue;
+}
+
+#keyboard-container #keyboard .row .missed {
+  -webkit-animation: flash 0.3s linear infinite;
+          animation: flash 0.3s linear infinite;
+}
+
+@-webkit-keyframes flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+#keyboard-container #keyboard .row #key-tab {
+  width: 55px;
+}
+
+#keyboard-container #keyboard .row #key-enter-1 {
+  border-left: 1px solid #d8d8d8;
+  border-top: 1px solid #d8d8d8;
+  border-right: 1px solid #d8d8d8;
+  border-radius: 3px 3px 0 3px;
+  -webkit-box-shadow: 1px 0px #c2c7ce;
+          box-shadow: 1px 0px #c2c7ce;
+  width: 55px;
+  position: relative;
+}
+
+#keyboard-container #keyboard .row #key-enter-1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: inline-block;
+  width: 10px;
+  height: 1px;
+  background-color: #d8d8d8;
+}
+
+#keyboard-container #keyboard .row #key-caps {
+  width: 65px;
+}
+
+#keyboard-container #keyboard .row #key-enter-2 {
+  border-left: 1px solid #d8d8d8;
+  border-bottom: 1px solid #d8d8d8;
+  border-right: 1px solid #d8d8d8;
+  border-radius: 0 0 3px 3px;
+  -webkit-box-shadow: 1px 1px 1px #c2c7ce;
+          box-shadow: 1px 1px 1px #c2c7ce;
+  width: 45px;
+  position: relative;
+}
+
+#keyboard-container #keyboard .row #key-enter-2::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -1px;
+  display: inline-block;
+  width: 1px;
+  height: 6px;
+  background-color: #d8d8d8;
+}
+
+#keyboard-container #keyboard .row #key-enter-2::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: -1px;
+  display: inline-block;
+  width: 1px;
+  height: 6px;
+  background-color: #d8d8d8;
+  -webkit-box-shadow: 1px 0px #c2c7ce;
+          box-shadow: 1px 0px #c2c7ce;
+}
+
+#keyboard-container #keyboard .row #key-shift-left {
+  width: 80px;
+}
+
+#keyboard-container #keyboard .row #key-shift-right {
+  width: 70px;
+}
+
+#keyboard-container #keyboard .row #key-ctrl {
+  width: 50px;
+}
+
+#keyboard-container #keyboard .row #key-space {
+  width: 140px;
+}
+
+/********************************
+メイン：キーボード対応指
+********************************/
+#hand-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 30px;
+}
+
+#hand-container #hand-left {
+  margin-right: 25px;
+}
+
+#hand-container .hand {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+#hand-container .hand .finger {
+  border: 1px solid #d8d8d8;
+  border-radius: 20px 20px 0 0;
+  margin-right: 10px;
+  width: 35px;
+}
+
+#hand-container .hand .finger:last-child {
+  margin-right: 0;
+}
+
+#hand-container .hand .target-finger {
+  background-color: red;
+}
+
+#hand-container .hand .finger-little {
+  height: 70px;
+}
+
+#hand-container .hand .finger-ring {
+  height: 90px;
+}
+
+#hand-container .hand .finger-middle {
+  height: 100px;
+}
+
+#hand-container .hand .finger-index {
+  height: 85px;
+}
+
+#hand-container .hand .finger-thumb {
+  height: 40px;
+}
+
 /********************************
 フッター
 ********************************/
