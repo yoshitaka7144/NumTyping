@@ -39,7 +39,6 @@ ul {
 ヘッダー
 ********************************/
 #header {
-  padding: 10px;
   background-color: #ecf1f3;
 }
 
@@ -50,6 +49,7 @@ ul {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  padding: 10px 20px;
 }
 
 #header .header-inner .link-list {
@@ -72,22 +72,22 @@ ul {
 ********************************/
 #main-contents {
   width: 100%;
+  padding: 20px;
 }
 
 /********************************
-メイン：問題表示画面
+問題表示画面
 ********************************/
 #board-container {
-  width: 90%;
-  min-width: 500px;
-  height: 330px;
-  margin: 10px auto;
+  width: 100%;
+  min-width: 600px;
+  height: 300px;
+  margin: 0 auto;
 }
 
 #board-container #board {
   width: 100%;
   height: 100%;
-  margin: 0 auto;
   background-color: #33894d;
   border-style: solid;
   border-width: 9px;
@@ -95,8 +95,131 @@ ul {
   border-radius: 2px;
 }
 
+#board-container #board #start-window {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#board-container #board #start-window .menu {
+  width: 40%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#board-container #board #start-window .menu input[type=radio] {
+  display: none;
+}
+
+#board-container #board #start-window .menu input[type=radio]:checked + label {
+  background-color: orange;
+}
+
+#board-container #board #start-window .menu label {
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  width: 60%;
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 2px solid #383e45;
+  border-radius: 10px;
+}
+
+#board-container #board #start-window .menu label:last-child {
+  margin-bottom: 0;
+}
+
+#board-container #board #start-window .description {
+  width: 60%;
+  border-radius: 5px;
+  background-color: white;
+}
+
 /********************************
-メイン：キーボード
+
+********************************/
+#typing-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/********************************
+タイピング設定
+********************************/
+#typing-setting {
+  width: 25%;
+  background-color: #33894d;
+  border-style: solid;
+  border-width: 9px;
+  border-color: #eb8e4b #e67d32 #b95d1c chocolate;
+  border-radius: 2px;
+}
+
+#typing-setting .checkbox {
+  display: none;
+}
+
+#typing-setting .checkbox + label {
+  cursor: pointer;
+  display: block;
+  position: relative;
+  padding-left: 25px;
+}
+
+#typing-setting .checkbox + label::before {
+  content: "";
+  position: absolute;
+  display: block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  left: 0;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#typing-setting .checkbox:checked + label::after {
+  content: "";
+  position: absolute;
+  display: block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  width: 22px;
+  height: 13px;
+  top: 50%;
+  left: 2px;
+  -webkit-transform: translateY(-13px) rotate(-45deg);
+          transform: translateY(-13px) rotate(-45deg);
+  border-bottom: 5px solid;
+  border-left: 3px solid;
+  border-color: #585753;
+}
+
+/********************************
+タイピング
+********************************/
+#typing-tool {
+  width: 75%;
+}
+
+/********************************
+キーボード
 ********************************/
 #keyboard-container {
   display: -webkit-box;
@@ -105,10 +228,7 @@ ul {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-}
-
-#keyboard-container #keyboard {
-  padding: 20px;
+  margin-bottom: 10px;
 }
 
 #keyboard-container #keyboard .row {
@@ -261,7 +381,7 @@ ul {
 }
 
 /********************************
-メイン：キーボード対応指
+キーボード対応指
 ********************************/
 #hand-container {
   display: -webkit-box;
@@ -270,7 +390,6 @@ ul {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  margin-bottom: 30px;
 }
 
 #hand-container #hand-left {
@@ -326,11 +445,27 @@ ul {
 ********************************/
 #footer {
   margin-top: auto;
-  padding: 10px;
+  padding: 10px 0;
   background-color: #b6b5b5;
 }
 
 #footer .copyright {
   text-align: center;
+}
+
+@media screen and (max-width: 850px) {
+  #typing-container {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  #typing-container #typing-setting {
+    width: 100%;
+    margin-top: 20px;
+  }
+  #typing-container #typing-tool {
+    width: 100%;
+  }
 }
 /*# sourceMappingURL=style.css.map */

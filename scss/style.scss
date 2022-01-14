@@ -34,12 +34,11 @@ ul {
 ヘッダー
 ********************************/
 #header {
-  padding: 10px;
   background-color: rgb(236, 241, 243);
   .header-inner {
     display: flex;
     justify-content: space-between;
-
+    padding: 10px 20px;
     .link-list {
       display: flex;
 
@@ -59,31 +58,139 @@ ul {
 ********************************/
 #main-contents {
   width: 100%;
+  padding: 20px;
 }
 
 /********************************
-メイン：問題表示画面
+問題表示画面
 ********************************/
 #board-container {
-  width: 90%;
-  min-width: 500px;
-  height: 330px;
-  margin: 10px auto;
+  width: 100%;
+  min-width: 600px;
+  height: 300px;
+  margin: 0 auto;
 
   #board {
     width: 100%;
     height: 100%;
-    margin: 0 auto;
     background-color: #33894d;
     border-style: solid;
     border-width: 9px;
     border-color: rgb(235, 142, 75) rgb(230, 125, 50) rgb(185, 93, 28) chocolate;
     border-radius: 2px;
+
+    #start-window{
+      display: flex;
+
+      .menu{
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        input[type=radio]{
+          display: none;
+
+          &:checked + label{
+            background-color: orange
+          }
+        }
+
+        label{
+          cursor: pointer;
+          display: block;
+          text-align: center;
+          width: 60%;
+          margin-bottom: 20px;
+          padding: 15px;
+          border: 2px solid #383e45;
+          border-radius: 10px;
+
+          &:last-child{
+            margin-bottom: 0;
+          }
+        }
+      }
+
+      .description{
+        width: 60%;
+        border-radius: 5px;
+        background-color: white;
+      }
+    }
   }
 }
 
 /********************************
-メイン：キーボード
+
+********************************/
+#typing-container {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/********************************
+タイピング設定
+********************************/
+#typing-setting {
+  width: 25%;
+  background-color: #33894d;
+  border-style: solid;
+  border-width: 9px;
+  border-color: rgb(235, 142, 75) rgb(230, 125, 50) rgb(185, 93, 28) chocolate;
+  border-radius: 2px;
+
+  .checkbox {
+    display: none;
+
+    + label {
+      cursor: pointer;
+      display: block;
+      position: relative;
+      padding-left: 25px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        display: block;
+        box-sizing: border-box;
+        width: 20px;
+        height: 20px;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    }
+
+    &:checked + label::after {
+      content: "";
+      position: absolute;
+      display: block;
+      box-sizing: border-box;
+      width: 22px;
+      height: 13px;
+      top: 50%;
+      left: 2px;
+      transform: translateY(-13px) rotate(-45deg);
+      border-bottom: 5px solid;
+      border-left: 3px solid;
+      border-color: #585753;
+    }
+  }
+}
+
+/********************************
+タイピング
+********************************/
+#typing-tool {
+  width: 75%;
+}
+
+/********************************
+キーボード
 ********************************/
 $key-color: rgb(156, 156, 156);
 $key-background-color: white;
@@ -95,8 +202,8 @@ $target-key-background-color: red;
 #keyboard-container {
   display: flex;
   justify-content: center;
+  margin-bottom: 10px;
   #keyboard {
-    padding: 20px;
     .row {
       display: flex;
       margin-bottom: 5px;
@@ -225,20 +332,19 @@ $target-key-background-color: red;
 }
 
 /********************************
-メイン：キーボード対応指
+キーボード対応指
 ********************************/
 $finger-border-color: #d8d8d8;
 $target-finger-color: red;
 #hand-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
 
-  #hand-left{
+  #hand-left {
     margin-right: 25px;
   }
 
-  .hand{
+  .hand {
     display: flex;
     align-items: flex-end;
 
@@ -283,9 +389,24 @@ $target-finger-color: red;
 ********************************/
 #footer {
   margin-top: auto;
-  padding: 10px;
+  padding: 10px 0;
   background-color: rgb(182, 181, 181);
   .copyright {
     text-align: center;
+  }
+}
+
+@media screen and (max-width: 850px){
+  #typing-container {
+    flex-direction: column;
+
+    #typing-setting {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    #typing-tool {
+      width: 100%;
+    }
   }
 }
