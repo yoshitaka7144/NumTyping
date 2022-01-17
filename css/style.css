@@ -19,6 +19,20 @@ ul {
   list-style: none;
 }
 
+img {
+  max-width: 100%;
+  vertical-align: bottom;
+}
+
+.btn {
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 2px solid #383e45;
+}
+
 .container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -99,10 +113,12 @@ ul {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  height: 100%;
+  padding: 20px;
 }
 
 #board-container #board #start-window .menu {
-  width: 40%;
+  width: 35%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -113,13 +129,16 @@ ul {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
-#board-container #board #start-window .menu input[type=radio] {
+#board-container #board #start-window .menu input[type="radio"] {
   display: none;
 }
 
-#board-container #board #start-window .menu input[type=radio]:checked + label {
+#board-container #board #start-window .menu input[type="radio"]:checked + label {
   background-color: orange;
 }
 
@@ -139,9 +158,106 @@ ul {
 }
 
 #board-container #board #start-window .description {
-  width: 60%;
+  width: 65%;
   border-radius: 5px;
   background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#board-container #board #start-window .description .text-area {
+  width: 50%;
+}
+
+#board-container #board #start-window .description .text-area #description-text {
+  height: 70%;
+}
+
+#board-container #board #start-window .description .text-area #description-text #menu-2-text,
+#board-container #board #start-window .description .text-area #description-text #menu-3-text {
+  display: none;
+}
+
+#board-container #board #start-window .description .text-area #start-btn {
+  width: 70%;
+}
+
+#board-container #board #count-down-window {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+#board-container #board #count-down-window p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  font-size: 70px;
+  font-weight: bold;
+  color: orange;
+  opacity: 0;
+}
+
+#board-container #board #count-down-window p:nth-child(1) {
+  -webkit-animation: count-down 1s 0s;
+          animation: count-down 1s 0s;
+}
+
+#board-container #board #count-down-window p:nth-child(2) {
+  -webkit-animation: count-down 1s 1s;
+          animation: count-down 1s 1s;
+}
+
+#board-container #board #count-down-window p:nth-child(3) {
+  -webkit-animation: count-down 1s 2s;
+          animation: count-down 1s 2s;
+}
+
+@-webkit-keyframes count-down {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes count-down {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#board-container #board #question-window {
+  display: none;
+}
+
+#board-container #board #question-window #question-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+#board-container #board #question-window #remaining-text {
+  font-size: 1.2rem;
+  color: #c2c7ce;
+}
+
+#board-container #board #question-window #inputed-text {
+  font-size: 1.2rem;
+  color: orange;
 }
 
 /********************************

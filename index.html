@@ -8,6 +8,7 @@
   <link rel="shortcut icon" href="img/favicon.ico">
   <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/menu.js"></script>
 </head>
 
 <body>
@@ -30,16 +31,31 @@
           <div id="board">
             <div id="start-window">
               <div class="menu">
-                <input type="radio" id="menu-1" name="menu">
+                <input type="radio" name="menu" id="menu-1" value="menu-1" checked>
                 <label for="menu-1">サンプル1</label>
-                <input type="radio" id="menu-2" name="menu">
+                <input type="radio" name="menu" id="menu-2" value="menu-2">
                 <label for="menu-2">サンプル2</label>
-                <input type="radio" id="menu-3" name="menu">
+                <input type="radio" name="menu" id="menu-3" value="menu-3">
                 <label for="menu-3">サンプル3</label>
               </div>
               <div class="description">
-
+                <div class="text-area">
+                  <p id="description-text">
+                    <span id="menu-1-text">ああああ</span>
+                    <span id="menu-2-text">いいいい</span>
+                    <span id="menu-3-text">うううう</span>
+                  </p>
+                  <button id="start-btn" class="btn">スタート</button>
+                </div>
+                <img id="description-img" src="" alt="">
               </div>
+            </div>
+            <div id="count-down-window">
+              <p>3</p>
+              <p>2</p>
+              <p>1</p>
+            </div>
+            <div id="question-window">
             </div>
           </div>
         </div>
