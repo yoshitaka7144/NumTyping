@@ -10,7 +10,7 @@ window.onload = function () {
   const questionWindow = document.getElementById("question-window");
 
   // 問題数
-  const questionCount = 10;
+  const questionCount = 3;
 
   // 終了文字
   const END_CHAR = "$";
@@ -31,9 +31,13 @@ window.onload = function () {
 
   // 値変更監視オブジェクト
   const watchDisplayTextObj = new Proxy(displayTextObj, {
-    set(target, property, value) {
+    get(target, prop){
+      return target[prop];
+    },
+    set(target, prop, value) {
       // 該当の要素のテキスト変更
-      changeDisplayText(property + "-text", value);
+      changeDisplayText(prop + "-text", value);
+      target[prop] = value;
     }
   });
 
@@ -127,8 +131,8 @@ window.onload = function () {
     remainingTextElement.setAttribute("id", "remaining-text");
     inputedTextElement.setAttribute("id", "inputed-text");
 
-    typingTextElement.appendChild(remainingTextElement);
     typingTextElement.appendChild(inputedTextElement);
+    typingTextElement.appendChild(remainingTextElement);
 
     // 問題表示画面へ追加
     questionWindow.appendChild(questionTextElement);
@@ -165,28 +169,26 @@ window.onload = function () {
       const currentChar = currentTypingTextArray[currentTypingTextIndex];
       switch (checkInputKey(e.code, currentChar)) {
         case 1:
-          // 正しいタイプ時
+          // 正しいタイピング時
+
+          // 1文字進める
+          watchDisplayTextObj.inputed += currentChar;
+          watchDisplayTextObj.remaining = watchDisplayTextObj.remaining.slice(1);
 
           currentTypingTextIndex++;
           const nextChar = currentTypingTextArray[currentTypingTextIndex];
+
           if (nextChar === END_CHAR) {
             // 
             currentQuestionIndex++;
-            if (currentQuestionIndex + 1 === questionCount) {
+            if (currentQuestionIndex === questionCount) {
               // 結果表示画面へ
-
+              console.log("問題終了");
             } else {
               // 次の問題を表示
               initDisplayText();
             }
-          } else {
-            console.log(watchDisplayTextObj.inputed);
-            console.log(watchDisplayTextObj.remaining);
-
-            watchDisplayTextObj.inputed += currentChar;
-            watchDisplayTextObj.remaining = watchDisplayTextObj.remaining.slice(1);
           }
-
           break;
         case 2:
         // ミスタイプ時
