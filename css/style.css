@@ -260,6 +260,10 @@ img {
   color: orange;
 }
 
+#board-container #board #result-window {
+  display: none;
+}
+
 /********************************
 
 ********************************/

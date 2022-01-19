@@ -6,8 +6,23 @@ window.onload = function () {
   // スタートボタン
   const startBtn = document.getElementById("start-btn");
 
+  // リトライボタン
+  const retryBtn = document.getElementById("retry-btn");
+
+  // 戻るボタン
+  const backBtn = document.getElementById("back-btn");
+
+  // スタート画面
+  const startWindow = document.getElementById("start-window");
+
+  // カウントダウン画面
+  const countDownWindow = document.getElementById("count-down-window");
+
   // 問題画面
   const questionWindow = document.getElementById("question-window");
+
+  // 結果画面
+  const resultWindow = document.getElementById("result-window");
 
   // 問題数
   const questionCount = 3;
@@ -31,7 +46,7 @@ window.onload = function () {
 
   // 値変更監視オブジェクト
   const watchDisplayTextObj = new Proxy(displayTextObj, {
-    get(target, prop){
+    get(target, prop) {
       return target[prop];
     },
     set(target, prop, value) {
@@ -62,6 +77,22 @@ window.onload = function () {
     }
   });
 
+  // リトライボタンのイベント設定
+  retryBtn.addEventListener("click", function () {
+    for (let radio of radioBtns) {
+      if (radio.checked) {
+        startQuestion(radio.id);
+      }
+    }
+  });
+
+  // 戻るボタンのイベント設定
+  backBtn.addEventListener("click", function(){
+    resultWindow.style.display = "none";
+    startWindow.style.display = "flex";
+  });
+
+  // キー入力処理設定
   window.addEventListener("keydown", keyAction);
 
   /**
@@ -74,10 +105,12 @@ window.onload = function () {
     clearQuestionData();
 
     // スタート画面非表示
-    document.getElementById("start-window").style.display = "none";
+    startWindow.style.display = "none";
+
+    // 結果画面非表示
+    resultWindow.style.display = "none";
 
     // 3秒カウントダウン処理後、問題表示
-    const countDownWindow = document.getElementById("count-down-window");
     countDownWindow.style.display = "block";
     setTimeout(() => {
       countDownWindow.style.display = "none";
@@ -162,19 +195,30 @@ window.onload = function () {
     document.getElementById(elementId).textContent = newValue;
   }
 
+  function showResultWindow(){
+    // 問題画面非表示
+    questionWindow.style.display = "none";
+
+    // 結果画面表示
+    resultWindow.style.display = "block";
+  }
+
   function keyAction(e) {
     if (mode === 2) {
+      // イベントキャンセル
       e.preventDefault();
 
+      // タイピング対象の文字
       const currentChar = currentTypingTextArray[currentTypingTextIndex];
-      switch (checkInputKey(e.code, currentChar)) {
-        case 1:
-          // 正しいタイピング時
 
-          // 1文字進める
+      // タイピング判定
+      switch (checkInputKey(e.code, currentChar)) {
+        case 1: // 正しいタイピング時
+          // 表示テキスト更新
           watchDisplayTextObj.inputed += currentChar;
           watchDisplayTextObj.remaining = watchDisplayTextObj.remaining.slice(1);
 
+          // 1文字進める
           currentTypingTextIndex++;
           const nextChar = currentTypingTextArray[currentTypingTextIndex];
 
@@ -183,15 +227,17 @@ window.onload = function () {
             currentQuestionIndex++;
             if (currentQuestionIndex === questionCount) {
               // 結果表示画面へ
-              console.log("問題終了");
+              showResultWindow();
             } else {
               // 次の問題を表示
               initDisplayText();
             }
           }
           break;
-        case 2:
-        // ミスタイプ時
+        case 2: // ミスタイプ時
+
+        // ミスタイプ音声
+
       }
     }
   }
