@@ -12,6 +12,12 @@ window.onload = function () {
   // 戻るボタン
   const backBtn = document.getElementById("back-btn");
 
+  // ミスタイプ音チェックボックス
+  const missSoundCheckBox = document.getElementById("miss-sound");
+
+  // タイピングナビチェックボックス
+  const typingNaviCheckBox = document.getElementById("typing-navi");
+
   // スタート画面
   const startWindow = document.getElementById("start-window");
 
@@ -36,16 +42,52 @@ window.onload = function () {
   let currentQuestionIndex = 0;
   let currentTypingTextArray = [];
   let currentTypingTextIndex = 0;
-  let mode = 1;
 
-  let displayTextObj = {
+  let canTypeKey = false;
+
+  // key変更監視
+  const watchKeyObj = new Proxy({
+    targetKey: "",
+    prevTargetKey: "",
+    missTypeKey: ""
+  }, {
+    get(target, prop) {
+      return target[prop];
+    },
+    set(target, prop, value) {
+      target[prop] = value;
+
+      if (typingNaviCheckBox.checked) {
+        const keyElement = document.getElementById("key-" + value);
+        const fingerElement = document.getElementById(getTargetFingerId(value));
+        if (prop === "targetKey") {
+          keyElement.classList.add("target-key");
+          fingerElement.classList.add("target-finger");
+        } else if (prop === "prevTargetKey") {
+          keyElement.classList.remove("target-key");
+          fingerElement.classList.remove("target-finger");
+        } else if(prop === "missTypeKey"){
+          // 点滅のアニメーション設定
+          keyElement.style.animationName = "flash";
+
+          // アニメーション終了時にアニメーション設定削除
+          keyElement.addEventListener("animationend", function(){
+            this.style.animationName = "";
+          });
+          keyElement.addEventListener("webkitAnimationEnd", function(){
+            this.style.animationName = "";
+          });
+        }
+      }
+    }
+  });
+
+  // 表示テキスト変更監視
+  const watchDisplayTextObj = new Proxy({
     question: "",
     remaining: "",
     inputed: ""
-  };
-
-  // 値変更監視オブジェクト
-  const watchDisplayTextObj = new Proxy(displayTextObj, {
+  }, {
     get(target, prop) {
       return target[prop];
     },
@@ -68,7 +110,7 @@ window.onload = function () {
     });
   }
 
-  // スタートボタンのイベント設定
+  // スタートボタンのクリックイベント
   startBtn.addEventListener("click", function () {
     for (let radio of radioBtns) {
       if (radio.checked) {
@@ -77,7 +119,7 @@ window.onload = function () {
     }
   });
 
-  // リトライボタンのイベント設定
+  // リトライボタンのクリックイベント
   retryBtn.addEventListener("click", function () {
     for (let radio of radioBtns) {
       if (radio.checked) {
@@ -86,10 +128,32 @@ window.onload = function () {
     }
   });
 
-  // 戻るボタンのイベント設定
-  backBtn.addEventListener("click", function(){
+  // 戻るボタンのクリックイベント
+  backBtn.addEventListener("click", function () {
     resultWindow.style.display = "none";
     startWindow.style.display = "flex";
+  });
+
+  // タイピングナビチェックボックスの変更時イベント
+  typingNaviCheckBox.addEventListener("change", function () {
+    // 現在の対象キー
+    const targetKeyElement = document.getElementById("key-" + watchKeyObj.targetKey);
+
+    // 現在の対象指
+    const targetFingerElement = document.getElementById(getTargetFingerId(watchKeyObj.targetKey));
+
+    if (targetKeyElement === null || targetFingerElement === null) {
+      return;
+    }
+
+    // チェックが付いた場合
+    if (this.checked) {
+      targetKeyElement.classList.add("target-key");
+      targetFingerElement.classList.add("target-finger");
+    } else {
+      targetKeyElement.classList.remove("target-key");
+      targetFingerElement.classList.remove("target-finger");
+    }
   });
 
   // キー入力処理設定
@@ -100,10 +164,6 @@ window.onload = function () {
    * @param {*} id 
    */
   function startQuestion(id) {
-
-    // 問題データクリア
-    clearQuestionData();
-
     // スタート画面非表示
     startWindow.style.display = "none";
 
@@ -123,14 +183,14 @@ window.onload = function () {
 
       // 選択した問題開始
       if (id === "menu-1") {
-        normalNumTypingQuestion();
+        createNumTypingQuestion();
       } else if (id === "menu-2") {
-
+        createCalcTypingQuestion();
       } else {
 
       }
 
-      mode = 2;
+      canTypeKey = true;
 
     }, 3000);
 
@@ -149,12 +209,13 @@ window.onload = function () {
     watchDisplayTextObj.question = currentQuetionData.questionText;
     watchDisplayTextObj.remaining = currentQuetionData.typingText;
     watchDisplayTextObj.inputed = "";
+    watchKeyObj.targetKey = currentTypingTextArray[0];
   }
 
   /**
    * 
    */
-  function normalNumTypingQuestion() {
+  function createNumTypingQuestion() {
     // テキスト要素作成
     const questionTextElement = document.createElement("p");
     const typingTextElement = document.createElement("p");
@@ -172,12 +233,64 @@ window.onload = function () {
     questionWindow.appendChild(typingTextElement);
 
     // 問題生成
-    questionData = [];
+    clearQuestionData();
     for (let i = 0; i < questionCount; i++) {
       const questionNum = Math.floor(Math.random() * 10000);
       const data = {
         questionText: String(questionNum),
         typingText: String(questionNum)
+      };
+      questionData.push(data);
+    }
+
+    // 問題表示初期化
+    initDisplayText();
+  }
+
+  function createCalcTypingQuestion() {
+    // テキスト要素作成
+    const questionTextElement = document.createElement("p");
+    const typingTextElement = document.createElement("p");
+    const remainingTextElement = document.createElement("span");
+    const inputedTextElement = document.createElement("span");
+    questionTextElement.setAttribute("id", "question-text");
+    remainingTextElement.setAttribute("id", "remaining-text");
+    inputedTextElement.setAttribute("id", "inputed-text");
+
+    typingTextElement.appendChild(inputedTextElement);
+    typingTextElement.appendChild(remainingTextElement);
+
+    // 問題表示画面へ追加
+    questionWindow.appendChild(questionTextElement);
+    questionWindow.appendChild(typingTextElement);
+
+    // 問題生成
+    clearQuestionData();
+    for (let i = 0; i < questionCount; i++) {
+      const type = Math.floor(Math.random() * 3);
+      let questionText;
+      let typingText;
+
+      if (type === 0) {
+        const num1 = Math.floor(Math.random() * 100);
+        const num2 = Math.floor(Math.random() * 100);
+        questionText = String(num1 + " + " + num2);
+        typingText = String(num1 + num2);
+      } else if (type === 1) {
+        const num1 = Math.floor(Math.random() * 100);
+        const num2 = Math.floor(Math.random() * 100);
+        questionText = String(num1 + " - " + num2);
+        typingText = String(num1 - num2);
+      } else {
+        const num1 = Math.floor(Math.random() * 10);
+        const num2 = Math.floor(Math.random() * 10);
+        questionText = String(num1 + " × " + num2);
+        typingText = String(num1 * num2);
+      }
+
+      const data = {
+        questionText: questionText,
+        typingText: typingText
       };
       questionData.push(data);
     }
@@ -195,7 +308,9 @@ window.onload = function () {
     document.getElementById(elementId).textContent = newValue;
   }
 
-  function showResultWindow(){
+  function showResultWindow() {
+    canTypeKey = false;
+
     // 問題画面非表示
     questionWindow.style.display = "none";
 
@@ -204,7 +319,7 @@ window.onload = function () {
   }
 
   function keyAction(e) {
-    if (mode === 2) {
+    if (canTypeKey) {
       // イベントキャンセル
       e.preventDefault();
 
@@ -214,6 +329,10 @@ window.onload = function () {
       // タイピング判定
       switch (checkInputKey(e.code, currentChar)) {
         case 1: // 正しいタイピング時
+
+          // 
+          watchKeyObj.prevTargetKey = currentChar;
+
           // 表示テキスト更新
           watchDisplayTextObj.inputed += currentChar;
           watchDisplayTextObj.remaining = watchDisplayTextObj.remaining.slice(1);
@@ -232,13 +351,61 @@ window.onload = function () {
               // 次の問題を表示
               initDisplayText();
             }
+          } else {
+            watchKeyObj.targetKey = nextChar;
           }
           break;
-        case 2: // ミスタイプ時
+        case 0: // ミスタイプ時
 
-        // ミスタイプ音声
+          // ミスタイプキーを点滅させる
+          watchKeyObj.missTypeKey = currentChar;
+
+          //ミスタイプ音声
+          if (missSoundCheckBox.checked) {
+            // 音声を鳴らす
+
+          }
 
       }
+    }
+  }
+
+  function getTargetFingerId(keyChar) {
+    // 左手小指
+    const leftLittle = ["1", "q", "a", "z"];
+    // 左手薬指
+    const leftRing = ["2", "w", "s", "x"];
+    // 左手中指
+    const leftMiddle = ["3", "e", "d", "c"];
+    // 左手人差し指
+    const leftIndex = ["4", "5", "r", "t", "f", "g", "v", "b"];
+    // 右手人差し指
+    const rightIndex = ["6", "7", "y", "u", "h", "j", "n", "m"];
+    // 右手中指
+    const rightMiddle = ["8", "i", "k", ","];
+    // 右手薬指
+    const rightRing = ["9", "o", "l", "."];
+    // 右手小指
+    const rightLittle = ["0", "p", "-"];
+
+    if (leftLittle.includes(keyChar)) {
+      return "left-little";
+    } else if (leftRing.includes(keyChar)) {
+      return "left-ring";
+    } else if (leftMiddle.includes(keyChar)) {
+      return "left-middle";
+    } else if (leftIndex.includes(keyChar)) {
+      return "left-index";
+    } else if (rightIndex.includes(keyChar)) {
+      return "right-index";
+    } else if (rightMiddle.includes(keyChar)) {
+      return "right-middle";
+    } else if (rightRing.includes(keyChar)) {
+      return "right-ring";
+    } else if (rightLittle.includes(keyChar)) {
+      return "right-little";
+    } else {
+      return "";
     }
   }
 
@@ -289,15 +456,11 @@ window.onload = function () {
   function checkInputKey(code, targetChar) {
     const inputChar = getChar(code);
 
-    if (inputChar === "") {
-      return 0;
-    }
-
     if (inputChar === targetChar) {
       return 1;
     }
 
-    return 2;
+    return 0;
   }
 
 

@@ -295,8 +295,8 @@ $key-color: rgb(156, 156, 156);
 $key-background-color: white;
 $key-border-color: #d8d8d8;
 $key-box-shadow-color: #c2c7ce;
-$target-key-color: blue;
-$target-key-background-color: red;
+$target-key-color: white;
+$target-key-background-color: orange;
 
 #keyboard-container {
   display: flex;
@@ -321,6 +321,8 @@ $target-key-background-color: red;
         background-color: $key-background-color;
         color: $key-color;
         position: relative;
+        animation-duration: 0.2s;
+        animation-timing-function: linear;
         &:last-child {
           margin-right: 0;
         }
@@ -335,10 +337,6 @@ $target-key-background-color: red;
       .target-key {
         background-color: $target-key-background-color;
         color: $target-key-color;
-      }
-
-      .missed {
-        animation: flash 0.3s linear infinite;
       }
 
       @keyframes flash {
@@ -434,7 +432,7 @@ $target-key-background-color: red;
 キーボード対応指
 ********************************/
 $finger-border-color: #d8d8d8;
-$target-finger-color: red;
+$target-finger-color: orange;
 #hand-container {
   display: flex;
   justify-content: center;

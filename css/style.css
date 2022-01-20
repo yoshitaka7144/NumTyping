@@ -375,6 +375,10 @@ img {
   background-color: white;
   color: #9c9c9c;
   position: relative;
+  -webkit-animation-duration: 0.2s;
+          animation-duration: 0.2s;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
 }
 
 #keyboard-container #keyboard .row .key:last-child {
@@ -390,13 +394,8 @@ img {
 }
 
 #keyboard-container #keyboard .row .target-key {
-  background-color: red;
-  color: blue;
-}
-
-#keyboard-container #keyboard .row .missed {
-  -webkit-animation: flash 0.3s linear infinite;
-          animation: flash 0.3s linear infinite;
+  background-color: orange;
+  color: white;
 }
 
 @-webkit-keyframes flash {
@@ -537,7 +536,7 @@ img {
 }
 
 #hand-container .hand .target-finger {
-  background-color: red;
+  background-color: orange;
 }
 
 #hand-container .hand .finger-little {
