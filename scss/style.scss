@@ -195,26 +195,26 @@ img {
       }
     }
 
-    #question-window{
+    #question-window {
       display: none;
 
-      #question-text{
+      #question-text {
         font-size: 1.5rem;
         font-weight: bold;
       }
 
-      #remaining-text{
+      #remaining-text {
         font-size: 1.2rem;
         color: #c2c7ce;
       }
 
-      #inputed-text{
+      #inputed-text {
         font-size: 1.2rem;
         color: orange;
       }
     }
 
-    #result-window{
+    #result-window {
       display: none;
     }
   }
@@ -244,39 +244,76 @@ img {
     display: none;
 
     + label {
-      cursor: pointer;
-      display: block;
       position: relative;
-      padding-left: 25px;
+      display: block;
+      cursor: pointer;
+      padding: 15px 0px 15px 55px;
 
-      &::before {
+      &::before,
+      &::after {
         content: "";
         position: absolute;
-        display: block;
-        box-sizing: border-box;
-        width: 20px;
-        height: 20px;
-        left: 0;
         top: 50%;
         transform: translateY(-50%);
-        border: 1px solid #ccc;
-        border-radius: 4px;
+      }
+
+      &::before {
+        width: 38px;
+        height: 18px;
+        left: 0;
+        border: 1px solid #e4e3e1;
+        border-radius: 18px;
+        background: #ffffff;
+      }
+
+      &::after {
+        width: 19px;
+        height: 18px;
+        left: 0;
+        border: 1px solid #e4e3e1;
+        border-radius: 50%;
+        background: #bdbdbd;
+        transition: all 0.3s ease-out;
       }
     }
 
     &:checked + label::after {
+      left: 19px;
+      background: #3cc2da;
+    }
+  }
+
+  .select-wrapper {
+    display: inline-block;
+    width: 70px;
+    position: relative;
+    border: 2px solid rgb(111, 226, 247);
+    border-radius: 35px;
+    background: #ffffff;
+
+    &::before {
       content: "";
       position: absolute;
-      display: block;
-      box-sizing: border-box;
-      width: 22px;
-      height: 13px;
       top: 50%;
-      left: 2px;
-      transform: translateY(-13px) rotate(-45deg);
-      border-bottom: 5px solid;
-      border-left: 3px solid;
-      border-color: #585753;
+      right: 15px;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-top: 5px solid #383e45;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+    }
+
+    .select {
+      width: 100%;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      background: transparent;
+      background-image: none;
+      box-shadow: none;
+      appearance: none;
+      padding: 5px 30px 5px 10px;
     }
   }
 }

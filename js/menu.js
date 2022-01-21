@@ -18,6 +18,9 @@ window.onload = function () {
   // タイピングナビチェックボックス
   const typingNaviCheckBox = document.getElementById("typing-navi");
 
+  // 問題数セレクトボックス
+  const questionCountSelectBox = document.getElementById("question-count");
+
   // スタート画面
   const startWindow = document.getElementById("start-window");
 
@@ -30,20 +33,24 @@ window.onload = function () {
   // 結果画面
   const resultWindow = document.getElementById("result-window");
 
-  // 問題数
-  const questionCount = 3;
-
   // 終了文字
   const END_CHAR = "$";
 
-  // 
+  // 問題数
+  let questionCount = Number(questionCountSelectBox.value);
+
+  // タイピング判定フラグ
+  let canTypeKey = false;
+
+  // 問題データ保持用
   let questionData = [];
   let currentQuetionData = {};
   let currentQuestionIndex = 0;
   let currentTypingTextArray = [];
   let currentTypingTextIndex = 0;
 
-  let canTypeKey = false;
+  // 結果表示用
+  
 
   // key変更監視
   const watchKeyObj = new Proxy({
@@ -57,7 +64,7 @@ window.onload = function () {
     set(target, prop, value) {
       target[prop] = value;
 
-      if (typingNaviCheckBox.checked) {
+      if (value !== "" && typingNaviCheckBox.checked) {
         const keyElement = document.getElementById("key-" + value);
         const fingerElement = document.getElementById(getTargetFingerId(value));
         if (prop === "targetKey") {
@@ -66,15 +73,15 @@ window.onload = function () {
         } else if (prop === "prevTargetKey") {
           keyElement.classList.remove("target-key");
           fingerElement.classList.remove("target-finger");
-        } else if(prop === "missTypeKey"){
+        } else if (prop === "missTypeKey") {
           // 点滅のアニメーション設定
           keyElement.style.animationName = "flash";
 
           // アニメーション終了時にアニメーション設定削除
-          keyElement.addEventListener("animationend", function(){
+          keyElement.addEventListener("animationend", function () {
             this.style.animationName = "";
           });
-          keyElement.addEventListener("webkitAnimationEnd", function(){
+          keyElement.addEventListener("webkitAnimationEnd", function () {
             this.style.animationName = "";
           });
         }
@@ -153,6 +160,18 @@ window.onload = function () {
     } else {
       targetKeyElement.classList.remove("target-key");
       targetFingerElement.classList.remove("target-finger");
+    }
+  });
+
+  // 問題数セレクトボックス値変更時イベント
+  questionCountSelectBox.addEventListener("change", function () {
+    const changedValue = this.value;
+    const pattern = /^[1-9]+[0-9]*$/;
+    if (pattern.test(changedValue)) {
+      questionCount = Number(changedValue);
+    } else {
+      questionCount = 5;
+      alert("不正な値が選択された為、デフォルト値の5が設定されます。");
     }
   });
 
@@ -310,6 +329,9 @@ window.onload = function () {
 
   function showResultWindow() {
     canTypeKey = false;
+    watchKeyObj.targetKey = "";
+    watchKeyObj.prevTargetKey = "";
+    watchKeyObj.missTypeKey = "";
 
     // 問題画面非表示
     questionWindow.style.display = "none";
