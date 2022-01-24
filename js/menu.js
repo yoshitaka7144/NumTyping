@@ -33,6 +33,15 @@ window.onload = function () {
   // 結果画面
   const resultWindow = document.getElementById("result-window");
 
+  // 結果画面：タイプ数
+  const resultTypeCount = document.getElementById("type-count");
+
+  // 結果画面：ミスタイプ数
+  const resultMissTypeCount = document.getElementById("miss-type-count");
+
+  // 結果画面：ミスタイプキー
+  const resultMissKey = document.getElementById("miss-key");
+
   // 終了文字
   const END_CHAR = "$";
 
@@ -50,7 +59,9 @@ window.onload = function () {
   let currentTypingTextIndex = 0;
 
   // 結果表示用
-  
+  let typeCount = 0;
+  let missTypeCount = 0;
+  let missTypeKey = {};
 
   // key変更監視
   const watchKeyObj = new Proxy({
@@ -99,9 +110,10 @@ window.onload = function () {
       return target[prop];
     },
     set(target, prop, value) {
+      target[prop] = value;
+
       // 該当の要素のテキスト変更
       changeDisplayText(prop + "-text", value);
-      target[prop] = value;
     }
   });
 
@@ -137,7 +149,13 @@ window.onload = function () {
 
   // 戻るボタンのクリックイベント
   backBtn.addEventListener("click", function () {
+    // データリセット
+    clearData();
+
+    // 結果画面非表示
     resultWindow.style.display = "none";
+
+    // スタート画面表示
     startWindow.style.display = "flex";
   });
 
@@ -178,6 +196,48 @@ window.onload = function () {
   // キー入力処理設定
   window.addEventListener("keydown", keyAction);
 
+  function clearData() {
+    // 問題データ保持用
+    questionData = [];
+    currentQuetionData = {};
+    currentQuestionIndex = 0;
+    currentTypingTextArray = [];
+    currentTypingTextIndex = 0;
+
+    // 結果表示用
+    typeCount = 0;
+    missTypeCount = 0;
+    missTypeKey = {};
+
+    // ミスタイプキーのスタイルクリア
+    clearMissTypeKeyStyle();
+
+    // 問題画面要素クリア
+    while (questionWindow.firstChild) {
+      questionWindow.removeChild(questionWindow.firstChild);
+    }
+  }
+
+  function clearMissTypeKeyStyle() {
+    // 対象の要素
+    const targetElements = document.getElementsByClassName("missed-key");
+
+    // opacity-*のクラス名検索用正規表現
+    const pattern = "opacity-\\S+";
+    const regExp = new RegExp(pattern, "g");
+
+    Array.from(targetElements).forEach(e => {
+      e.classList.remove("missed-key");
+
+      // 削除対象のクラス名を検索、削除
+      const className = e.className;
+      const matchedNameList = className.match(regExp);
+      matchedNameList.forEach(name => {
+        e.classList.remove(name);
+      });
+    });
+  }
+
   /**
    * 
    * @param {*} id 
@@ -189,15 +249,15 @@ window.onload = function () {
     // 結果画面非表示
     resultWindow.style.display = "none";
 
+    // データリセット
+    clearData();
+
     // 3秒カウントダウン処理後、問題表示
     countDownWindow.style.display = "block";
     setTimeout(() => {
       countDownWindow.style.display = "none";
 
       // 問題画面表示
-      while (questionWindow.firstChild) {
-        questionWindow.removeChild(questionWindow.firstChild);
-      }
       questionWindow.style.display = "block";
 
       // 選択した問題開始
@@ -213,11 +273,6 @@ window.onload = function () {
 
     }, 3000);
 
-  }
-
-  function clearQuestionData() {
-    questionData = [];
-    currentQuestionIndex = 0;
   }
 
   function initDisplayText() {
@@ -252,7 +307,6 @@ window.onload = function () {
     questionWindow.appendChild(typingTextElement);
 
     // 問題生成
-    clearQuestionData();
     for (let i = 0; i < questionCount; i++) {
       const questionNum = Math.floor(Math.random() * 10000);
       const data = {
@@ -279,12 +333,13 @@ window.onload = function () {
     typingTextElement.appendChild(inputedTextElement);
     typingTextElement.appendChild(remainingTextElement);
 
+    remainingTextElement.style.display = "none";
+
     // 問題表示画面へ追加
     questionWindow.appendChild(questionTextElement);
     questionWindow.appendChild(typingTextElement);
 
     // 問題生成
-    clearQuestionData();
     for (let i = 0; i < questionCount; i++) {
       const type = Math.floor(Math.random() * 3);
       let questionText;
@@ -327,11 +382,33 @@ window.onload = function () {
     document.getElementById(elementId).textContent = newValue;
   }
 
+  function formatKeySet(obj) {
+    let result = "";
+    Object.keys(obj).forEach(key => {
+      result += key + ": " + obj[key] + ", ";
+    });
+    result = result.slice(0, -2);
+    return result;
+  }
+
+  function fillMissKey(missTypeCount, missTypeKey) {
+    Object.keys(missTypeKey).forEach(key => {
+      const opacityType = Math.round((missTypeKey[key] / missTypeCount) * 10);
+      document.getElementById("key-" + key).classList.add("missed-key");
+      document.getElementById("key-" + key).classList.add("opacity-" + opacityType);
+    });
+  }
+
   function showResultWindow() {
     canTypeKey = false;
     watchKeyObj.targetKey = "";
     watchKeyObj.prevTargetKey = "";
     watchKeyObj.missTypeKey = "";
+
+    resultTypeCount.textContent = typeCount;
+    resultMissTypeCount.textContent = missTypeCount;
+    resultMissKey.textContent = formatKeySet(missTypeKey);
+    fillMissKey(missTypeCount, missTypeKey)
 
     // 問題画面非表示
     questionWindow.style.display = "none";
@@ -351,6 +428,9 @@ window.onload = function () {
       // タイピング判定
       switch (checkInputKey(e.code, currentChar)) {
         case 1: // 正しいタイピング時
+
+          // 
+          typeCount++;
 
           // 
           watchKeyObj.prevTargetKey = currentChar;
@@ -378,6 +458,14 @@ window.onload = function () {
           }
           break;
         case 0: // ミスタイプ時
+
+          // カウント
+          missTypeCount++;
+          if (missTypeKey[currentChar]) {
+            missTypeKey[currentChar]++;
+          } else {
+            missTypeKey[currentChar] = 1;
+          }
 
           // ミスタイプキーを点滅させる
           watchKeyObj.missTypeKey = currentChar;

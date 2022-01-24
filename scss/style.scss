@@ -334,6 +334,9 @@ $key-border-color: #d8d8d8;
 $key-box-shadow-color: #c2c7ce;
 $target-key-color: white;
 $target-key-background-color: orange;
+$miss-key-color: white;
+$miss-key-background-color: red;
+
 
 #keyboard-container {
   display: flex;
@@ -374,6 +377,17 @@ $target-key-background-color: orange;
       .target-key {
         background-color: $target-key-background-color;
         color: $target-key-color;
+      }
+
+      .missed-key{
+        background-color: $miss-key-background-color;
+        color: $miss-key-color;
+      }
+
+      @for $i from 0 through 10{
+        .opacity-#{$i} {
+          opacity: $i / 10;
+        }
       }
 
       @keyframes flash {
