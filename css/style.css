@@ -441,10 +441,6 @@ img {
   color: white;
 }
 
-#keyboard-container #keyboard .row .opacity-0 {
-  opacity: 0;
-}
-
 #keyboard-container #keyboard .row .opacity-1 {
   opacity: 0.1;
 }

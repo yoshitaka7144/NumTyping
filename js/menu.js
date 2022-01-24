@@ -384,16 +384,33 @@ window.onload = function () {
 
   function formatKeySet(obj) {
     let result = "";
-    Object.keys(obj).forEach(key => {
-      result += key + ": " + obj[key] + ", ";
+    let arr = Object.keys(obj).map(key => {
+      return { key: key, value: obj[key] };
     });
+
+    arr.sort((a, b) => {
+      if (a.value === b.value) {
+        if (a.key < b.key) {
+          return -1;
+        } else {
+          return 1;
+        }
+      } else {
+        return b.value - a.value;
+      }
+    });
+
+    arr.forEach(item => {
+      result += item.key + ": " + item.value + ", ";
+    });
+
     result = result.slice(0, -2);
     return result;
   }
 
   function fillMissKey(missTypeCount, missTypeKey) {
     Object.keys(missTypeKey).forEach(key => {
-      const opacityType = Math.round((missTypeKey[key] / missTypeCount) * 10);
+      const opacityType = Math.ceil((missTypeKey[key] / missTypeCount) * 10);
       document.getElementById("key-" + key).classList.add("missed-key");
       document.getElementById("key-" + key).classList.add("opacity-" + opacityType);
     });
@@ -429,7 +446,7 @@ window.onload = function () {
       switch (checkInputKey(e.code, currentChar)) {
         case 1: // 正しいタイピング時
 
-          // 
+          // タイプ数カウント
           typeCount++;
 
           // 
