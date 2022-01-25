@@ -18,6 +18,12 @@ window.onload = function () {
   // タイピングナビチェックボックス
   const typingNaviCheckBox = document.getElementById("typing-navi");
 
+  // 苦手キーチェックボックス
+  const settingWeakKeyCheckBox = document.getElementById("setting-weak-key");
+
+  // 苦手キーセレクトボックス
+  const weakKeySelectBox = document.getElementById("weak-key");
+
   // 問題数セレクトボックス
   const questionCountSelectBox = document.getElementById("question-count");
 
@@ -46,7 +52,10 @@ window.onload = function () {
   const END_CHAR = "$";
 
   // 問題数
-  let questionCount = Number(questionCountSelectBox.value);
+  let questionCount;
+
+  // 苦手キー
+  let weakKey;
 
   // タイピング判定フラグ
   let canTypeKey = false;
@@ -131,20 +140,12 @@ window.onload = function () {
 
   // スタートボタンのクリックイベント
   startBtn.addEventListener("click", function () {
-    for (let radio of radioBtns) {
-      if (radio.checked) {
-        startQuestion(radio.id);
-      }
-    }
+    startQuestion();
   });
 
   // リトライボタンのクリックイベント
   retryBtn.addEventListener("click", function () {
-    for (let radio of radioBtns) {
-      if (radio.checked) {
-        startQuestion(radio.id);
-      }
-    }
+    startQuestion();
   });
 
   // 戻るボタンのクリックイベント
@@ -178,18 +179,6 @@ window.onload = function () {
     } else {
       targetKeyElement.classList.remove("target-key");
       targetFingerElement.classList.remove("target-finger");
-    }
-  });
-
-  // 問題数セレクトボックス値変更時イベント
-  questionCountSelectBox.addEventListener("change", function () {
-    const changedValue = this.value;
-    const pattern = /^[1-9]+[0-9]*$/;
-    if (pattern.test(changedValue)) {
-      questionCount = Number(changedValue);
-    } else {
-      questionCount = 5;
-      alert("不正な値が選択された為、デフォルト値の5が設定されます。");
     }
   });
 
@@ -238,11 +227,36 @@ window.onload = function () {
     });
   }
 
-  /**
-   * 
-   * @param {*} id 
-   */
-  function startQuestion(id) {
+  function startQuestion() {
+    // 問題数の設定値チェック
+    let pattern = /^[1-9]+[0-9]*$/;
+    if (pattern.test(questionCountSelectBox.value)) {
+      questionCount = Number(questionCountSelectBox.value);
+    } else {
+      alert("問題数セレクトボックスに不正な値が選択されています。");
+      return;
+    }
+
+    // 苦手キーの設定値チェック
+    if (settingWeakKeyCheckBox.checked) {
+      pattern = /^[0-9-]$/;
+      if (pattern.test(weakKeySelectBox.value)) {
+        weakKey = weakKeySelectBox.value;
+      } else {
+        alert("苦手キーセレクトボックスに不正な値が選択されています。");
+        return;
+      }
+    }
+
+    // 選択カテゴリー
+    let selectedId;
+    for (let radio of radioBtns) {
+      if (radio.checked) {
+        selectedId = radio.id;
+        break;
+      }
+    }
+
     // スタート画面非表示
     startWindow.style.display = "none";
 
@@ -261,9 +275,9 @@ window.onload = function () {
       questionWindow.style.display = "block";
 
       // 選択した問題開始
-      if (id === "menu-1") {
+      if (selectedId === "menu-1") {
         createNumTypingQuestion();
-      } else if (id === "menu-2") {
+      } else if (selectedId === "menu-2") {
         createCalcTypingQuestion();
       } else {
 
@@ -308,7 +322,13 @@ window.onload = function () {
 
     // 問題生成
     for (let i = 0; i < questionCount; i++) {
-      const questionNum = Math.floor(Math.random() * 10000);
+      let questionNum = Math.floor((Math.random() * 2 - 1) * 10000);
+      if (settingWeakKeyCheckBox.checked) {
+        const weakKey = String(weakKeySelectBox.value);
+        while (String(questionNum).indexOf(weakKey) === -1) {
+          questionNum = Math.floor((Math.random() * 2 - 1) * 10000);
+        }
+      }
       const data = {
         questionText: String(questionNum),
         typingText: String(questionNum)
@@ -341,26 +361,29 @@ window.onload = function () {
 
     // 問題生成
     for (let i = 0; i < questionCount; i++) {
-      const type = Math.floor(Math.random() * 3);
+      const weakKey = String(weakKeySelectBox.value);
       let questionText;
       let typingText;
 
-      if (type === 0) {
-        const num1 = Math.floor(Math.random() * 100);
-        const num2 = Math.floor(Math.random() * 100);
-        questionText = String(num1 + " + " + num2);
-        typingText = String(num1 + num2);
-      } else if (type === 1) {
-        const num1 = Math.floor(Math.random() * 100);
-        const num2 = Math.floor(Math.random() * 100);
-        questionText = String(num1 + " - " + num2);
-        typingText = String(num1 - num2);
-      } else {
-        const num1 = Math.floor(Math.random() * 10);
-        const num2 = Math.floor(Math.random() * 10);
-        questionText = String(num1 + " × " + num2);
-        typingText = String(num1 * num2);
-      }
+      do {
+        const type = Math.floor(Math.random() * 3);
+        if (type === 0) {
+          const num1 = Math.floor((Math.random() * 2 - 1) * 100);
+          const num2 = Math.floor((Math.random() * 2 - 1) * 100);
+          questionText = String(num1 + " + " + num2);
+          typingText = String(num1 + num2);
+        } else if (type === 1) {
+          const num1 = Math.floor((Math.random() * 2 - 1) * 100);
+          const num2 = Math.floor((Math.random() * 2 - 1) * 100);
+          questionText = String(num1 + " - " + num2);
+          typingText = String(num1 - num2);
+        } else {
+          const num1 = Math.floor((Math.random() * 2 - 1) * 10);
+          const num2 = Math.floor((Math.random() * 2 - 1) * 10);
+          questionText = String(num1 + " × " + num2);
+          typingText = String(num1 * num2);
+        }
+      } while (settingWeakKeyCheckBox.checked && typingText.indexOf(weakKey) === -1);
 
       const data = {
         questionText: questionText,

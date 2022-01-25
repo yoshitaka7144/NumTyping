@@ -240,52 +240,58 @@ img {
   border-color: rgb(235, 142, 75) rgb(230, 125, 50) rgb(185, 93, 28) chocolate;
   border-radius: 2px;
 
-  .checkbox {
-    display: none;
+  .checkbox-wrapper {
+    .checkbox {
+      display: none;
 
-    + label {
-      position: relative;
-      display: block;
-      cursor: pointer;
-      padding: 15px 0px 15px 55px;
+      + label {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        padding: 15px 0px 15px 55px;
 
-      &::before,
-      &::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+        &::before,
+        &::after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        &::before {
+          width: 38px;
+          height: 18px;
+          left: 0;
+          border: 1px solid #e4e3e1;
+          border-radius: 18px;
+          background: #ffffff;
+        }
+
+        &::after {
+          width: 19px;
+          height: 18px;
+          left: 0;
+          border: 1px solid #e4e3e1;
+          border-radius: 50%;
+          background: #bdbdbd;
+          transition: all 0.3s ease-out;
+        }
       }
 
-      &::before {
-        width: 38px;
-        height: 18px;
-        left: 0;
-        border: 1px solid #e4e3e1;
-        border-radius: 18px;
-        background: #ffffff;
+      &:checked + label::after {
+        left: 19px;
+        background: #3cc2da;
       }
 
-      &::after {
-        width: 19px;
-        height: 18px;
-        left: 0;
-        border: 1px solid #e4e3e1;
-        border-radius: 50%;
-        background: #bdbdbd;
-        transition: all 0.3s ease-out;
+      &:not(:checked) ~ .select-wrapper{
+        display: none;
       }
-    }
-
-    &:checked + label::after {
-      left: 19px;
-      background: #3cc2da;
     }
   }
 
   .select-wrapper {
     display: inline-block;
-    width: 70px;
+    width: 60px;
     position: relative;
     border: 2px solid rgb(111, 226, 247);
     border-radius: 35px;
@@ -313,7 +319,7 @@ img {
       background-image: none;
       box-shadow: none;
       appearance: none;
-      padding: 5px 30px 5px 10px;
+      padding: 3px 30px 3px 10px;
     }
   }
 }
@@ -336,7 +342,6 @@ $target-key-color: white;
 $target-key-background-color: orange;
 $miss-key-color: white;
 $miss-key-background-color: red;
-
 
 #keyboard-container {
   display: flex;
@@ -379,12 +384,12 @@ $miss-key-background-color: red;
         color: $target-key-color;
       }
 
-      .missed-key{
+      .missed-key {
         background-color: $miss-key-background-color;
         color: $miss-key-color;
       }
 
-      @for $i from 1 through 10{
+      @for $i from 1 through 10 {
         .opacity-#{$i} {
           opacity: $i / 10;
         }
