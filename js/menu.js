@@ -27,6 +27,12 @@ window.onload = function () {
   // 問題数セレクトボックス
   const questionCountSelectBox = document.getElementById("question-count");
 
+  // 時間制限チェックボックス
+  const settingTimeLimitCheckBox = document.getElementById("setting-time-limit");
+
+  // 時間制限セレクトボックス
+  const timeLimitSelectBox = document.getElementById("time-limit");
+
   // スタート画面
   const startWindow = document.getElementById("start-window");
 
@@ -56,6 +62,12 @@ window.onload = function () {
 
   // 苦手キー
   let weakKey;
+
+  // 時間制限
+  let timeLimit;
+
+  // 残り時間
+  let remainingTime;
 
   // タイピング判定フラグ
   let canTypeKey = false;
@@ -248,6 +260,17 @@ window.onload = function () {
       }
     }
 
+    // 制限時間の設定値チェック
+    if (settingTimeLimitCheckBox.checked) {
+      pattern = /^[1-9]+[0-9]*$/;
+      if (pattern.test(timeLimitSelectBox.value)) {
+        timeLimit = timeLimitSelectBox.value;
+      } else {
+        alert("時間制限セレクトボックスに不正な値が選択されています。");
+        return;
+      }
+    }
+
     // 選択カテゴリー
     let selectedId;
     for (let radio of radioBtns) {
@@ -283,7 +306,14 @@ window.onload = function () {
 
       }
 
+      // タイピング判定
       canTypeKey = true;
+
+      // 時間制限カウントスタート
+      remainingTime = Number(timeLimit);
+      timeIntervalId = setInterval(() => {
+        remainingTime -= 1000;
+      }, 1000);
 
     }, 3000);
 
