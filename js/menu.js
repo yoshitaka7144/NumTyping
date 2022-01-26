@@ -66,9 +66,6 @@ window.onload = function () {
   // 時間制限
   let timeLimit;
 
-  // 残り時間
-  let remainingTime;
-
   // タイピング判定フラグ
   let canTypeKey = false;
 
@@ -84,10 +81,12 @@ window.onload = function () {
   let missTypeCount = 0;
   let missTypeKey = {};
 
+  // 
+  let timeLimitIntervalId;
+
   // key変更監視
   const watchKeyObj = new Proxy({
     targetKey: "",
-    prevTargetKey: "",
     missTypeKey: ""
   }, {
     get(target, prop) {
@@ -96,16 +95,26 @@ window.onload = function () {
     set(target, prop, value) {
       target[prop] = value;
 
-      if (value !== "" && typingNaviCheckBox.checked) {
+      if (typingNaviCheckBox.checked) {
         const keyElement = document.getElementById("key-" + value);
         const fingerElement = document.getElementById(getTargetFingerId(value));
         if (prop === "targetKey") {
-          keyElement.classList.add("target-key");
-          fingerElement.classList.add("target-finger");
-        } else if (prop === "prevTargetKey") {
-          keyElement.classList.remove("target-key");
-          fingerElement.classList.remove("target-finger");
-        } else if (prop === "missTypeKey") {
+          // 対象になっていたキー、指からクラス削除
+          const prevTargetKeyElements = document.getElementsByClassName("target-key");
+          const prevTargetFingerElements = document.getElementsByClassName("target-finger");
+          Array.from(prevTargetKeyElements).forEach(e => {
+            e.classList.remove("target-key");
+          });
+          Array.from(prevTargetFingerElements).forEach(e => {
+            e.classList.remove("target-finger");
+          });
+
+          if (value !== "") {
+            // タイピング対象のキー、指にクラス付与
+            keyElement.classList.add("target-key");
+            fingerElement.classList.add("target-finger");
+          }
+        } else if (prop === "missTypeKey" && value !== "") {
           // 点滅のアニメーション設定
           keyElement.style.animationName = "flash";
 
@@ -135,6 +144,27 @@ window.onload = function () {
 
       // 該当の要素のテキスト変更
       changeDisplayText(prop + "-text", value);
+    }
+  });
+
+  // 時間制限カウントテキスト変更監視
+  const watchTimeObj = new Proxy({
+    remainingTime: "",
+  }, {
+    get(target, prop) {
+      return target[prop];
+    },
+    set(target, prop, value) {
+      target[prop] = value;
+
+      // 
+      document.getElementById("remaining-time-text").textContent = value / 1000;
+
+      // 時間制限カウント終了時
+      if (value === 0) {
+        clearInterval(timeLimitIntervalId);
+        showResultWindow();
+      }
     }
   });
 
@@ -292,12 +322,7 @@ window.onload = function () {
     // 3秒カウントダウン処理後、問題表示
     countDownWindow.style.display = "block";
     setTimeout(() => {
-      countDownWindow.style.display = "none";
-
-      // 問題画面表示
-      questionWindow.style.display = "block";
-
-      // 選択した問題開始
+      // 選択した問題作成
       if (selectedId === "menu-1") {
         createNumTypingQuestion();
       } else if (selectedId === "menu-2") {
@@ -306,14 +331,22 @@ window.onload = function () {
 
       }
 
+      // 時間制限カウントスタート
+      if (settingTimeLimitCheckBox.checked) {
+        watchTimeObj.remainingTime = Number(timeLimit) * 1000;
+        timeLimitIntervalId = setInterval(() => {
+          watchTimeObj.remainingTime -= 1000;
+        }, 1000);
+      }
+
       // タイピング判定
       canTypeKey = true;
 
-      // 時間制限カウントスタート
-      remainingTime = Number(timeLimit);
-      timeIntervalId = setInterval(() => {
-        remainingTime -= 1000;
-      }, 1000);
+      // カウントダウン画面非表示
+      countDownWindow.style.display = "none";
+
+      // 問題画面表示
+      questionWindow.style.display = "block";
 
     }, 3000);
 
@@ -335,10 +368,12 @@ window.onload = function () {
    */
   function createNumTypingQuestion() {
     // テキスト要素作成
+    const remainingTimeTextElement = document.createElement("p");
     const questionTextElement = document.createElement("p");
     const typingTextElement = document.createElement("p");
     const remainingTextElement = document.createElement("span");
     const inputedTextElement = document.createElement("span");
+    remainingTimeTextElement.setAttribute("id", "remaining-time-text");
     questionTextElement.setAttribute("id", "question-text");
     remainingTextElement.setAttribute("id", "remaining-text");
     inputedTextElement.setAttribute("id", "inputed-text");
@@ -347,6 +382,7 @@ window.onload = function () {
     typingTextElement.appendChild(remainingTextElement);
 
     // 問題表示画面へ追加
+    questionWindow.appendChild(remainingTimeTextElement);
     questionWindow.appendChild(questionTextElement);
     questionWindow.appendChild(typingTextElement);
 
@@ -372,10 +408,12 @@ window.onload = function () {
 
   function createCalcTypingQuestion() {
     // テキスト要素作成
+    const remainingTimeTextElement = document.createElement("p");
     const questionTextElement = document.createElement("p");
     const typingTextElement = document.createElement("p");
     const remainingTextElement = document.createElement("span");
     const inputedTextElement = document.createElement("span");
+    remainingTimeTextElement.setAttribute("id", "remaining-time-text");
     questionTextElement.setAttribute("id", "question-text");
     remainingTextElement.setAttribute("id", "remaining-text");
     inputedTextElement.setAttribute("id", "inputed-text");
@@ -386,6 +424,7 @@ window.onload = function () {
     remainingTextElement.style.display = "none";
 
     // 問題表示画面へ追加
+    questionWindow.appendChild(remainingTimeTextElement);
     questionWindow.appendChild(questionTextElement);
     questionWindow.appendChild(typingTextElement);
 
@@ -470,9 +509,11 @@ window.onload = function () {
   }
 
   function showResultWindow() {
+    if(settingTimeLimitCheckBox.checked){
+      clearInterval(timeLimitIntervalId);
+    }
     canTypeKey = false;
     watchKeyObj.targetKey = "";
-    watchKeyObj.prevTargetKey = "";
     watchKeyObj.missTypeKey = "";
 
     resultTypeCount.textContent = typeCount;
@@ -501,9 +542,6 @@ window.onload = function () {
 
           // タイプ数カウント
           typeCount++;
-
-          // 
-          watchKeyObj.prevTargetKey = currentChar;
 
           // 表示テキスト更新
           watchDisplayTextObj.inputed += currentChar;
