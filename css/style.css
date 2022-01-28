@@ -260,6 +260,203 @@ img {
   color: orange;
 }
 
+#board-container #board #question-window .circle {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  background: #fff;
+  border-radius: 50%;
+  text-align: center;
+  overflow: hidden;
+  z-index: 1;
+}
+
+#board-container #board #question-window .circle::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: calc(-90px / 2);
+  width: 90px;
+  height: 90px;
+  background: #3bdd84;
+  -webkit-transform-origin: right calc(90px / 2);
+          transform-origin: right calc(90px / 2);
+  z-index: 2;
+  -webkit-animation-name: rotate-circle-left;
+          animation-name: rotate-circle-left;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+#board-container #board #question-window .circle::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: calc(90px / 2);
+  width: 90px;
+  height: 90px;
+  background: #3bdd84;
+  -webkit-transform-origin: left calc(90px / 2);
+          transform-origin: left calc(90px / 2);
+  z-index: 3;
+  -webkit-animation-name: rotate-circle-right;
+          animation-name: rotate-circle-right;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+#board-container #board #question-window .circle.circle-15::after, #board-container #board #question-window .circle.circle-15::before {
+  -webkit-animation-duration: 15s;
+          animation-duration: 15s;
+}
+
+#board-container #board #question-window .circle.circle-30::after, #board-container #board #question-window .circle.circle-30::before {
+  -webkit-animation-duration: 30s;
+          animation-duration: 30s;
+}
+
+#board-container #board #question-window .circle.circle-45::after, #board-container #board #question-window .circle.circle-45::before {
+  -webkit-animation-duration: 45s;
+          animation-duration: 45s;
+}
+
+#board-container #board #question-window .circle.circle-60::after, #board-container #board #question-window .circle.circle-60::before {
+  -webkit-animation-duration: 60s;
+          animation-duration: 60s;
+}
+
+#board-container #board #question-window .circle.circle-90::after, #board-container #board #question-window .circle.circle-90::before {
+  -webkit-animation-duration: 90s;
+          animation-duration: 90s;
+}
+
+#board-container #board #question-window .circle.circle-120::after, #board-container #board #question-window .circle.circle-120::before {
+  -webkit-animation-duration: 120s;
+          animation-duration: 120s;
+}
+
+#board-container #board #question-window .circle .circle-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  background: #fbf4df;
+  border-radius: 50%;
+  z-index: 4;
+}
+
+#board-container #board #question-window .circle .circle-inner #remaining-time-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  color: #747474;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+@-webkit-keyframes rotate-circle-right {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    background: #3bdd84;
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+    background: #3bdd84;
+  }
+  50.01% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+    background: #fff;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+    background: #fff;
+  }
+}
+
+@keyframes rotate-circle-right {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    background: #3bdd84;
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+    background: #3bdd84;
+  }
+  50.01% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+    background: #fff;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+    background: #fff;
+  }
+}
+
+@-webkit-keyframes rotate-circle-left {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    background: #3bdd84;
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    background: #3bdd84;
+  }
+  75% {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    background: orange;
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+    background: red;
+  }
+}
+
+@keyframes rotate-circle-left {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    background: #3bdd84;
+  }
+  50% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    background: #3bdd84;
+  }
+  75% {
+    -webkit-transform: rotate(90deg);
+            transform: rotate(90deg);
+    background: orange;
+  }
+  100% {
+    -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+    background: red;
+  }
+}
+
 #board-container #board #result-window {
   display: none;
 }

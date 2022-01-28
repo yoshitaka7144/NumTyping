@@ -212,6 +212,121 @@ img {
         font-size: 1.2rem;
         color: orange;
       }
+
+      .circle {
+        $circle-width: 90px;
+        $circle-height: 90px;
+        $circle-inner-width: 70px;
+        $circle-inner-height: 70px;
+
+        position: relative;
+        width: $circle-width;
+        height: $circle-height;
+        background: #fff;
+        border-radius: 50%;
+        text-align: center;
+        overflow: hidden;
+        z-index: 1;
+
+        &::before {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: calc(-#{$circle-width} / 2);
+          width: $circle-width;
+          height: $circle-height;
+          background: rgb(59, 221, 132);
+          transform-origin: right calc(#{$circle-width} / 2);
+          z-index: 2;
+          animation-name: rotate-circle-left;
+          animation-timing-function: linear;
+          animation-fill-mode: forwards;
+        }
+
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0px;
+          left: calc(#{$circle-width} / 2);
+          width: $circle-width;
+          height: $circle-height;
+          background: rgb(59, 221, 132);
+          transform-origin: left calc(#{$circle-width} / 2);
+          z-index: 3;
+          animation-name: rotate-circle-right;
+          animation-timing-function: linear;
+          animation-fill-mode: forwards;
+        }
+
+        $times: 15, 30, 45, 60, 90, 120;
+        @each $time in $times {
+          &.circle-#{$time}::after,
+          &.circle-#{$time}::before {
+            animation-duration: #{$time}s;
+          }
+        }
+
+        .circle-inner {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: $circle-inner-width;
+          height: $circle-inner-height;
+          background: #fbf4df;
+          border-radius: 50%;
+          z-index: 4;
+          #remaining-time-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #747474;
+            font-weight: bold;
+            font-size: 24px;
+          }
+        }
+      }
+
+      @keyframes rotate-circle-right {
+        0% {
+          transform: rotate(0deg);
+          background: rgb(59, 221, 132);
+        }
+        50% {
+          transform: rotate(180deg);
+          background: rgb(59, 221, 132);
+        }
+        50.01% {
+          transform: rotate(360deg);
+          background: #fff;
+        }
+        100% {
+          transform: rotate(360deg);
+          background: #fff;
+        }
+      }
+
+      @keyframes rotate-circle-left {
+        0% {
+          transform: rotate(0deg);
+          background: rgb(59, 221, 132);
+        }
+        50% {
+          transform: rotate(0deg);
+          background: rgb(59, 221, 132);
+        }
+        75%{
+          transform: rotate(90deg);
+          background: orange;
+        }
+        100% {
+          transform: rotate(180deg);
+          background: red;
+        }
+      }
     }
 
     #result-window {
@@ -283,7 +398,7 @@ img {
         background: #3cc2da;
       }
 
-      &:not(:checked) ~ .select-wrapper{
+      &:not(:checked) ~ .select-wrapper {
         display: none;
       }
     }

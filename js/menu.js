@@ -157,11 +157,15 @@ window.onload = function () {
     set(target, prop, value) {
       target[prop] = value;
 
-      // 
-      document.getElementById("remaining-time-text").textContent = value / 1000;
+      // 残り時間表示テキスト更新
+      const remainingTimeTextElement = document.getElementById("remaining-time-text");
+      remainingTimeTextElement.textContent = value / 1000;
 
-      // 時間制限カウント終了時
-      if (value === 0) {
+      if (value === 10000) {
+        remainingTimeTextElement.style.color = "orange";
+      } else if (value === 5000) {
+        remainingTimeTextElement.style.color = "red";
+      } else if (value === 0) {
         clearInterval(timeLimitIntervalId);
         showResultWindow();
       }
@@ -368,29 +372,39 @@ window.onload = function () {
    */
   function createNumTypingQuestion() {
     // テキスト要素作成
-    const remainingTimeTextElement = document.createElement("p");
     const questionTextElement = document.createElement("p");
-    const typingTextElement = document.createElement("p");
-    const remainingTextElement = document.createElement("span");
-    const inputedTextElement = document.createElement("span");
-    remainingTimeTextElement.setAttribute("id", "remaining-time-text");
     questionTextElement.setAttribute("id", "question-text");
+    const remainingTextElement = document.createElement("span");
     remainingTextElement.setAttribute("id", "remaining-text");
+    const inputedTextElement = document.createElement("span");
     inputedTextElement.setAttribute("id", "inputed-text");
-
+    const typingTextElement = document.createElement("p");
     typingTextElement.appendChild(inputedTextElement);
     typingTextElement.appendChild(remainingTextElement);
 
     // 問題表示画面へ追加
-    questionWindow.appendChild(remainingTimeTextElement);
     questionWindow.appendChild(questionTextElement);
     questionWindow.appendChild(typingTextElement);
+
+    if (settingTimeLimitCheckBox.checked) {
+      // 時間制限有りの場合、残り時間表示要素作成
+      const circleElement = document.createElement("div");
+      circleElement.setAttribute("class", "circle circle-" + timeLimit);
+      const circleInnerElement = document.createElement("div");
+      circleInnerElement.setAttribute("class", "circle-inner");
+      const remainingTimeTextElement = document.createElement("span");
+      remainingTimeTextElement.setAttribute("id", "remaining-time-text");
+      circleInnerElement.appendChild(remainingTimeTextElement);
+      circleElement.appendChild(circleInnerElement);
+
+      // 問題表示画面へ追加
+      questionWindow.appendChild(circleElement);
+    }
 
     // 問題生成
     for (let i = 0; i < questionCount; i++) {
       let questionNum = Math.floor((Math.random() * 2 - 1) * 10000);
       if (settingWeakKeyCheckBox.checked) {
-        const weakKey = String(weakKeySelectBox.value);
         while (String(questionNum).indexOf(weakKey) === -1) {
           questionNum = Math.floor((Math.random() * 2 - 1) * 10000);
         }
@@ -408,29 +422,38 @@ window.onload = function () {
 
   function createCalcTypingQuestion() {
     // テキスト要素作成
-    const remainingTimeTextElement = document.createElement("p");
     const questionTextElement = document.createElement("p");
-    const typingTextElement = document.createElement("p");
-    const remainingTextElement = document.createElement("span");
-    const inputedTextElement = document.createElement("span");
-    remainingTimeTextElement.setAttribute("id", "remaining-time-text");
     questionTextElement.setAttribute("id", "question-text");
+    const remainingTextElement = document.createElement("span");
     remainingTextElement.setAttribute("id", "remaining-text");
+    remainingTextElement.style.display = "none";
+    const inputedTextElement = document.createElement("span");
     inputedTextElement.setAttribute("id", "inputed-text");
-
+    const typingTextElement = document.createElement("p");
     typingTextElement.appendChild(inputedTextElement);
     typingTextElement.appendChild(remainingTextElement);
 
-    remainingTextElement.style.display = "none";
-
     // 問題表示画面へ追加
-    questionWindow.appendChild(remainingTimeTextElement);
     questionWindow.appendChild(questionTextElement);
     questionWindow.appendChild(typingTextElement);
 
+    if (settingTimeLimitCheckBox.checked) {
+      // 時間制限有りの場合、残り時間表示要素作成
+      const circleElement = document.createElement("div");
+      circleElement.setAttribute("class", "circle circle-" + timeLimit);
+      const circleInnerElement = document.createElement("div");
+      circleInnerElement.setAttribute("class", "circle-inner");
+      const remainingTimeTextElement = document.createElement("span");
+      remainingTimeTextElement.setAttribute("id", "remaining-time-text");
+      circleInnerElement.appendChild(remainingTimeTextElement);
+      circleElement.appendChild(circleInnerElement);
+
+      // 問題表示画面へ追加
+      questionWindow.appendChild(circleElement);
+    }
+
     // 問題生成
     for (let i = 0; i < questionCount; i++) {
-      const weakKey = String(weakKeySelectBox.value);
       let questionText;
       let typingText;
 
@@ -509,7 +532,7 @@ window.onload = function () {
   }
 
   function showResultWindow() {
-    if(settingTimeLimitCheckBox.checked){
+    if (settingTimeLimitCheckBox.checked) {
       clearInterval(timeLimitIntervalId);
     }
     canTypeKey = false;
