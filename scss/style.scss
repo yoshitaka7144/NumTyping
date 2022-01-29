@@ -213,6 +213,10 @@ img {
         color: orange;
       }
 
+      #time-limit-counter{
+        display: none;
+      }
+
       .circle {
         $circle-width: 90px;
         $circle-height: 90px;

@@ -33,6 +33,9 @@ window.onload = function () {
   // 時間制限セレクトボックス
   const timeLimitSelectBox = document.getElementById("time-limit");
 
+  // 残り時間カウンター
+  const timeLimitCounter = document.getElementById("time-limit-counter");
+
   // スタート画面
   const startWindow = document.getElementById("start-window");
 
@@ -247,29 +250,35 @@ window.onload = function () {
     // ミスタイプキーのスタイルクリア
     clearMissTypeKeyStyle();
 
-    // 問題画面要素クリア
-    while (questionWindow.firstChild) {
-      questionWindow.removeChild(questionWindow.firstChild);
-    }
+    // 問題テキストクリア
+    watchDisplayTextObj.question = "";
+    watchDisplayTextObj.remaining = "";
+    watchDisplayTextObj.inputed = "";
+
+    // 残り時間カウンターリセット
+    timeLimitCounter.style.display = "none";
+    removeForwardMatchClass("circle-", timeLimitCounter);
   }
 
   function clearMissTypeKeyStyle() {
     // 対象の要素
     const targetElements = document.getElementsByClassName("missed-key");
 
-    // opacity-*のクラス名検索用正規表現
-    const pattern = "opacity-\\S+";
-    const regExp = new RegExp(pattern, "g");
-
     Array.from(targetElements).forEach(e => {
       e.classList.remove("missed-key");
 
-      // 削除対象のクラス名を検索、削除
-      const className = e.className;
-      const matchedNameList = className.match(regExp);
-      matchedNameList.forEach(name => {
-        e.classList.remove(name);
-      });
+      // opacity-*クラス名の削除
+      removeForwardMatchClass("opacity-", e);
+    });
+  }
+
+  function removeForwardMatchClass(pattern, targetElement) {
+    // 'pattern'-*のクラス名検索用正規表現
+    const regExp = new RegExp(pattern + "\\S+", "g");
+    const className = targetElement.className;
+    const matchedNameList = className.match(regExp) || [];
+    matchedNameList.forEach(name => {
+      targetElement.classList.remove(name);
     });
   }
 
@@ -329,14 +338,18 @@ window.onload = function () {
       // 選択した問題作成
       if (selectedId === "menu-1") {
         createNumTypingQuestion();
+        document.getElementById("remaining-text").style.display = "inline";
       } else if (selectedId === "menu-2") {
         createCalcTypingQuestion();
+        document.getElementById("remaining-text").style.display = "none";
       } else {
 
       }
 
       // 時間制限カウントスタート
       if (settingTimeLimitCheckBox.checked) {
+        timeLimitCounter.style.display = "block";
+        timeLimitCounter.classList.add("circle-" + timeLimit);
         watchTimeObj.remainingTime = Number(timeLimit) * 1000;
         timeLimitIntervalId = setInterval(() => {
           watchTimeObj.remainingTime -= 1000;
@@ -350,7 +363,11 @@ window.onload = function () {
       countDownWindow.style.display = "none";
 
       // 問題画面表示
-      questionWindow.style.display = "block";
+      if (selectedId === "menu-1" || selectedId === "menu-2") {
+        questionWindow.style.display = "block";
+      } else if (selectedId === "menu-3") {
+
+      }
 
     }, 3000);
 
@@ -371,36 +388,6 @@ window.onload = function () {
    * 
    */
   function createNumTypingQuestion() {
-    // テキスト要素作成
-    const questionTextElement = document.createElement("p");
-    questionTextElement.setAttribute("id", "question-text");
-    const remainingTextElement = document.createElement("span");
-    remainingTextElement.setAttribute("id", "remaining-text");
-    const inputedTextElement = document.createElement("span");
-    inputedTextElement.setAttribute("id", "inputed-text");
-    const typingTextElement = document.createElement("p");
-    typingTextElement.appendChild(inputedTextElement);
-    typingTextElement.appendChild(remainingTextElement);
-
-    // 問題表示画面へ追加
-    questionWindow.appendChild(questionTextElement);
-    questionWindow.appendChild(typingTextElement);
-
-    if (settingTimeLimitCheckBox.checked) {
-      // 時間制限有りの場合、残り時間表示要素作成
-      const circleElement = document.createElement("div");
-      circleElement.setAttribute("class", "circle circle-" + timeLimit);
-      const circleInnerElement = document.createElement("div");
-      circleInnerElement.setAttribute("class", "circle-inner");
-      const remainingTimeTextElement = document.createElement("span");
-      remainingTimeTextElement.setAttribute("id", "remaining-time-text");
-      circleInnerElement.appendChild(remainingTimeTextElement);
-      circleElement.appendChild(circleInnerElement);
-
-      // 問題表示画面へ追加
-      questionWindow.appendChild(circleElement);
-    }
-
     // 問題生成
     for (let i = 0; i < questionCount; i++) {
       let questionNum = Math.floor((Math.random() * 2 - 1) * 10000);
@@ -421,37 +408,6 @@ window.onload = function () {
   }
 
   function createCalcTypingQuestion() {
-    // テキスト要素作成
-    const questionTextElement = document.createElement("p");
-    questionTextElement.setAttribute("id", "question-text");
-    const remainingTextElement = document.createElement("span");
-    remainingTextElement.setAttribute("id", "remaining-text");
-    remainingTextElement.style.display = "none";
-    const inputedTextElement = document.createElement("span");
-    inputedTextElement.setAttribute("id", "inputed-text");
-    const typingTextElement = document.createElement("p");
-    typingTextElement.appendChild(inputedTextElement);
-    typingTextElement.appendChild(remainingTextElement);
-
-    // 問題表示画面へ追加
-    questionWindow.appendChild(questionTextElement);
-    questionWindow.appendChild(typingTextElement);
-
-    if (settingTimeLimitCheckBox.checked) {
-      // 時間制限有りの場合、残り時間表示要素作成
-      const circleElement = document.createElement("div");
-      circleElement.setAttribute("class", "circle circle-" + timeLimit);
-      const circleInnerElement = document.createElement("div");
-      circleInnerElement.setAttribute("class", "circle-inner");
-      const remainingTimeTextElement = document.createElement("span");
-      remainingTimeTextElement.setAttribute("id", "remaining-time-text");
-      circleInnerElement.appendChild(remainingTimeTextElement);
-      circleElement.appendChild(circleInnerElement);
-
-      // 問題表示画面へ追加
-      questionWindow.appendChild(circleElement);
-    }
-
     // 問題生成
     for (let i = 0; i < questionCount; i++) {
       let questionText;

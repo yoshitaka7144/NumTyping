@@ -260,6 +260,10 @@ img {
   color: orange;
 }
 
+#board-container #board #question-window #time-limit-counter {
+  display: none;
+}
+
 #board-container #board #question-window .circle {
   position: relative;
   width: 90px;
