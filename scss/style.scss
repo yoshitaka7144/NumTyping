@@ -333,6 +333,25 @@ img {
       }
     }
 
+    #whack-mole-window{
+      display: none;
+
+      .whack-mole-table{
+        display: flex;
+        flex-wrap: wrap;
+        width: 70%;
+        margin: 0 auto;
+        dd{
+          width: calc(25% - 10px);
+          height: 50px;
+          margin: 5px;
+          border: 1px solid #383e45;
+          text-align: center;
+          visibility: hidden;
+        }
+      }
+    }
+
     #result-window {
       display: none;
     }

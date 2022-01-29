@@ -42,6 +42,9 @@ window.onload = function () {
   // カウントダウン画面
   const countDownWindow = document.getElementById("count-down-window");
 
+  // もぐらたたき画面
+  const whackMoleWindow = document.getElementById("whack-mole-window");
+
   // 問題画面
   const questionWindow = document.getElementById("question-window");
 
@@ -84,8 +87,17 @@ window.onload = function () {
   let missTypeCount = 0;
   let missTypeKey = {};
 
-  // 
+  // 制限時間タイマー制御用
   let timeLimitIntervalId;
+
+  // もぐらたたきタイマー制御用
+  let whackMoleIntervalId;
+
+  // 出現可能数値
+  let canShowKeyNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  // 出現可能位置
+  let canShowIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
   // key変更監視
   const watchKeyObj = new Proxy({
@@ -342,8 +354,6 @@ window.onload = function () {
       } else if (selectedId === "menu-2") {
         createCalcTypingQuestion();
         document.getElementById("remaining-text").style.display = "none";
-      } else {
-
       }
 
       // 時間制限カウントスタート
@@ -366,11 +376,46 @@ window.onload = function () {
       if (selectedId === "menu-1" || selectedId === "menu-2") {
         questionWindow.style.display = "block";
       } else if (selectedId === "menu-3") {
-
+        whackMoleWindow.style.display = "block";
+        startWhackMole();
       }
 
     }, 3000);
 
+  }
+
+  function startWhackMole() {
+    whackMoleIntervalId = setInterval(() => {
+      // 出現処理
+      const keyNumber = shuffle(canShowKeyNumber).shift();
+      const index = shuffle(canShowIndex).shift();
+      if (keyNumber === undefined) {
+        return;
+      }
+      const area = document.getElementById("area-" + index);
+      area.textContent = keyNumber;
+      area.style.visibility = "visible";
+      setTimeout(() => {
+        canShowKeyNumber.push(keyNumber);
+        canShowIndex.push(index);
+        area.textContent = "";
+        area.style.visibility = "hidden";
+      }, 2000);
+
+    }, 600);
+  }
+
+  function shuffle(array) {
+    let n = array.length, t, i;
+
+    while (n) {
+      i = Math.floor(Math.random() * n--);
+      t = array[n];
+      array[n] = array[i];
+      array[i] = t;
+    }
+
+    return array;
   }
 
   function initDisplayText() {
@@ -502,6 +547,7 @@ window.onload = function () {
 
     // 問題画面非表示
     questionWindow.style.display = "none";
+    whackMoleWindow.style.display = "none";
 
     // 結果画面表示
     resultWindow.style.display = "block";

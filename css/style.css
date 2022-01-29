@@ -461,6 +461,29 @@ img {
   }
 }
 
+#board-container #board #whack-mole-window {
+  display: none;
+}
+
+#board-container #board #whack-mole-window .whack-mole-table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 70%;
+  margin: 0 auto;
+}
+
+#board-container #board #whack-mole-window .whack-mole-table dd {
+  width: calc(25% - 10px);
+  height: 50px;
+  margin: 5px;
+  border: 1px solid #383e45;
+  text-align: center;
+  visibility: hidden;
+}
+
 #board-container #board #result-window {
   display: none;
 }
