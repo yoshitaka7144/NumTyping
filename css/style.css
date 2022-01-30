@@ -463,6 +463,8 @@ img {
 
 #board-container #board #whack-mole-window {
   display: none;
+  width: 100%;
+  height: 100%;
 }
 
 #board-container #board #whack-mole-window .whack-mole-table {
@@ -472,16 +474,23 @@ img {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   width: 70%;
+  height: 100%;
   margin: 0 auto;
 }
 
 #board-container #board #whack-mole-window .whack-mole-table dd {
   width: calc(25% - 10px);
-  height: 50px;
+  height: calc(100% / 3 - 10px);
   margin: 5px;
   border: 1px solid #383e45;
   text-align: center;
-  visibility: hidden;
+}
+
+#board-container #board #whack-mole-window .whack-mole-table dd img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 #board-container #board #result-window {

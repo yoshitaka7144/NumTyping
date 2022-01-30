@@ -75,6 +75,9 @@ window.onload = function () {
   // タイピング判定フラグ
   let canTypeKey = false;
 
+  // もぐらたたきモード
+  let canPlayWhackMole = false;
+
   // 問題データ保持用
   let questionData = [];
   let currentQuetionData = {};
@@ -93,8 +96,11 @@ window.onload = function () {
   // もぐらたたきタイマー制御用
   let whackMoleIntervalId;
 
-  // 出現可能数値
-  let canShowKeyNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // 出現済みキー
+  let showedKey = [];
+
+  // 出現可能キー
+  let canShowKey = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   // 出現可能位置
   let canShowIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
@@ -385,24 +391,72 @@ window.onload = function () {
   }
 
   function startWhackMole() {
+    canPlayWhackMole = true;
     whackMoleIntervalId = setInterval(() => {
       // 出現処理
-      const keyNumber = shuffle(canShowKeyNumber).shift();
+      const key = shuffle(canShowKey).shift();
       const index = shuffle(canShowIndex).shift();
-      if (keyNumber === undefined) {
+      if (key === undefined) {
         return;
       }
-      const area = document.getElementById("area-" + index);
-      area.textContent = keyNumber;
-      area.style.visibility = "visible";
-      setTimeout(() => {
-        canShowKeyNumber.push(keyNumber);
-        canShowIndex.push(index);
-        area.textContent = "";
-        area.style.visibility = "hidden";
-      }, 2000);
+      const id = Math.random();
+      showedKey.push({ key: key, index: index, id: id });
 
-    }, 600);
+      const imgElement = document.createElement("img");
+      imgElement.src = "img/number_" + key + ".png";
+      imgElement.id = id;
+      const area = document.getElementById("area-" + index);
+      area.appendChild(imgElement);
+
+      // 一定時間経過後、削除処理
+      setTimeout(() => {
+        removeMoleAuto(key, id);
+      }, 2200);
+
+    }, 800);
+  }
+
+  function removeMoleAuto(keyChar, targetId) {
+    const targetIndex = showedKey.findIndex(item => item.key === keyChar);
+    if (targetIndex !== -1) {
+      const key = showedKey[targetIndex].key;
+      const index = showedKey[targetIndex].index;
+      const id = showedKey[targetIndex].id;
+      if (id !== targetId) {
+        return;
+      } else {
+        const imgElement = document.getElementById(targetId);
+        imgElement.parentNode.removeChild(imgElement);
+        showedKey.splice(targetIndex, 1);
+        canShowKey.push(key);
+        canShowIndex.push(index);
+      }
+    }
+  }
+
+  function removeMoleManual(keyChar) {
+    const targetIndex = showedKey.findIndex(item => item.key === keyChar);
+    if (targetIndex !== -1) {
+      const key = showedKey[targetIndex].key;
+      const index = showedKey[targetIndex].index;
+      const id = showedKey[targetIndex].id;
+      const imgElement = document.getElementById(id);
+      imgElement.parentNode.removeChild(imgElement);
+
+      const whackImgElement = document.createElement("img");
+      whackImgElement.src = "img/onigiri.png";
+      const area = document.getElementById("area-" + index);
+      area.appendChild(whackImgElement);
+
+      showedKey.splice(targetIndex, 1);
+      setTimeout(() => {
+        whackImgElement.parentNode.removeChild(whackImgElement);
+        canShowKey.push(key);
+        canShowIndex.push(index);
+      }, 500);
+      return true;
+    }
+    return false;
   }
 
   function shuffle(array) {
@@ -536,6 +590,7 @@ window.onload = function () {
     if (settingTimeLimitCheckBox.checked) {
       clearInterval(timeLimitIntervalId);
     }
+    canPlayWhackMole = false;
     canTypeKey = false;
     watchKeyObj.targetKey = "";
     watchKeyObj.missTypeKey = "";
@@ -558,58 +613,79 @@ window.onload = function () {
       // イベントキャンセル
       e.preventDefault();
 
-      // タイピング対象の文字
-      const currentChar = currentTypingTextArray[currentTypingTextIndex];
+      if (!canPlayWhackMole) {
+        // 通常のタイピング判定処理
 
-      // タイピング判定
-      switch (checkInputKey(e.code, currentChar)) {
-        case 1: // 正しいタイピング時
+        // タイピング対象の文字
+        const currentChar = currentTypingTextArray[currentTypingTextIndex];
 
-          // タイプ数カウント
-          typeCount++;
+        // タイピング判定
+        switch (checkInputKey(e.code, currentChar)) {
+          case 1: // 正しいタイピング時
 
-          // 表示テキスト更新
-          watchDisplayTextObj.inputed += currentChar;
-          watchDisplayTextObj.remaining = watchDisplayTextObj.remaining.slice(1);
+            // タイプ数カウント
+            typeCount++;
 
-          // 1文字進める
-          currentTypingTextIndex++;
-          const nextChar = currentTypingTextArray[currentTypingTextIndex];
+            // 表示テキスト更新
+            watchDisplayTextObj.inputed += currentChar;
+            watchDisplayTextObj.remaining = watchDisplayTextObj.remaining.slice(1);
 
-          if (nextChar === END_CHAR) {
-            // 
-            currentQuestionIndex++;
-            if (currentQuestionIndex === questionCount) {
-              // 結果表示画面へ
-              showResultWindow();
+            // 1文字進める
+            currentTypingTextIndex++;
+            const nextChar = currentTypingTextArray[currentTypingTextIndex];
+
+            if (nextChar === END_CHAR) {
+              // 
+              currentQuestionIndex++;
+              if (currentQuestionIndex === questionCount) {
+                // 結果表示画面へ
+                showResultWindow();
+              } else {
+                // 次の問題を表示
+                initDisplayText();
+              }
             } else {
-              // 次の問題を表示
-              initDisplayText();
+              watchKeyObj.targetKey = nextChar;
             }
-          } else {
-            watchKeyObj.targetKey = nextChar;
-          }
-          break;
-        case 0: // ミスタイプ時
+            break;
+          case 0: // ミスタイプ時
 
-          // カウント
-          missTypeCount++;
-          if (missTypeKey[currentChar]) {
-            missTypeKey[currentChar]++;
-          } else {
-            missTypeKey[currentChar] = 1;
-          }
+            // カウント
+            missTypeCount++;
+            if (missTypeKey[currentChar]) {
+              missTypeKey[currentChar]++;
+            } else {
+              missTypeKey[currentChar] = 1;
+            }
 
-          // ミスタイプキーを点滅させる
-          watchKeyObj.missTypeKey = currentChar;
+            // ミスタイプキーを点滅させる
+            watchKeyObj.missTypeKey = currentChar;
 
-          //ミスタイプ音声
-          if (missSoundCheckBox.checked) {
-            // 音声を鳴らす
+            //ミスタイプ音声
+            if (missSoundCheckBox.checked) {
+              // 音声を鳴らす
 
-          }
+            }
 
+        }
+
+      } else {
+        // もぐらたたきモードのタイピング
+
+        // 入力キー文字列
+        const inputedKeyChar = getChar(e.code);
+
+        // 
+        if(removeMoleManual(inputedKeyChar)){
+          // 成功時
+          console.log("nice");
+        }else{
+          // 失敗時
+          console.log("miss");
+        }
       }
+
+
     }
   }
 

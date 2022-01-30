@@ -213,7 +213,7 @@ img {
         color: orange;
       }
 
-      #time-limit-counter{
+      #time-limit-counter {
         display: none;
       }
 
@@ -322,7 +322,7 @@ img {
           transform: rotate(0deg);
           background: rgb(59, 221, 132);
         }
-        75%{
+        75% {
           transform: rotate(90deg);
           background: orange;
         }
@@ -333,21 +333,28 @@ img {
       }
     }
 
-    #whack-mole-window{
+    #whack-mole-window {
       display: none;
+      width: 100%;
+      height: 100%;
 
-      .whack-mole-table{
+      .whack-mole-table {
         display: flex;
         flex-wrap: wrap;
         width: 70%;
+        height: 100%;
         margin: 0 auto;
-        dd{
+        dd {
           width: calc(25% - 10px);
-          height: 50px;
+          height: calc(100% / 3 - 10px);
           margin: 5px;
           border: 1px solid #383e45;
           text-align: center;
-          visibility: hidden;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
         }
       }
     }
