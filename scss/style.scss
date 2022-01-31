@@ -348,10 +348,49 @@ img {
           width: calc(25% - 10px);
           height: calc(100% / 3 - 10px);
           margin: 5px;
-          border: 1px solid #383e45;
           text-align: center;
-          img {
-            width: 100%;
+          background-image: url("../img/hole.png");
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: bottom;
+          position: relative;
+          overflow: hidden;
+          .number-img {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            animation-name: show;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
+            @keyframes show {
+              0% {
+                top: 100%;
+              }
+              30% {
+                top: 0;
+              }
+              50%{
+                top:0;
+              }
+              70%{
+                top:0;
+              }
+              100% {
+                top: 100%;
+              }
+            }
+          }
+
+          .whack-img{
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
             height: 100%;
             object-fit: contain;
           }

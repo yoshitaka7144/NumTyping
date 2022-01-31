@@ -403,8 +403,10 @@ window.onload = function () {
       showedKey.push({ key: key, index: index, id: id });
 
       const imgElement = document.createElement("img");
-      imgElement.src = "img/number_" + key + ".png";
-      imgElement.id = id;
+      imgElement.setAttribute("src", "img/number_" + key + ".png");
+      imgElement.setAttribute("id", id);
+      imgElement.setAttribute("class", "number-img");
+      imgElement.style.setProperty("animation-duration", "2.2s");
       const area = document.getElementById("area-" + index);
       area.appendChild(imgElement);
 
@@ -444,7 +446,8 @@ window.onload = function () {
       imgElement.parentNode.removeChild(imgElement);
 
       const whackImgElement = document.createElement("img");
-      whackImgElement.src = "img/onigiri.png";
+      whackImgElement.setAttribute("src", "img/onigiri.png");
+      whackImgElement.setAttribute("class", "whack-img");
       const area = document.getElementById("area-" + index);
       area.appendChild(whackImgElement);
 
@@ -676,10 +679,10 @@ window.onload = function () {
         const inputedKeyChar = getChar(e.code);
 
         // 
-        if(removeMoleManual(inputedKeyChar)){
+        if (removeMoleManual(inputedKeyChar)) {
           // 成功時
           console.log("nice");
-        }else{
+        } else {
           // 失敗時
           console.log("miss");
         }
