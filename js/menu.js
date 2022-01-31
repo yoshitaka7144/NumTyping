@@ -27,6 +27,15 @@ window.onload = function () {
   // 問題数セレクトボックス
   const questionCountSelectBox = document.getElementById("question-count");
 
+  // もぐら出現間隔セレクトボックス
+  const showMoleIntervalSelectBox = document.getElementById("show-mole-interval");
+
+  // もぐら滞在時間セレクトボックス
+  const moleDurationSelectBox = document.getElementById("mole-duration");
+
+  // もぐらたたき回数セレクトボックス
+  const whackMoleCountSelectBox = document.getElementById("whack-mole-count");
+
   // 時間制限チェックボックス
   const settingTimeLimitCheckBox = document.getElementById("setting-time-limit");
 
@@ -63,6 +72,9 @@ window.onload = function () {
   // 終了文字
   const END_CHAR = "$";
 
+  // 選択カテゴリー
+  let selectedId;
+
   // 問題数
   let questionCount;
 
@@ -71,6 +83,15 @@ window.onload = function () {
 
   // 時間制限
   let timeLimit;
+
+  // もぐら出現間隔
+  let showMoleInterval;
+
+  // もぐら滞在時間
+  let moleDuration;
+
+  // もぐらたたきクリア回数設定
+  let settingWhackMoleCount;
 
   // タイピング判定フラグ
   let canTypeKey = false;
@@ -89,6 +110,9 @@ window.onload = function () {
   let typeCount = 0;
   let missTypeCount = 0;
   let missTypeKey = {};
+
+  // 結果表示用（もぐらたたき）
+  let whackMoleMissCount = 0;
 
   // 制限時間タイマー制御用
   let timeLimitIntervalId;
@@ -188,6 +212,7 @@ window.onload = function () {
         remainingTimeTextElement.style.color = "red";
       } else if (value === 0) {
         clearInterval(timeLimitIntervalId);
+        timeLimitCounter.style.display = "none";
         showResultWindow();
       }
     }
@@ -259,6 +284,12 @@ window.onload = function () {
     currentQuestionIndex = 0;
     currentTypingTextArray = [];
     currentTypingTextIndex = 0;
+
+    // もぐらたたき
+    showedKey = [];
+    canShowKey = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    canShowIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    whackMoleMissCount = 0;
 
     // 結果表示用
     typeCount = 0;
@@ -332,8 +363,35 @@ window.onload = function () {
       }
     }
 
+    // もぐら出現間隔の設定値チェック
+    pattern = /^[1-9]+[0-9]*$/;
+    if (pattern.test(showMoleIntervalSelectBox.value)) {
+      showMoleInterval = Number(showMoleIntervalSelectBox.value);
+    } else {
+      alert("もぐら出現間隔セレクトボックスに不正な値が選択されています。");
+      return;
+    }
+
+    // もぐら出現間隔の設定値チェック
+    pattern = /^[1-9]+[0-9]*$/;
+    if (pattern.test(moleDurationSelectBox.value)) {
+      moleDuration = Number(moleDurationSelectBox.value);
+    } else {
+      alert("もぐら滞在時間セレクトボックスに不正な値が選択されています。");
+      return;
+    }
+
+    // もぐらたたきクリア回数の設定値チェック
+    pattern = /^[1-9]+[0-9]*$/;
+    if (pattern.test(whackMoleCountSelectBox.value)) {
+      settingWhackMoleCount = Number(whackMoleCountSelectBox.value);
+    } else {
+      alert("もぐらたたきクリア回数セレクトボックスに不正な値が選択されています。");
+      return;
+    }
+
+
     // 選択カテゴリー
-    let selectedId;
     for (let radio of radioBtns) {
       if (radio.checked) {
         selectedId = radio.id;
@@ -393,29 +451,32 @@ window.onload = function () {
   function startWhackMole() {
     canPlayWhackMole = true;
     whackMoleIntervalId = setInterval(() => {
-      // 出現処理
-      const key = shuffle(canShowKey).shift();
-      const index = shuffle(canShowIndex).shift();
-      if (key === undefined) {
-        return;
-      }
-      const id = Math.random();
-      showedKey.push({ key: key, index: index, id: id });
-
-      const imgElement = document.createElement("img");
-      imgElement.setAttribute("src", "img/number_" + key + ".png");
-      imgElement.setAttribute("id", id);
-      imgElement.setAttribute("class", "number-img");
-      imgElement.style.setProperty("animation-duration", "2.2s");
-      const area = document.getElementById("area-" + index);
-      area.appendChild(imgElement);
-
-      // 一定時間経過後、削除処理
+      const r = Math.floor(Math.random() * 300);
       setTimeout(() => {
-        removeMoleAuto(key, id);
-      }, 2200);
+        // 出現処理
+        const key = shuffle(canShowKey).shift();
+        const index = shuffle(canShowIndex).shift();
+        if (key === undefined) {
+          return;
+        }
+        const id = Math.random();
+        showedKey.push({ key: key, index: index, id: id });
 
-    }, 800);
+        const imgElement = document.createElement("img");
+        imgElement.setAttribute("src", "img/number_" + key + ".png");
+        imgElement.setAttribute("id", id);
+        imgElement.setAttribute("class", "number-img");
+        imgElement.style.setProperty("animation-duration", moleDuration + "ms");
+        const area = document.getElementById("area-" + index);
+        area.appendChild(imgElement);
+
+        // 一定時間経過後、削除処理
+        setTimeout(() => {
+          removeMoleAuto(key, id);
+        }, moleDuration);
+      }, r);
+
+    }, showMoleInterval);
   }
 
   function removeMoleAuto(keyChar, targetId) {
@@ -432,6 +493,9 @@ window.onload = function () {
         showedKey.splice(targetIndex, 1);
         canShowKey.push(key);
         canShowIndex.push(index);
+
+        // もぐら見逃し数カウント
+        whackMoleMissCount++;
       }
     }
   }
@@ -446,7 +510,7 @@ window.onload = function () {
       imgElement.parentNode.removeChild(imgElement);
 
       const whackImgElement = document.createElement("img");
-      whackImgElement.setAttribute("src", "img/onigiri.png");
+      whackImgElement.setAttribute("src", "img/pikopiko_hummer.png");
       whackImgElement.setAttribute("class", "whack-img");
       const area = document.getElementById("area-" + index);
       area.appendChild(whackImgElement);
@@ -456,7 +520,7 @@ window.onload = function () {
         whackImgElement.parentNode.removeChild(whackImgElement);
         canShowKey.push(key);
         canShowIndex.push(index);
-      }, 500);
+      }, 400);
       return true;
     }
     return false;
@@ -593,19 +657,27 @@ window.onload = function () {
     if (settingTimeLimitCheckBox.checked) {
       clearInterval(timeLimitIntervalId);
     }
-    canPlayWhackMole = false;
+
+    // タイピング判定無し
     canTypeKey = false;
-    watchKeyObj.targetKey = "";
-    watchKeyObj.missTypeKey = "";
 
-    resultTypeCount.textContent = typeCount;
-    resultMissTypeCount.textContent = missTypeCount;
-    resultMissKey.textContent = formatKeySet(missTypeKey);
-    fillMissKey(missTypeCount, missTypeKey)
+    if (selectedId === "menu-1" || selectedId === "menu-2") {
+      watchKeyObj.targetKey = "";
+      watchKeyObj.missTypeKey = "";
 
-    // 問題画面非表示
-    questionWindow.style.display = "none";
-    whackMoleWindow.style.display = "none";
+      resultTypeCount.textContent = typeCount;
+      resultMissTypeCount.textContent = missTypeCount;
+      resultMissKey.textContent = formatKeySet(missTypeKey);
+      fillMissKey(missTypeCount, missTypeKey);
+
+      // 問題画面非表示
+      questionWindow.style.display = "none";
+    } else if (selectedId === "menu-3") {
+      clearInterval(whackMoleIntervalId);
+      canPlayWhackMole = false;
+      // もぐらたたき画面非表示
+      whackMoleWindow.style.display = "none";
+    }
 
     // 結果画面表示
     resultWindow.style.display = "block";
@@ -678,13 +750,16 @@ window.onload = function () {
         // 入力キー文字列
         const inputedKeyChar = getChar(e.code);
 
-        // 
+        // もぐらたたき判定
         if (removeMoleManual(inputedKeyChar)) {
           // 成功時
-          console.log("nice");
+          typeCount++;
+          if (typeCount === settingWhackMoleCount) {
+            showResultWindow();
+          }
         } else {
           // 失敗時
-          console.log("miss");
+          missTypeCount++;
         }
       }
 

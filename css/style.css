@@ -97,16 +97,19 @@ img {
   min-width: 600px;
   height: 300px;
   margin: 0 auto;
-}
-
-#board-container #board {
-  width: 100%;
-  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   background-color: #33894d;
   border-style: solid;
   border-width: 9px;
   border-color: #eb8e4b #e67d32 #b95d1c chocolate;
   border-radius: 2px;
+}
+
+#board-container #board {
+  width: calc(100% - 90px);
+  height: 100%;
 }
 
 #board-container #board #start-window {
@@ -260,11 +263,141 @@ img {
   color: orange;
 }
 
-#board-container #board #question-window #time-limit-counter {
+#board-container #board #whack-mole-window {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+#board-container #board #whack-mole-window .whack-mole-table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 70%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+#board-container #board #whack-mole-window .whack-mole-table dd {
+  width: calc(25% - 10px);
+  height: calc(100% / 3 - 10px);
+  margin: 5px;
+  text-align: center;
+  background-image: url("../img/hole.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  position: relative;
+  overflow: hidden;
+}
+
+#board-container #board #whack-mole-window .whack-mole-table dd .number-img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  width: 80%;
+  height: 80%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -webkit-animation-name: show;
+          animation-name: show;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes show {
+  0% {
+    top: 100%;
+  }
+  30% {
+    top: 0;
+  }
+  50% {
+    top: 0;
+  }
+  70% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+@keyframes show {
+  0% {
+    top: 100%;
+  }
+  30% {
+    top: 0;
+  }
+  50% {
+    top: 0;
+  }
+  70% {
+    top: 0;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+#board-container #board #whack-mole-window .whack-mole-table dd .whack-img {
+  position: absolute;
+  top: 0;
+  left: 30%;
+  width: 80%;
+  height: 90%;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -webkit-animation: whack 0.2s linear forwards;
+          animation: whack 0.2s linear forwards;
+}
+
+@-webkit-keyframes whack {
+  0% {
+    -webkit-transform: rotate(10deg);
+            transform: rotate(10deg);
+  }
+  50% {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+  }
+  100% {
+    -webkit-transform: rotate(10deg);
+            transform: rotate(10deg);
+  }
+}
+
+@keyframes whack {
+  0% {
+    -webkit-transform: rotate(10deg);
+            transform: rotate(10deg);
+  }
+  50% {
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+  }
+  100% {
+    -webkit-transform: rotate(10deg);
+            transform: rotate(10deg);
+  }
+}
+
+#board-container #board #result-window {
   display: none;
 }
 
-#board-container #board #question-window .circle {
+#board-container #time-limit-counter {
+  display: none;
+}
+
+#board-container .circle {
   position: relative;
   width: 90px;
   height: 90px;
@@ -275,7 +408,7 @@ img {
   z-index: 1;
 }
 
-#board-container #board #question-window .circle::before {
+#board-container .circle::before {
   content: "";
   display: block;
   position: absolute;
@@ -295,7 +428,7 @@ img {
           animation-fill-mode: forwards;
 }
 
-#board-container #board #question-window .circle::after {
+#board-container .circle::after {
   content: "";
   display: block;
   position: absolute;
@@ -315,58 +448,34 @@ img {
           animation-fill-mode: forwards;
 }
 
-#board-container #board #question-window .circle.circle-15::after, #board-container #board #question-window .circle.circle-15::before {
+#board-container .circle.circle-15::after, #board-container .circle.circle-15::before {
   -webkit-animation-duration: 15s;
           animation-duration: 15s;
 }
 
-#board-container #board #question-window .circle.circle-30::after, #board-container #board #question-window .circle.circle-30::before {
+#board-container .circle.circle-30::after, #board-container .circle.circle-30::before {
   -webkit-animation-duration: 30s;
           animation-duration: 30s;
 }
 
-#board-container #board #question-window .circle.circle-45::after, #board-container #board #question-window .circle.circle-45::before {
+#board-container .circle.circle-45::after, #board-container .circle.circle-45::before {
   -webkit-animation-duration: 45s;
           animation-duration: 45s;
 }
 
-#board-container #board #question-window .circle.circle-60::after, #board-container #board #question-window .circle.circle-60::before {
+#board-container .circle.circle-60::after, #board-container .circle.circle-60::before {
   -webkit-animation-duration: 60s;
           animation-duration: 60s;
 }
 
-#board-container #board #question-window .circle.circle-90::after, #board-container #board #question-window .circle.circle-90::before {
+#board-container .circle.circle-90::after, #board-container .circle.circle-90::before {
   -webkit-animation-duration: 90s;
           animation-duration: 90s;
 }
 
-#board-container #board #question-window .circle.circle-120::after, #board-container #board #question-window .circle.circle-120::before {
+#board-container .circle.circle-120::after, #board-container .circle.circle-120::before {
   -webkit-animation-duration: 120s;
           animation-duration: 120s;
-}
-
-#board-container #board #question-window .circle .circle-inner {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  width: 70px;
-  height: 70px;
-  background: #fbf4df;
-  border-radius: 50%;
-  z-index: 4;
-}
-
-#board-container #board #question-window .circle .circle-inner #remaining-time-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  color: #747474;
-  font-weight: bold;
-  font-size: 24px;
 }
 
 @-webkit-keyframes rotate-circle-right {
@@ -461,104 +570,28 @@ img {
   }
 }
 
-#board-container #board #whack-mole-window {
-  display: none;
-  width: 100%;
-  height: 100%;
-}
-
-#board-container #board #whack-mole-window .whack-mole-table {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  width: 70%;
-  height: 100%;
-  margin: 0 auto;
-}
-
-#board-container #board #whack-mole-window .whack-mole-table dd {
-  width: calc(25% - 10px);
-  height: calc(100% / 3 - 10px);
-  margin: 5px;
-  text-align: center;
-  background-image: url("../img/hole.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: bottom;
-  position: relative;
-  overflow: hidden;
-}
-
-#board-container #board #whack-mole-window .whack-mole-table dd .number-img {
+#board-container .circle .circle-inner {
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
-  width: 80%;
-  height: 80%;
-  -o-object-fit: contain;
-     object-fit: contain;
-  -webkit-animation-name: show;
-          animation-name: show;
-  -webkit-animation-timing-function: linear;
-          animation-timing-function: linear;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  background: #fbf4df;
+  border-radius: 50%;
+  z-index: 4;
 }
 
-@-webkit-keyframes show {
-  0% {
-    top: 100%;
-  }
-  30% {
-    top: 0;
-  }
-  50% {
-    top: 0;
-  }
-  70% {
-    top: 0;
-  }
-  100% {
-    top: 100%;
-  }
-}
-
-@keyframes show {
-  0% {
-    top: 100%;
-  }
-  30% {
-    top: 0;
-  }
-  50% {
-    top: 0;
-  }
-  70% {
-    top: 0;
-  }
-  100% {
-    top: 100%;
-  }
-}
-
-#board-container #board #whack-mole-window .whack-mole-table dd .whack-img {
+#board-container .circle .circle-inner #remaining-time-text {
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
-  width: 70%;
-  height: 100%;
-  -o-object-fit: contain;
-     object-fit: contain;
-}
-
-#board-container #board #result-window {
-  display: none;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  color: #747474;
+  font-weight: bold;
+  font-size: 24px;
 }
 
 /********************************

@@ -83,15 +83,16 @@ img {
   min-width: 600px;
   height: 300px;
   margin: 0 auto;
+  display: flex;
+  background-color: #33894d;
+  border-style: solid;
+  border-width: 9px;
+  border-color: rgb(235, 142, 75) rgb(230, 125, 50) rgb(185, 93, 28) chocolate;
+  border-radius: 2px;
 
   #board {
-    width: 100%;
+    width: calc(100% - 90px);
     height: 100%;
-    background-color: #33894d;
-    border-style: solid;
-    border-width: 9px;
-    border-color: rgb(235, 142, 75) rgb(230, 125, 50) rgb(185, 93, 28) chocolate;
-    border-radius: 2px;
 
     #start-window {
       display: flex;
@@ -212,125 +213,6 @@ img {
         font-size: 1.2rem;
         color: orange;
       }
-
-      #time-limit-counter {
-        display: none;
-      }
-
-      .circle {
-        $circle-width: 90px;
-        $circle-height: 90px;
-        $circle-inner-width: 70px;
-        $circle-inner-height: 70px;
-
-        position: relative;
-        width: $circle-width;
-        height: $circle-height;
-        background: #fff;
-        border-radius: 50%;
-        text-align: center;
-        overflow: hidden;
-        z-index: 1;
-
-        &::before {
-          content: "";
-          display: block;
-          position: absolute;
-          top: 0;
-          left: calc(-#{$circle-width} / 2);
-          width: $circle-width;
-          height: $circle-height;
-          background: rgb(59, 221, 132);
-          transform-origin: right calc(#{$circle-width} / 2);
-          z-index: 2;
-          animation-name: rotate-circle-left;
-          animation-timing-function: linear;
-          animation-fill-mode: forwards;
-        }
-
-        &::after {
-          content: "";
-          display: block;
-          position: absolute;
-          top: 0px;
-          left: calc(#{$circle-width} / 2);
-          width: $circle-width;
-          height: $circle-height;
-          background: rgb(59, 221, 132);
-          transform-origin: left calc(#{$circle-width} / 2);
-          z-index: 3;
-          animation-name: rotate-circle-right;
-          animation-timing-function: linear;
-          animation-fill-mode: forwards;
-        }
-
-        $times: 15, 30, 45, 60, 90, 120;
-        @each $time in $times {
-          &.circle-#{$time}::after,
-          &.circle-#{$time}::before {
-            animation-duration: #{$time}s;
-          }
-        }
-
-        .circle-inner {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: $circle-inner-width;
-          height: $circle-inner-height;
-          background: #fbf4df;
-          border-radius: 50%;
-          z-index: 4;
-          #remaining-time-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #747474;
-            font-weight: bold;
-            font-size: 24px;
-          }
-        }
-      }
-
-      @keyframes rotate-circle-right {
-        0% {
-          transform: rotate(0deg);
-          background: rgb(59, 221, 132);
-        }
-        50% {
-          transform: rotate(180deg);
-          background: rgb(59, 221, 132);
-        }
-        50.01% {
-          transform: rotate(360deg);
-          background: #fff;
-        }
-        100% {
-          transform: rotate(360deg);
-          background: #fff;
-        }
-      }
-
-      @keyframes rotate-circle-left {
-        0% {
-          transform: rotate(0deg);
-          background: rgb(59, 221, 132);
-        }
-        50% {
-          transform: rotate(0deg);
-          background: rgb(59, 221, 132);
-        }
-        75% {
-          transform: rotate(90deg);
-          background: orange;
-        }
-        100% {
-          transform: rotate(180deg);
-          background: red;
-        }
-      }
     }
 
     #whack-mole-window {
@@ -366,6 +248,8 @@ img {
             animation-name: show;
             animation-timing-function: linear;
             animation-fill-mode: forwards;
+            // animation-durationはjsから設定
+
             @keyframes show {
               0% {
                 top: 100%;
@@ -373,11 +257,11 @@ img {
               30% {
                 top: 0;
               }
-              50%{
-                top:0;
+              50% {
+                top: 0;
               }
-              70%{
-                top:0;
+              70% {
+                top: 0;
               }
               100% {
                 top: 100%;
@@ -385,14 +269,25 @@ img {
             }
           }
 
-          .whack-img{
+          .whack-img {
             position: absolute;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70%;
-            height: 100%;
+            left: 30%;
+            width: 80%;
+            height: 90%;
             object-fit: contain;
+            animation: whack 0.2s linear forwards;
+            @keyframes whack {
+              0% {
+                transform: rotate(10deg);
+              }
+              50% {
+                transform: rotate(-45deg);
+              }
+              100% {
+                transform: rotate(10deg);
+              }
+            }
           }
         }
       }
@@ -400,6 +295,125 @@ img {
 
     #result-window {
       display: none;
+    }
+  }
+
+  #time-limit-counter {
+    display: none;
+  }
+
+  .circle {
+    $circle-width: 90px;
+    $circle-height: 90px;
+    $circle-inner-width: 70px;
+    $circle-inner-height: 70px;
+
+    position: relative;
+    width: $circle-width;
+    height: $circle-height;
+    background: #fff;
+    border-radius: 50%;
+    text-align: center;
+    overflow: hidden;
+    z-index: 1;
+
+    &::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: calc(-#{$circle-width} / 2);
+      width: $circle-width;
+      height: $circle-height;
+      background: rgb(59, 221, 132);
+      transform-origin: right calc(#{$circle-width} / 2);
+      z-index: 2;
+      animation-name: rotate-circle-left;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: calc(#{$circle-width} / 2);
+      width: $circle-width;
+      height: $circle-height;
+      background: rgb(59, 221, 132);
+      transform-origin: left calc(#{$circle-width} / 2);
+      z-index: 3;
+      animation-name: rotate-circle-right;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+
+    $times: 15, 30, 45, 60, 90, 120;
+    @each $time in $times {
+      &.circle-#{$time}::after,
+      &.circle-#{$time}::before {
+        animation-duration: #{$time}s;
+      }
+    }
+
+    @keyframes rotate-circle-right {
+      0% {
+        transform: rotate(0deg);
+        background: rgb(59, 221, 132);
+      }
+      50% {
+        transform: rotate(180deg);
+        background: rgb(59, 221, 132);
+      }
+      50.01% {
+        transform: rotate(360deg);
+        background: #fff;
+      }
+      100% {
+        transform: rotate(360deg);
+        background: #fff;
+      }
+    }
+
+    @keyframes rotate-circle-left {
+      0% {
+        transform: rotate(0deg);
+        background: rgb(59, 221, 132);
+      }
+      50% {
+        transform: rotate(0deg);
+        background: rgb(59, 221, 132);
+      }
+      75% {
+        transform: rotate(90deg);
+        background: orange;
+      }
+      100% {
+        transform: rotate(180deg);
+        background: red;
+      }
+    }
+
+    .circle-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: $circle-inner-width;
+      height: $circle-inner-height;
+      background: #fbf4df;
+      border-radius: 50%;
+      z-index: 4;
+      #remaining-time-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #747474;
+        font-weight: bold;
+        font-size: 24px;
+      }
     }
   }
 }
