@@ -8,7 +8,8 @@
   <link rel="shortcut icon" href="img/favicon.ico">
   <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
   <link rel="stylesheet" href="css/style.css">
-  <script src="js/menu.js"></script>
+  <script src="js/util.js"></script>
+  <script src="js/main.js"></script>
 </head>
 
 <body>
@@ -32,11 +33,11 @@
             <div id="start-window">
               <div class="menu">
                 <input type="radio" name="menu" id="menu-1" value="menu-1" checked>
-                <label for="menu-1">サンプル1</label>
+                <label for="menu-1">数値</label>
                 <input type="radio" name="menu" id="menu-2" value="menu-2">
-                <label for="menu-2">サンプル2</label>
+                <label for="menu-2">計算問題</label>
                 <input type="radio" name="menu" id="menu-3" value="menu-3">
-                <label for="menu-3">サンプル3</label>
+                <label for="menu-3">数字もぐらたたき</label>
               </div>
               <div class="description">
                 <div class="text-area">
@@ -79,11 +80,32 @@
               </dl>
             </div>
             <div id="result-window">
-              <p id="type-count"></p>
-              <p id="miss-type-count"></p>
-              <p id="miss-key"></p>
-              <button id="retry-btn" class="btn">もう一度</button>
-              <button id="back-btn" class="btn">トップへ戻る</button>
+              <dl id="normal-result-table" class="table">
+                <dt>正解タイプ数</dt>
+                <dt>ミスタイプ数</dt>
+                <dt>正答率</dt>
+                <dt>ミスキー（文字：回数）</dt>
+                <dd id="type-count"></dd>
+                <dd id="miss-type-count"></dd>
+                <dd id="correct-percentage"></dd>
+                <dd id="miss-key"></dd>
+              </dl>
+              <dl id="whack-mole-result-table" class="table">
+                <dt>もぐら出現数</dt>
+                <dt>叩けた数</dt>
+                <dt>逃げられた数</dt>
+                <dt>撃破率</dt>
+                <dt>ミスタイプ数</dt>
+                <dd id="whack-mole-show-count"></dd>
+                <dd id="whack-mole-count"></dd>
+                <dd id="whack-mole-miss-count"></dd>
+                <dd id="whack-mole-percentage"></dd>
+                <dd id="whack-mole-miss-type-count"></dd>
+              </dl>
+              <div class="btn-wrapper">
+                <button id="retry-btn" class="btn">もう一度</button>
+                <button id="back-btn" class="btn">トップへ戻る</button>
+              </div>
             </div>
           </div>
           <div id="time-limit-counter" class="circle">
@@ -296,6 +318,8 @@
               <label for="show-mole-interval">もぐら出現間隔（秒）</label>
               <div class="select-wrapper">
                 <select id="show-mole-interval" class="select">
+                  <option value="100">0.1</option>
+                  <option value="200">0.2</option>
                   <option value="300">0.3</option>
                   <option value="400">0.4</option>
                   <option value="500">0.5</option>
@@ -316,8 +340,6 @@
               <label for="mole-duration">もぐら滞在時間（秒）</label>
               <div class="select-wrapper">
                 <select id="mole-duration" class="select">
-                  <option value="300">0.3</option>
-                  <option value="400">0.4</option>
                   <option value="500">0.5</option>
                   <option value="600">0.6</option>
                   <option value="700">0.7</option>
@@ -338,9 +360,9 @@
               </div>
             </div>
             <div class="label-wrapper">
-              <label for="whack-mole-count">もぐらたたきクリアまでの回数</label>
+              <label for="whack-mole-clear-count">もぐらたたきクリアまでの回数</label>
               <div class="select-wrapper">
-                <select id="whack-mole-count" class="select">
+                <select id="whack-mole-clear-count" class="select">
                   <option value="5">5</option>
                   <option value="10">10</option>
                   <option value="15">15</option>
@@ -358,8 +380,8 @@
               </div>
             </div>
             <div class="checkbox-wrapper">
-              <input type="checkbox" id="miss-sound" class="checkbox" checked>
-              <label for="miss-sound">ミスタイプ音</label>
+              <input type="checkbox" id="sound" class="checkbox" checked>
+              <label for="sound">サウンド</label>
             </div>
             <div class="checkbox-wrapper">
               <input type="checkbox" id="typing-navi" class="checkbox" checked>

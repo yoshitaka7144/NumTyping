@@ -97,9 +97,13 @@ img {
   min-width: 600px;
   height: 300px;
   margin: 0 auto;
+  padding: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   background-color: #33894d;
   border-style: solid;
   border-width: 9px;
@@ -393,6 +397,60 @@ img {
   display: none;
 }
 
+#board-container #board #result-window .btn-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#board-container #board #result-window .table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+#board-container #board #result-window .table dt,
+#board-container #board #result-window .table dd {
+  padding: 10px;
+}
+
+#board-container #board #result-window .table dt {
+  font-weight: bold;
+  border-top: 1px solid #383e45;
+}
+
+#board-container #board #result-window .table dd {
+  border-top: 1px solid #383e45;
+  border-bottom: 1px solid #383e45;
+}
+
+#board-container #board #result-window #normal-result-table dt:nth-of-type(1),
+#board-container #board #result-window #normal-result-table dd:nth-of-type(1) {
+  width: 25%;
+}
+
+#board-container #board #result-window #normal-result-table dt:nth-of-type(2),
+#board-container #board #result-window #normal-result-table dd:nth-of-type(2) {
+  width: 25%;
+}
+
+#board-container #board #result-window #normal-result-table dt:nth-of-type(3),
+#board-container #board #result-window #normal-result-table dd:nth-of-type(3) {
+  width: 20%;
+}
+
+#board-container #board #result-window #normal-result-table dt:nth-of-type(4),
+#board-container #board #result-window #normal-result-table dd:nth-of-type(4) {
+  width: 30%;
+}
+
+#board-container #board #result-window #whack-mole-result-table dt,
+#board-container #board #result-window #whack-mole-result-table dd {
+  width: 20%;
+}
+
 #board-container #time-limit-counter {
   display: none;
 }
@@ -589,9 +647,17 @@ img {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  color: #747474;
   font-weight: bold;
   font-size: 24px;
+  color: #747474;
+}
+
+#board-container .circle .circle-inner #remaining-time-text.last-10 {
+  color: orange;
+}
+
+#board-container .circle .circle-inner #remaining-time-text.last-5 {
+  color: red;
 }
 
 /********************************

@@ -12,8 +12,8 @@ window.onload = function () {
   // 戻るボタン
   const backBtn = document.getElementById("back-btn");
 
-  // ミスタイプ音チェックボックス
-  const missSoundCheckBox = document.getElementById("miss-sound");
+  // 音声チェックボックス
+  const soundCheckBox = document.getElementById("sound");
 
   // タイピングナビチェックボックス
   const typingNaviCheckBox = document.getElementById("typing-navi");
@@ -34,7 +34,7 @@ window.onload = function () {
   const moleDurationSelectBox = document.getElementById("mole-duration");
 
   // もぐらたたき回数セレクトボックス
-  const whackMoleCountSelectBox = document.getElementById("whack-mole-count");
+  const whackMoleClearCountSelectBox = document.getElementById("whack-mole-clear-count");
 
   // 時間制限チェックボックス
   const settingTimeLimitCheckBox = document.getElementById("setting-time-limit");
@@ -44,6 +44,9 @@ window.onload = function () {
 
   // 残り時間カウンター
   const timeLimitCounter = document.getElementById("time-limit-counter");
+
+  // 残り時間テキスト
+  const remainingTimeTextElement = document.getElementById("remaining-time-text");
 
   // スタート画面
   const startWindow = document.getElementById("start-window");
@@ -60,17 +63,44 @@ window.onload = function () {
   // 結果画面
   const resultWindow = document.getElementById("result-window");
 
-  // 結果画面：タイプ数
+  // 結果表
+  const normalResultTable = document.getElementById("normal-result-table");
+
+  // 結果表：タイプ数
   const resultTypeCount = document.getElementById("type-count");
 
-  // 結果画面：ミスタイプ数
+  // 結果表：ミスタイプ数
   const resultMissTypeCount = document.getElementById("miss-type-count");
 
-  // 結果画面：ミスタイプキー
+  // 結果表：正答率
+  const resultCorrectPercentage = document.getElementById("correct-percentage");
+
+  // 結果表：ミスタイプキー
   const resultMissKey = document.getElementById("miss-key");
 
-  // 終了文字
-  const END_CHAR = "$";
+  // 結果表（もぐらたたき）
+  const whackMoleResultTable = document.getElementById("whack-mole-result-table");
+
+  // 結果表（もぐらたたき）：もぐら出現数
+  const resultWhackMoleShowCount = document.getElementById("whack-mole-show-count");
+
+  // 結果表（もぐらたたき）：叩いた数
+  const resultWhackMoleCount = document.getElementById("whack-mole-count");
+
+  // 結果表（もぐらたたき）：逃げられた数
+  const resultWhackMoleMissCount = document.getElementById("whack-mole-miss-count");
+
+  // 結果表（もぐらたたき）：撃破率
+  const resultWhackMolePercentage = document.getElementById("whack-mole-percentage");
+
+  // 結果表（もぐらたたき）：ミスタイプ数
+  const resultWhackMoleMissTypeCount = document.getElementById("whack-mole-miss-type-count");
+
+  // ミスタイプ音
+  const missTypeAudio = new Audio("audio/miss.mp3");
+
+  // ピコピコハンマー音
+  const pikopikoAudio = new Audio("audio/pikopiko.wav");
 
   // 選択カテゴリー
   let selectedId;
@@ -112,6 +142,7 @@ window.onload = function () {
   let missTypeKey = {};
 
   // 結果表示用（もぐらたたき）
+  let whackMoleShowCount = 0;
   let whackMoleMissCount = 0;
 
   // 制限時間タイマー制御用
@@ -186,8 +217,6 @@ window.onload = function () {
     },
     set(target, prop, value) {
       target[prop] = value;
-
-      // 該当の要素のテキスト変更
       changeDisplayText(prop + "-text", value);
     }
   });
@@ -203,16 +232,15 @@ window.onload = function () {
       target[prop] = value;
 
       // 残り時間表示テキスト更新
-      const remainingTimeTextElement = document.getElementById("remaining-time-text");
       remainingTimeTextElement.textContent = value / 1000;
 
       if (value === 10000) {
-        remainingTimeTextElement.style.color = "orange";
+        remainingTimeTextElement.classList.add("last-10");
       } else if (value === 5000) {
-        remainingTimeTextElement.style.color = "red";
+        remainingTimeTextElement.classList.remove("last-10");
+        remainingTimeTextElement.classList.add("last-5");
       } else if (value === 0) {
-        clearInterval(timeLimitIntervalId);
-        timeLimitCounter.style.display = "none";
+        remainingTimeTextElement.classList.remove("last-5");
         showResultWindow();
       }
     }
@@ -264,7 +292,6 @@ window.onload = function () {
       return;
     }
 
-    // チェックが付いた場合
     if (this.checked) {
       targetKeyElement.classList.add("target-key");
       targetFingerElement.classList.add("target-finger");
@@ -277,6 +304,9 @@ window.onload = function () {
   // キー入力処理設定
   window.addEventListener("keydown", keyAction);
 
+  /**
+   * データ初期化
+   */
   function clearData() {
     // 問題データ保持用
     questionData = [];
@@ -289,6 +319,7 @@ window.onload = function () {
     showedKey = [];
     canShowKey = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     canShowIndex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    whackMoleShowCount = 0;
     whackMoleMissCount = 0;
 
     // 結果表示用
@@ -309,6 +340,9 @@ window.onload = function () {
     removeForwardMatchClass("circle-", timeLimitCounter);
   }
 
+  /**
+   * ミスタイプキーのスタイル解除
+   */
   function clearMissTypeKeyStyle() {
     // 対象の要素
     const targetElements = document.getElementsByClassName("missed-key");
@@ -321,6 +355,11 @@ window.onload = function () {
     });
   }
 
+  /**
+   * 前方一致クラス名削除
+   * @param {String} pattern 検索文字列
+   * @param {HTMLElement} targetElement 対象の要素
+   */
   function removeForwardMatchClass(pattern, targetElement) {
     // 'pattern'-*のクラス名検索用正規表現
     const regExp = new RegExp(pattern + "\\S+", "g");
@@ -331,13 +370,16 @@ window.onload = function () {
     });
   }
 
+  /**
+   * 問題開始
+   */
   function startQuestion() {
     // 問題数の設定値チェック
     let pattern = /^[1-9]+[0-9]*$/;
     if (pattern.test(questionCountSelectBox.value)) {
       questionCount = Number(questionCountSelectBox.value);
     } else {
-      alert("問題数セレクトボックスに不正な値が選択されています。");
+      alert(ERROR_SELECT_QUESTION_COUNT);
       return;
     }
 
@@ -347,7 +389,7 @@ window.onload = function () {
       if (pattern.test(weakKeySelectBox.value)) {
         weakKey = weakKeySelectBox.value;
       } else {
-        alert("苦手キーセレクトボックスに不正な値が選択されています。");
+        alert(ERROR_SELECT_WEAK_KEY);
         return;
       }
     }
@@ -358,7 +400,7 @@ window.onload = function () {
       if (pattern.test(timeLimitSelectBox.value)) {
         timeLimit = timeLimitSelectBox.value;
       } else {
-        alert("時間制限セレクトボックスに不正な値が選択されています。");
+        alert(ERROR_SELECT_TIME_LIMIT);
         return;
       }
     }
@@ -368,25 +410,25 @@ window.onload = function () {
     if (pattern.test(showMoleIntervalSelectBox.value)) {
       showMoleInterval = Number(showMoleIntervalSelectBox.value);
     } else {
-      alert("もぐら出現間隔セレクトボックスに不正な値が選択されています。");
+      alert(ERROR_SELECT_SHOW_MOLE_INTERVAL);
       return;
     }
 
-    // もぐら出現間隔の設定値チェック
+    // もぐら滞在時間の設定値チェック
     pattern = /^[1-9]+[0-9]*$/;
     if (pattern.test(moleDurationSelectBox.value)) {
       moleDuration = Number(moleDurationSelectBox.value);
     } else {
-      alert("もぐら滞在時間セレクトボックスに不正な値が選択されています。");
+      alert(ERROR_SELECT_MOLE_DURATION);
       return;
     }
 
     // もぐらたたきクリア回数の設定値チェック
     pattern = /^[1-9]+[0-9]*$/;
-    if (pattern.test(whackMoleCountSelectBox.value)) {
-      settingWhackMoleCount = Number(whackMoleCountSelectBox.value);
+    if (pattern.test(whackMoleClearCountSelectBox.value)) {
+      settingWhackMoleCount = Number(whackMoleClearCountSelectBox.value);
     } else {
-      alert("もぐらたたきクリア回数セレクトボックスに不正な値が選択されています。");
+      alert(ERROR_SELECT_WHACK_MOLE_CLEAR_COUNT);
       return;
     }
 
@@ -425,6 +467,8 @@ window.onload = function () {
         timeLimitCounter.style.display = "block";
         timeLimitCounter.classList.add("circle-" + timeLimit);
         watchTimeObj.remainingTime = Number(timeLimit) * 1000;
+
+        // 1秒ずつカウント
         timeLimitIntervalId = setInterval(() => {
           watchTimeObj.remainingTime -= 1000;
         }, 1000);
@@ -448,17 +492,20 @@ window.onload = function () {
 
   }
 
+  /**
+   * もぐらたたき開始
+   */
   function startWhackMole() {
     canPlayWhackMole = true;
     whackMoleIntervalId = setInterval(() => {
-      const r = Math.floor(Math.random() * 300);
+      const adjustmentMillisecond = Math.floor(Math.random() * ADJUSTMENT_MAX_RANDOM_VALUE);
       setTimeout(() => {
         // 出現処理
         const key = shuffle(canShowKey).shift();
-        const index = shuffle(canShowIndex).shift();
         if (key === undefined) {
           return;
         }
+        const index = shuffle(canShowIndex).shift();
         const id = Math.random();
         showedKey.push({ key: key, index: index, id: id });
 
@@ -470,24 +517,30 @@ window.onload = function () {
         const area = document.getElementById("area-" + index);
         area.appendChild(imgElement);
 
+        // もぐら出現カウント
+        whackMoleShowCount++;
+
         // 一定時間経過後、削除処理
         setTimeout(() => {
           removeMoleAuto(key, id);
         }, moleDuration);
-      }, r);
+      }, adjustmentMillisecond);
 
     }, showMoleInterval);
   }
 
+  /**
+   * もぐら自動削除
+   * @param {String} keyChar キー文字列 
+   * @param {String} targetId 対象のid
+   */
   function removeMoleAuto(keyChar, targetId) {
     const targetIndex = showedKey.findIndex(item => item.key === keyChar);
     if (targetIndex !== -1) {
       const key = showedKey[targetIndex].key;
       const index = showedKey[targetIndex].index;
       const id = showedKey[targetIndex].id;
-      if (id !== targetId) {
-        return;
-      } else {
+      if (id === targetId) {
         const imgElement = document.getElementById(targetId);
         imgElement.parentNode.removeChild(imgElement);
         showedKey.splice(targetIndex, 1);
@@ -500,6 +553,11 @@ window.onload = function () {
     }
   }
 
+  /**
+   * もぐら手動削除
+   * @param {String} keyChar キー文字列
+   * @returns {Boolean} 削除されたかどうか
+   */
   function removeMoleManual(keyChar) {
     const targetIndex = showedKey.findIndex(item => item.key === keyChar);
     if (targetIndex !== -1) {
@@ -514,18 +572,24 @@ window.onload = function () {
       whackImgElement.setAttribute("class", "whack-img");
       const area = document.getElementById("area-" + index);
       area.appendChild(whackImgElement);
+      playSound(pikopikoAudio);
 
       showedKey.splice(targetIndex, 1);
       setTimeout(() => {
         whackImgElement.parentNode.removeChild(whackImgElement);
         canShowKey.push(key);
         canShowIndex.push(index);
-      }, 400);
+      }, WHACK_MOLE_EFFECT_IMAGE_DURATION);
       return true;
     }
     return false;
   }
 
+  /**
+   * 配列内容をシャッフル
+   * @param {Array} array 配列
+   * @returns {Array} シャッフルされた配列
+   */
   function shuffle(array) {
     let n = array.length, t, i;
 
@@ -539,6 +603,9 @@ window.onload = function () {
     return array;
   }
 
+  /**
+   * 問題表示テキスト初期化
+   */
   function initDisplayText() {
     currentQuetionData = questionData[currentQuestionIndex];
     currentTypingTextArray = currentQuetionData.typingText.split("");
@@ -551,21 +618,24 @@ window.onload = function () {
   }
 
   /**
-   * 
+   * 数値問題作成
    */
   function createNumTypingQuestion() {
-    // 問題生成
     for (let i = 0; i < questionCount; i++) {
-      let questionNum = Math.floor((Math.random() * 2 - 1) * 10000);
+      let questionNum = Math.floor((Math.random() * 2 - 1) * NUMBER_TYPING_QUESTION_MAX_VALUE);
+
+      // 苦手キー設定時、問題に含まれるまで再度作成
       if (settingWeakKeyCheckBox.checked) {
         while (String(questionNum).indexOf(weakKey) === -1) {
-          questionNum = Math.floor((Math.random() * 2 - 1) * 10000);
+          questionNum = Math.floor((Math.random() * 2 - 1) * NUMBER_TYPING_QUESTION_MAX_VALUE);
         }
       }
       const data = {
         questionText: String(questionNum),
         typingText: String(questionNum)
       };
+
+      // 作成した問題追加
       questionData.push(data);
     }
 
@@ -573,27 +643,33 @@ window.onload = function () {
     initDisplayText();
   }
 
+  /**
+   * 計算問題作成
+   */
   function createCalcTypingQuestion() {
-    // 問題生成
     for (let i = 0; i < questionCount; i++) {
       let questionText;
       let typingText;
 
       do {
+        // 乱数　0:加算、1:減算、2:乗算
         const type = Math.floor(Math.random() * 3);
         if (type === 0) {
-          const num1 = Math.floor((Math.random() * 2 - 1) * 100);
-          const num2 = Math.floor((Math.random() * 2 - 1) * 100);
+          // 加算
+          const num1 = Math.floor((Math.random() * 2 - 1) * ADDITION_QUESTION_MAX_VALUE);
+          const num2 = Math.floor((Math.random() * 2 - 1) * ADDITION_QUESTION_MAX_VALUE);
           questionText = String(num1 + " + " + num2);
           typingText = String(num1 + num2);
         } else if (type === 1) {
-          const num1 = Math.floor((Math.random() * 2 - 1) * 100);
-          const num2 = Math.floor((Math.random() * 2 - 1) * 100);
+          // 減算
+          const num1 = Math.floor((Math.random() * 2 - 1) * SUBTRACTION_QUESTION_MAX_VALUE);
+          const num2 = Math.floor((Math.random() * 2 - 1) * SUBTRACTION_QUESTION_MAX_VALUE);
           questionText = String(num1 + " - " + num2);
           typingText = String(num1 - num2);
         } else {
-          const num1 = Math.floor((Math.random() * 2 - 1) * 10);
-          const num2 = Math.floor((Math.random() * 2 - 1) * 10);
+          // 乗算
+          const num1 = Math.floor((Math.random() * 2 - 1) * MULTIPLICATION_QUESTION_MAX_VALUE);
+          const num2 = Math.floor((Math.random() * 2 - 1) * MULTIPLICATION_QUESTION_MAX_VALUE);
           questionText = String(num1 + " × " + num2);
           typingText = String(num1 * num2);
         }
@@ -603,6 +679,8 @@ window.onload = function () {
         questionText: questionText,
         typingText: typingText
       };
+
+      // 作成問題を追加
       questionData.push(data);
     }
 
@@ -611,14 +689,19 @@ window.onload = function () {
   }
 
   /**
-   * 
-   * @param {*} elementId 
-   * @param {*} newValue 
+   * 表示テキスト変更
+   * @param {String} elementId テキスト要素id
+   * @param {String} newValue 新しいテキスト 
    */
   function changeDisplayText(elementId, newValue) {
     document.getElementById(elementId).textContent = newValue;
   }
 
+  /**
+   * 結果表示用テキスト作成
+   * @param {Object} obj キー連想配列
+   * @returns {String} 結果表示用テキスト
+   */
   function formatKeySet(obj) {
     let result = "";
     let arr = Object.keys(obj).map(key => {
@@ -645,6 +728,11 @@ window.onload = function () {
     return result;
   }
 
+  /**
+   * ミスタイプキーのスタイル設定
+   * @param {Number} missTypeCount ミスタイプ数
+   * @param {Object} missTypeKey ミスタイプキー連想配列
+   */
   function fillMissKey(missTypeCount, missTypeKey) {
     Object.keys(missTypeKey).forEach(key => {
       const opacityType = Math.ceil((missTypeKey[key] / missTypeCount) * 10);
@@ -653,36 +741,76 @@ window.onload = function () {
     });
   }
 
+  /**
+   * 結果表示
+   */
   function showResultWindow() {
+    // 制限時間タイマーストップ処理
     if (settingTimeLimitCheckBox.checked) {
       clearInterval(timeLimitIntervalId);
+      timeLimitCounter.style.display = "none";
     }
 
     // タイピング判定無し
     canTypeKey = false;
 
     if (selectedId === "menu-1" || selectedId === "menu-2") {
+      // 問題画面非表示
+      questionWindow.style.display = "none";
+
+      // タイピングナビ初期化用
       watchKeyObj.targetKey = "";
       watchKeyObj.missTypeKey = "";
 
+      // 各結果値設定
       resultTypeCount.textContent = typeCount;
       resultMissTypeCount.textContent = missTypeCount;
+      resultCorrectPercentage.textContent = Math.floor((typeCount / (typeCount + missTypeCount)) * 100);
       resultMissKey.textContent = formatKeySet(missTypeKey);
+
+      // ミスキーのスタイル設定
       fillMissKey(missTypeCount, missTypeKey);
 
-      // 問題画面非表示
-      questionWindow.style.display = "none";
+      // 結果表表示
+      normalResultTable.style.display = "flex";
+      whackMoleResultTable.style.display = "none";
     } else if (selectedId === "menu-3") {
-      clearInterval(whackMoleIntervalId);
-      canPlayWhackMole = false;
       // もぐらたたき画面非表示
       whackMoleWindow.style.display = "none";
+      clearInterval(whackMoleIntervalId);
+      canPlayWhackMole = false;
+
+      // 各結果値設定
+      resultWhackMoleShowCount.textContent = whackMoleShowCount;
+      resultWhackMoleCount.textContent = typeCount;
+      resultWhackMoleMissCount.textContent = whackMoleMissCount;
+      resultWhackMolePercentage.textContent = Math.floor((typeCount / whackMoleShowCount) * 100);
+      resultWhackMoleMissTypeCount.textContent = missTypeCount;
+
+      // 結果表表示
+      whackMoleResultTable.style.display = "flex";
+      normalResultTable.style.display = "none";
     }
 
     // 結果画面表示
     resultWindow.style.display = "block";
   }
 
+  /**
+   * 音声再生
+   * @param {Audio} audio 音声データ
+   */
+  function playSound(audio) {
+    if (soundCheckBox.checked) {
+      audio.currentTime = 0;
+      audio.play();
+    }
+  }
+
+  /**
+   * キータイプ判定処理
+   * @param {*} e keydownイベント
+   */
   function keyAction(e) {
     if (canTypeKey) {
       // イベントキャンセル
@@ -696,7 +824,7 @@ window.onload = function () {
 
         // タイピング判定
         switch (checkInputKey(e.code, currentChar)) {
-          case 1: // 正しいタイピング時
+          case true: // 正しいタイピング時
 
             // タイプ数カウント
             typeCount++;
@@ -723,7 +851,7 @@ window.onload = function () {
               watchKeyObj.targetKey = nextChar;
             }
             break;
-          case 0: // ミスタイプ時
+          case false: // ミスタイプ時
 
             // カウント
             missTypeCount++;
@@ -736,11 +864,8 @@ window.onload = function () {
             // ミスタイプキーを点滅させる
             watchKeyObj.missTypeKey = currentChar;
 
-            //ミスタイプ音声
-            if (missSoundCheckBox.checked) {
-              // 音声を鳴らす
-
-            }
+            // 音声を鳴らす
+            playSound(missTypeAudio);
 
         }
 
@@ -760,6 +885,7 @@ window.onload = function () {
         } else {
           // 失敗時
           missTypeCount++;
+          playSound(missTypeAudio);
         }
       }
 
@@ -767,6 +893,11 @@ window.onload = function () {
     }
   }
 
+  /**
+   * 対象の指要素id取得
+   * @param {String} keyChar キー文字列
+   * @returns {String} 要素id
+   */
   function getTargetFingerId(keyChar) {
     // 左手小指
     const leftLittle = ["1", "q", "a", "z"];
@@ -807,9 +938,9 @@ window.onload = function () {
   }
 
   /**
-   * 
-   * @param {*} code 
-   * @returns 
+   * キーコードから文字列取得
+   * @param {String} code キーコード
+   * @returns {String} キー文字列
    */
   function getChar(code) {
     switch (code) {
@@ -845,19 +976,19 @@ window.onload = function () {
   }
 
   /**
-   * 
-   * @param {*} code 
-   * @param {*} targetChar 
-   * @returns 
+   * 入力キー判定
+   * @param {*} code キーコード
+   * @param {*} targetChar 対象の文字列
+   * @returns {Boolean} 入力キーが正しいかどうか
    */
   function checkInputKey(code, targetChar) {
     const inputChar = getChar(code);
 
     if (inputChar === targetChar) {
-      return 1;
+      return true;
     }
 
-    return 0;
+    return false;
   }
 
 
