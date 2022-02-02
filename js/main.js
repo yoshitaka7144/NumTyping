@@ -337,7 +337,7 @@ window.onload = function () {
 
     // 残り時間カウンターリセット
     timeLimitCounter.style.display = "none";
-    removeForwardMatchClass("circle-", timeLimitCounter);
+    removeForwardMatchClass("circle-", timeLimitCounter.firstElementChild);
   }
 
   /**
@@ -465,7 +465,7 @@ window.onload = function () {
       // 時間制限カウントスタート
       if (settingTimeLimitCheckBox.checked) {
         timeLimitCounter.style.display = "block";
-        timeLimitCounter.classList.add("circle-" + timeLimit);
+        timeLimitCounter.firstElementChild.classList.add("circle-" + timeLimit);
         watchTimeObj.remainingTime = Number(timeLimit) * 1000;
 
         // 1秒ずつカウント

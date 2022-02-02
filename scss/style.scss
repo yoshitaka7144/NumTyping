@@ -42,17 +42,24 @@ img {
 .wrapper {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 10px;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
 }
 
 /********************************
 ヘッダー
 ********************************/
 #header {
+  display: flex;
+  align-items: center;
+  height: 80px;
   background-color: rgb(236, 241, 243);
   .header-inner {
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px;
     .link-list {
       display: flex;
 
@@ -68,36 +75,36 @@ img {
 }
 
 /********************************
-メイン
+メインコンテンツ
 ********************************/
 #main-contents {
-  width: 100%;
-  padding: 20px;
+  width: 70%;
 }
 
 /********************************
 問題表示画面
 ********************************/
-#board-container {
+#window-container {
   width: 100%;
-  min-width: 600px;
-  height: 300px;
+  min-width: 650px;
+  height: 250px;
   margin: 0 auto;
-  padding: 10px;
   display: flex;
   justify-content: center;
-  background-color: #33894d;
-  border-style: solid;
-  border-width: 9px;
-  border-color: rgb(235, 142, 75) rgb(230, 125, 50) rgb(185, 93, 28) chocolate;
-  border-radius: 2px;
 
-  #board {
-    width: calc(100% - 90px);
+  #main-window {
+    width: 100%;
     height: 100%;
+    position: relative;
+    background-color: #33894d;
+    border-style: solid;
+    border-width: 9px;
+    border-color: rgb(235, 142, 75) rgb(230, 125, 50) rgb(185, 93, 28) chocolate;
+    border-radius: 2px;
 
     #start-window {
       display: flex;
+      width: 100%;
       height: 100%;
       padding: 20px;
 
@@ -200,6 +207,8 @@ img {
 
     #question-window {
       display: none;
+      width: 100%;
+      height: 100%;
 
       #question-text {
         font-size: 1.5rem;
@@ -297,6 +306,8 @@ img {
 
     #result-window {
       display: none;
+      width: 100%;
+      height: 100%;
 
       .btn-wrapper {
         display: flex;
@@ -345,129 +356,132 @@ img {
         }
       }
     }
-  }
 
-  #time-limit-counter {
-    display: none;
-  }
-
-  .circle {
-    $circle-width: 90px;
-    $circle-height: 90px;
-    $circle-inner-width: 70px;
-    $circle-inner-height: 70px;
-
-    position: relative;
-    width: $circle-width;
-    height: $circle-height;
-    background: #fff;
-    border-radius: 50%;
-    text-align: center;
-    overflow: hidden;
-    z-index: 1;
-
-    &::before {
-      content: "";
-      display: block;
+    #time-limit-counter {
+      display: none;
       position: absolute;
       top: 0;
-      left: calc(-#{$circle-width} / 2);
-      width: $circle-width;
-      height: $circle-height;
-      background: rgb(59, 221, 132);
-      transform-origin: right calc(#{$circle-width} / 2);
-      z-index: 2;
-      animation-name: rotate-circle-left;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-    }
+      right: 0;
 
-    &::after {
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0px;
-      left: calc(#{$circle-width} / 2);
-      width: $circle-width;
-      height: $circle-height;
-      background: rgb(59, 221, 132);
-      transform-origin: left calc(#{$circle-width} / 2);
-      z-index: 3;
-      animation-name: rotate-circle-right;
-      animation-timing-function: linear;
-      animation-fill-mode: forwards;
-    }
+      .circle {
+        $circle-width: 84px;
+        $circle-height: 84px;
+        $circle-inner-width: 64px;
+        $circle-inner-height: 64px;
 
-    $times: 15, 30, 45, 60, 90, 120;
-    @each $time in $times {
-      &.circle-#{$time}::after,
-      &.circle-#{$time}::before {
-        animation-duration: #{$time}s;
-      }
-    }
-
-    @keyframes rotate-circle-right {
-      0% {
-        transform: rotate(0deg);
-        background: rgb(59, 221, 132);
-      }
-      50% {
-        transform: rotate(180deg);
-        background: rgb(59, 221, 132);
-      }
-      50.01% {
-        transform: rotate(360deg);
+        position: relative;
+        width: $circle-width;
+        height: $circle-height;
         background: #fff;
-      }
-      100% {
-        transform: rotate(360deg);
-        background: #fff;
-      }
-    }
+        border-radius: 50%;
+        text-align: center;
+        overflow: hidden;
+        z-index: 1;
 
-    @keyframes rotate-circle-left {
-      0% {
-        transform: rotate(0deg);
-        background: rgb(59, 221, 132);
-      }
-      50% {
-        transform: rotate(0deg);
-        background: rgb(59, 221, 132);
-      }
-      75% {
-        transform: rotate(90deg);
-        background: orange;
-      }
-      100% {
-        transform: rotate(180deg);
-        background: red;
-      }
-    }
-
-    .circle-inner {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: $circle-inner-width;
-      height: $circle-inner-height;
-      background: #fbf4df;
-      border-radius: 50%;
-      z-index: 4;
-      #remaining-time-text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-weight: bold;
-        font-size: 24px;
-        color: #747474;
-        
-        &.last-10 {
-          color: orange;
+        &::before {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0;
+          left: calc(-#{$circle-width} / 2);
+          width: $circle-width;
+          height: $circle-height;
+          background: rgb(59, 221, 132);
+          transform-origin: right calc(#{$circle-width} / 2);
+          z-index: 2;
+          animation-name: rotate-circle-left;
+          animation-timing-function: linear;
+          animation-fill-mode: forwards;
         }
-        &.last-5 {
-          color: red;
+
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0px;
+          left: calc(#{$circle-width} / 2);
+          width: $circle-width;
+          height: $circle-height;
+          background: rgb(59, 221, 132);
+          transform-origin: left calc(#{$circle-width} / 2);
+          z-index: 3;
+          animation-name: rotate-circle-right;
+          animation-timing-function: linear;
+          animation-fill-mode: forwards;
+        }
+
+        $times: 15, 30, 45, 60, 90, 120;
+        @each $time in $times {
+          &.circle-#{$time}::after,
+          &.circle-#{$time}::before {
+            animation-duration: #{$time}s;
+          }
+        }
+
+        @keyframes rotate-circle-right {
+          0% {
+            transform: rotate(0deg);
+            background: rgb(59, 221, 132);
+          }
+          50% {
+            transform: rotate(180deg);
+            background: rgb(59, 221, 132);
+          }
+          50.01% {
+            transform: rotate(360deg);
+            background: #fff;
+          }
+          100% {
+            transform: rotate(360deg);
+            background: #fff;
+          }
+        }
+
+        @keyframes rotate-circle-left {
+          0% {
+            transform: rotate(0deg);
+            background: rgb(59, 221, 132);
+          }
+          50% {
+            transform: rotate(0deg);
+            background: rgb(59, 221, 132);
+          }
+          75% {
+            transform: rotate(90deg);
+            background: orange;
+          }
+          100% {
+            transform: rotate(180deg);
+            background: red;
+          }
+        }
+
+        .circle-inner {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: $circle-inner-width;
+          height: $circle-inner-height;
+          background: #fbf4df;
+          border-radius: 50%;
+          z-index: 4;
+          #remaining-time-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 24px;
+            color: #747474;
+
+            &.last-10 {
+              color: orange;
+            }
+            &.last-5 {
+              color: red;
+            }
+          }
         }
       }
     }
@@ -479,115 +493,15 @@ img {
 ********************************/
 #typing-container {
   display: flex;
+  flex-direction: column;
   width: 100%;
   margin-top: 20px;
 }
 
 /********************************
-タイピング設定
-********************************/
-#typing-setting {
-  width: 25%;
-  background-color: #33894d;
-  border-style: solid;
-  border-width: 9px;
-  border-color: rgb(235, 142, 75) rgb(230, 125, 50) rgb(185, 93, 28) chocolate;
-  border-radius: 2px;
-
-  .checkbox-wrapper {
-    .checkbox {
-      display: none;
-
-      + label {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-        padding: 15px 0px 15px 55px;
-
-        &::before,
-        &::after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-
-        &::before {
-          width: 38px;
-          height: 18px;
-          left: 0;
-          border: 1px solid #e4e3e1;
-          border-radius: 18px;
-          background: #ffffff;
-        }
-
-        &::after {
-          width: 19px;
-          height: 18px;
-          left: 0;
-          border: 1px solid #e4e3e1;
-          border-radius: 50%;
-          background: #bdbdbd;
-          transition: all 0.3s ease-out;
-        }
-      }
-
-      &:checked + label::after {
-        left: 19px;
-        background: #3cc2da;
-      }
-
-      &:not(:checked) ~ .select-wrapper {
-        display: none;
-      }
-    }
-  }
-
-  .select-wrapper {
-    display: inline-block;
-    width: 70px;
-    position: relative;
-    border: 2px solid rgb(111, 226, 247);
-    border-radius: 35px;
-    background: #ffffff;
-
-    &::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      right: 15px;
-      transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-top: 5px solid #383e45;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-    }
-
-    .select {
-      width: 100%;
-      cursor: pointer;
-      border: none;
-      outline: none;
-      background: transparent;
-      background-image: none;
-      box-shadow: none;
-      appearance: none;
-      padding: 3px 30px 3px 10px;
-    }
-  }
-}
-
-/********************************
-タイピング
-********************************/
-#typing-tool {
-  width: 75%;
-}
-
-/********************************
 キーボード
 ********************************/
+$keyboard-color: #eeeded;
 $key-color: rgb(156, 156, 156);
 $key-background-color: white;
 $key-border-color: #d8d8d8;
@@ -602,6 +516,9 @@ $miss-key-background-color: red;
   justify-content: center;
   margin-bottom: 10px;
   #keyboard {
+    padding: 15px;
+    border-radius: 10px;
+    background-color: $keyboard-color;
     .row {
       display: flex;
       margin-bottom: 5px;
@@ -631,6 +548,10 @@ $miss-key-background-color: red;
           left: 50%;
           transform: translate(-50%, -50%);
         }
+      }
+
+      .not-use {
+        background-color: $keyboard-color;
       }
 
       .target-key {
@@ -792,6 +713,126 @@ $target-finger-color: orange;
 }
 
 /********************************
+サイドコンテンツ
+********************************/
+#side-contents {
+  width: calc(30% - 10px);
+  margin-left: 10px;
+  display: flex;
+  z-index: 100;
+
+  #side-menu-hamburger {
+    display: none;
+  }
+
+  #setting-window {
+    width: 100%;
+    padding: 10px 15px;
+    border: 3px solid #3cc2da;
+    border-radius: 10px;
+    background-color: white;
+
+    .checkbox-wrapper {
+      .checkbox {
+        display: none;
+
+        + label {
+          position: relative;
+          display: inline-block;
+          cursor: pointer;
+          padding: 15px 0px 15px 55px;
+
+          &::before,
+          &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+
+          &::before {
+            width: 38px;
+            height: 18px;
+            left: 0;
+            border: 1px solid #e4e3e1;
+            border-radius: 18px;
+            background: #ffffff;
+          }
+
+          &::after {
+            width: 19px;
+            height: 18px;
+            left: 0;
+            border: 1px solid #e4e3e1;
+            border-radius: 50%;
+            background: #bdbdbd;
+            transition: all 0.3s ease-out;
+          }
+        }
+
+        &:checked + label::after {
+          left: 19px;
+          background: #3cc2da;
+        }
+
+        &:not(:checked) ~ .select-wrapper {
+          display: none;
+        }
+      }
+    }
+
+    .select-wrapper {
+      display: inline-block;
+      width: 70px;
+      position: relative;
+      border: 2px solid rgb(111, 226, 247);
+      border-radius: 35px;
+      background: #ffffff;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-top: 5px solid #383e45;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+      }
+
+      .select {
+        width: 100%;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        background: transparent;
+        background-image: none;
+        box-shadow: none;
+        appearance: none;
+        padding: 3px 30px 3px 10px;
+      }
+    }
+  }
+}
+
+/********************************
+背景マスク
+********************************/
+#background-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 80px);
+  visibility: hidden;
+  opacity: 0;
+  transition: 0.3s;
+  background: #000;
+}
+
+/********************************
 フッター
 ********************************/
 #footer {
@@ -803,17 +844,71 @@ $target-finger-color: orange;
   }
 }
 
-@media screen and (max-width: 850px) {
-  #typing-container {
-    flex-direction: column;
+@media screen and (max-width: 950px) {
+  #main-contents {
+    width: 100%;
+  }
 
-    #typing-setting {
-      width: 100%;
-      margin-top: 20px;
+  #side-contents {
+    width: 50%;
+    margin-left: 0;
+    position: absolute;
+    top: 50%;
+    right: calc(-50% + 50px);
+
+    &:focus-within {
+      right: 0;
+
+      & ~ #background-mask {
+        visibility: visible;
+        opacity: 0.6;
+      }
+
+      #side-menu-hamburger {
+        pointer-events: none;
+        span:nth-child(1) {
+          top: 50%;
+          transform: translate(-50%, -50%) rotate(45deg);
+        }
+        span:nth-child(2) {
+          display: none;
+        }
+        span:nth-child(3) {
+          top: 50%;
+          transform: translate(-50%, -50%) rotate(-45deg);
+        }
+      }
     }
 
-    #typing-tool {
-      width: 100%;
+    #side-menu-hamburger {
+      cursor: pointer;
+      display: block;
+      position: relative;
+      width: 50px;
+      height: 50px;
+      background-color: #a0e1ec;
+      span {
+        position: absolute;
+        width: 50%;
+        height: 2px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #747474;
+        transition: all 0.3s;
+      }
+      span:nth-child(1) {
+        top: 30%;
+      }
+      span:nth-child(2) {
+        top: 50%;
+      }
+      span:nth-child(3) {
+        top: 70%;
+      }
+    }
+
+    #setting-window {
+      width: calc(100% - 50px);
     }
   }
 }

@@ -27,99 +27,101 @@
       </div>
     </header>
     <main>
-      <div id="main-contents" class="wrapper">
-        <div id="board-container">
-          <div id="board">
-            <div id="start-window">
-              <div class="menu">
-                <input type="radio" name="menu" id="menu-1" value="menu-1" checked>
-                <label for="menu-1">数値</label>
-                <input type="radio" name="menu" id="menu-2" value="menu-2">
-                <label for="menu-2">計算問題</label>
-                <input type="radio" name="menu" id="menu-3" value="menu-3">
-                <label for="menu-3">数字もぐらたたき</label>
-              </div>
-              <div class="description">
-                <div class="text-area">
-                  <p id="description-text">
-                    <span id="menu-1-text">ああああ</span>
-                    <span id="menu-2-text">いいいい</span>
-                    <span id="menu-3-text">うううう</span>
-                  </p>
-                  <button id="start-btn" class="btn">スタート</button>
+      <div class="wrapper">
+        <div id="main-contents">
+          <div id="window-container">
+            <div id="main-window">
+              <div id="start-window">
+                <div class="menu">
+                  <input type="radio" name="menu" id="menu-1" value="menu-1" checked>
+                  <label for="menu-1">数値</label>
+                  <input type="radio" name="menu" id="menu-2" value="menu-2">
+                  <label for="menu-2">計算問題</label>
+                  <input type="radio" name="menu" id="menu-3" value="menu-3">
+                  <label for="menu-3">数字もぐらたたき</label>
                 </div>
-                <img id="description-img" src="" alt="">
+                <div class="description">
+                  <div class="text-area">
+                    <p id="description-text">
+                      <span id="menu-1-text">ああああ</span>
+                      <span id="menu-2-text">いいいい</span>
+                      <span id="menu-3-text">うううう</span>
+                    </p>
+                    <button id="start-btn" class="btn">スタート</button>
+                  </div>
+                  <img id="description-img" src="" alt="">
+                </div>
               </div>
-            </div>
-            <div id="count-down-window">
-              <p>3</p>
-              <p>2</p>
-              <p>1</p>
-            </div>
-            <div id="question-window">
-              <p id="question-text"></p>
-              <p class="typing-text">
-                <span id="inputed-text"></span>
-                <span id="remaining-text"></span>
-              </p>
-            </div>
-            <div id="whack-mole-window">
-              <dl class="whack-mole-table">
-                <dd id="area-0"></dd>
-                <dd id="area-1"></dd>
-                <dd id="area-2"></dd>
-                <dd id="area-3"></dd>
-                <dd id="area-4"></dd>
-                <dd id="area-5"></dd>
-                <dd id="area-6"></dd>
-                <dd id="area-7"></dd>
-                <dd id="area-8"></dd>
-                <dd id="area-9"></dd>
-                <dd id="area-10"></dd>
-                <dd id="area-11"></dd>
-              </dl>
-            </div>
-            <div id="result-window">
-              <dl id="normal-result-table" class="table">
-                <dt>正解タイプ数</dt>
-                <dt>ミスタイプ数</dt>
-                <dt>正答率</dt>
-                <dt>ミスキー（文字：回数）</dt>
-                <dd id="type-count"></dd>
-                <dd id="miss-type-count"></dd>
-                <dd id="correct-percentage"></dd>
-                <dd id="miss-key"></dd>
-              </dl>
-              <dl id="whack-mole-result-table" class="table">
-                <dt>もぐら出現数</dt>
-                <dt>叩けた数</dt>
-                <dt>逃げられた数</dt>
-                <dt>撃破率</dt>
-                <dt>ミスタイプ数</dt>
-                <dd id="whack-mole-show-count"></dd>
-                <dd id="whack-mole-count"></dd>
-                <dd id="whack-mole-miss-count"></dd>
-                <dd id="whack-mole-percentage"></dd>
-                <dd id="whack-mole-miss-type-count"></dd>
-              </dl>
-              <div class="btn-wrapper">
-                <button id="retry-btn" class="btn">もう一度</button>
-                <button id="back-btn" class="btn">トップへ戻る</button>
+              <div id="count-down-window">
+                <p>3</p>
+                <p>2</p>
+                <p>1</p>
+              </div>
+              <div id="question-window">
+                <p id="question-text"></p>
+                <p class="typing-text">
+                  <span id="inputed-text"></span>
+                  <span id="remaining-text"></span>
+                </p>
+              </div>
+              <div id="whack-mole-window">
+                <dl class="whack-mole-table">
+                  <dd id="area-0"></dd>
+                  <dd id="area-1"></dd>
+                  <dd id="area-2"></dd>
+                  <dd id="area-3"></dd>
+                  <dd id="area-4"></dd>
+                  <dd id="area-5"></dd>
+                  <dd id="area-6"></dd>
+                  <dd id="area-7"></dd>
+                  <dd id="area-8"></dd>
+                  <dd id="area-9"></dd>
+                  <dd id="area-10"></dd>
+                  <dd id="area-11"></dd>
+                </dl>
+              </div>
+              <div id="result-window">
+                <dl id="normal-result-table" class="table">
+                  <dt>正解タイプ数</dt>
+                  <dt>ミスタイプ数</dt>
+                  <dt>正答率</dt>
+                  <dt>ミスキー（文字：回数）</dt>
+                  <dd id="type-count"></dd>
+                  <dd id="miss-type-count"></dd>
+                  <dd id="correct-percentage"></dd>
+                  <dd id="miss-key"></dd>
+                </dl>
+                <dl id="whack-mole-result-table" class="table">
+                  <dt>もぐら出現数</dt>
+                  <dt>叩けた数</dt>
+                  <dt>逃げられた数</dt>
+                  <dt>撃破率</dt>
+                  <dt>ミスタイプ数</dt>
+                  <dd id="whack-mole-show-count"></dd>
+                  <dd id="whack-mole-count"></dd>
+                  <dd id="whack-mole-miss-count"></dd>
+                  <dd id="whack-mole-percentage"></dd>
+                  <dd id="whack-mole-miss-type-count"></dd>
+                </dl>
+                <div class="btn-wrapper">
+                  <button id="retry-btn" class="btn">もう一度</button>
+                  <button id="back-btn" class="btn">トップへ戻る</button>
+                </div>
+              </div>
+              <div id="time-limit-counter">
+                <div class="circle">
+                  <div class="circle-inner">
+                    <span id="remaining-time-text"></span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div id="time-limit-counter" class="circle">
-            <div class="circle-inner">
-              <span id="remaining-time-text"></span>
-            </div>
-          </div>
-        </div>
-        <div id="typing-container">
-          <div id="typing-tool">
+          <div id="typing-container">
             <div id="keyboard-container">
               <div id="keyboard">
                 <div class="row">
-                  <div class="key"></div>
+                  <div class="key not-use"></div>
                   <div id="key-1" class="key">
                     <p>1</p>
                   </div>
@@ -153,130 +155,130 @@
                   <div id="key--" class="key">
                     <p>-</p>
                   </div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div class="key"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
                 </div>
 
                 <div class="row">
-                  <div id="key-tab" class="key"></div>
-                  <div id="key-q" class="key">
+                  <div id="key-tab" class="key not-use"></div>
+                  <div id="key-q" class="key not-use">
                     <p>Q</p>
                   </div>
-                  <div id="key-w" class="key">
+                  <div id="key-w" class="key not-use">
                     <p>W</p>
                   </div>
-                  <div id="key-e" class="key">
+                  <div id="key-e" class="key not-use">
                     <p>E</p>
                   </div>
-                  <div id="key-r" class="key">
+                  <div id="key-r" class="key not-use">
                     <p>R</p>
                   </div>
-                  <div id="key-t" class="key">
+                  <div id="key-t" class="key not-use">
                     <p>T</p>
                   </div>
-                  <div id="key-y" class="key">
+                  <div id="key-y" class="key not-use">
                     <p>Y</p>
                   </div>
-                  <div id="key-u" class="key">
+                  <div id="key-u" class="key not-use">
                     <p>U</p>
                   </div>
-                  <div id="key-i" class="key">
+                  <div id="key-i" class="key not-use">
                     <p>I</p>
                   </div>
-                  <div id="key-o" class="key">
+                  <div id="key-o" class="key not-use">
                     <p>O</p>
                   </div>
-                  <div id="key-p" class="key">
+                  <div id="key-p" class="key not-use">
                     <p>P</p>
                   </div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div id="key-enter-1"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div id="key-enter-1" class="not-use"></div>
                 </div>
 
                 <div class="row">
-                  <div id="key-caps" class="key"></div>
-                  <div id="key-a" class="key">
+                  <div id="key-caps" class="key not-use"></div>
+                  <div id="key-a" class="key not-use">
                     <p>A</p>
                   </div>
-                  <div id="key-s" class="key">
+                  <div id="key-s" class="key not-use">
                     <p>S</p>
                   </div>
-                  <div id="key-d" class="key">
+                  <div id="key-d" class="key not-use">
                     <p>D</p>
                   </div>
-                  <div id="key-f" class="key">
+                  <div id="key-f" class="key not-use">
                     <p>F</p>
                   </div>
-                  <div id="key-g" class="key">
+                  <div id="key-g" class="key not-use">
                     <p>G</p>
                   </div>
-                  <div id="key-h" class="key">
+                  <div id="key-h" class="key not-use">
                     <p>H</p>
                   </div>
-                  <div id="key-j" class="key">
+                  <div id="key-j" class="key not-use">
                     <p>J</p>
                   </div>
-                  <div id="key-k" class="key">
+                  <div id="key-k" class="key not-use">
                     <p>K</p>
                   </div>
-                  <div id="key-l" class="key">
+                  <div id="key-l" class="key not-use">
                     <p>L</p>
                   </div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div id="key-enter-2"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div id="key-enter-2" class="not-use"></div>
                 </div>
 
                 <div class="row">
-                  <div id="key-shift-left" class="key"></div>
-                  <div id="key-z" class="key">
+                  <div id="key-shift-left" class="key not-use"></div>
+                  <div id="key-z" class="key not-use">
                     <p>Z</p>
                   </div>
-                  <div id="key-x" class="key">
+                  <div id="key-x" class="key not-use">
                     <p>X</p>
                   </div>
-                  <div id="key-c" class="key">
+                  <div id="key-c" class="key not-use">
                     <p>C</p>
                   </div>
-                  <div id="key-v" class="key">
+                  <div id="key-v" class="key not-use">
                     <p>V</p>
                   </div>
-                  <div id="key-b" class="key">
+                  <div id="key-b" class="key not-use">
                     <p>B</p>
                   </div>
-                  <div id="key-n" class="key">
+                  <div id="key-n" class="key not-use">
                     <p>N</p>
                   </div>
-                  <div id="key-m" class="key">
+                  <div id="key-m" class="key not-use">
                     <p>M</p>
                   </div>
-                  <div id="key-," class="key">
+                  <div id="key-," class="key not-use">
                     <p>,</p>
                   </div>
-                  <div id="key-." class="key">
+                  <div id="key-." class="key not-use">
                     <p>.</p>
                   </div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div id="key-shift-right" class="key"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div id="key-shift-right" class="key not-use"></div>
                 </div>
 
                 <div class="row">
-                  <div id="key-ctrl" class="key"></div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div id="key-space" class="key"></div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div class="key"></div>
-                  <div class="key"></div>
+                  <div id="key-ctrl" class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div id="key-space" class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
+                  <div class="key not-use"></div>
                 </div>
               </div>
             </div>
@@ -297,8 +299,14 @@
               </div>
             </div>
           </div>
-          <div id="typing-setting">
-            <p class="setting-title">設定</p>
+        </div>
+        <div id="side-contents">
+          <div id="side-menu-hamburger" tabindex="0">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div id="setting-window" tabindex="0">
             <div class="label-wrapper">
               <label for="question-count">問題数</label>
               <div class="select-wrapper">
@@ -422,6 +430,7 @@
             </div>
           </div>
         </div>
+        <div id="background-mask"></div>
       </div>
     </main>
     <footer id="footer">
