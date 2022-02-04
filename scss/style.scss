@@ -8,6 +8,7 @@ body {
   box-sizing: border-box;
   font-size: 0.9rem;
   color: #383e45;
+  background-color: #faf5ff;
 }
 
 a {
@@ -96,11 +97,29 @@ img {
     width: 100%;
     height: 100%;
     position: relative;
-    background-color: #33894d;
-    border-style: solid;
-    border-width: 9px;
-    border-color: rgb(235, 142, 75) rgb(230, 125, 50) rgb(185, 93, 28) chocolate;
-    border-radius: 2px;
+    background-color: #006633;
+    border: 8px solid #c1beb9;
+    border-radius: 3px;
+    box-shadow: 0 0 5px #333, 0 0 5px #555 inset;
+
+    &::before,
+    &::after {
+      position: absolute;
+      content: "";
+      bottom: 0;
+    }
+    &::before {
+      right: 10px;
+      border: solid 3px #fff;
+      width: 20px;
+      border-radius: 3px 2px 0 2px;
+    }
+    &::after {
+      right: 40px;
+      border: solid 3px orange;
+      width: 25px;
+      border-radius: 8px 5px 2px 5px;
+    }
 
     #start-window {
       display: flex;
@@ -495,7 +514,11 @@ img {
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-top: 20px;
   margin-top: 20px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(208, 147, 82, 0.6), rgba(192, 134, 70, 0.6) 60%, rgba(208, 147, 82, 0.6)),
+    repeating-radial-gradient(ellipse at 60% 500%, #c08646, #c08646 0.2%, #d09352 0.6%, #d09352 1%);
 }
 
 /********************************
@@ -519,6 +542,7 @@ $miss-key-background-color: red;
     padding: 15px;
     border-radius: 10px;
     background-color: $keyboard-color;
+    box-shadow: 3px 3px 3px #606468, -1px -1px 3px #606468;
     .row {
       display: flex;
       margin-bottom: 5px;
@@ -663,6 +687,7 @@ $miss-key-background-color: red;
 キーボード対応指
 ********************************/
 $finger-border-color: #d8d8d8;
+$finger-color: white;
 $target-finger-color: orange;
 #hand-container {
   display: flex;
@@ -677,8 +702,10 @@ $target-finger-color: orange;
     align-items: flex-end;
 
     .finger {
+      background-color: $finger-color;
       border: 1px solid $finger-border-color;
       border-radius: 20px 20px 0 0;
+      box-shadow: 1px 0px 2px #ccc;
       margin-right: 10px;
       width: 35px;
       &:last-child {
@@ -719,18 +746,61 @@ $target-finger-color: orange;
   width: calc(30% - 10px);
   margin-left: 10px;
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   z-index: 100;
 
-  #side-menu-hamburger {
-    display: none;
+  #side-menu-title {
+    cursor: default;
+    width: 100%;
+    padding: 5px 0 0 0;
+    background-color: #5fb3f5;
+    border-radius: 10px 10px 0 0;
+    box-shadow: none;
+
+    .hamburger {
+      display: none;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 1.5rem;
+      color: white;
+      font-weight: bold;
+      writing-mode: unset;
+    }
   }
 
   #setting-window {
     width: 100%;
-    padding: 10px 15px;
-    border: 3px solid #3cc2da;
-    border-radius: 10px;
+    padding: 10px;
+    border: 3px solid #5fb3f5;
+    border-radius: 0 0 10px 10px;
     background-color: white;
+    position: relative;
+
+    .tab-box {
+      position: relative;
+      width: 100%;
+      margin: 2.3rem auto 0 auto;
+      padding: 10px;
+      border: 2px solid #8d93c8;
+      border-radius: 0 10px 10px 10px;
+      box-shadow: 2px 2px 2px #ccc;
+
+      .title {
+        position: absolute;
+        display: inline-block;
+        top: -28px;
+        left: -2px;
+        padding: 5px;
+        height: 26px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #8d93c8;
+        border-radius: 8px 8px 0 0;
+      }
+    }
 
     .checkbox-wrapper {
       .checkbox {
@@ -852,6 +922,7 @@ $target-finger-color: orange;
   #side-contents {
     width: 50%;
     margin-left: 0;
+    flex-direction: row;
     position: absolute;
     top: 50%;
     right: calc(-50% + 50px);
@@ -864,51 +935,72 @@ $target-finger-color: orange;
         opacity: 0.6;
       }
 
-      #side-menu-hamburger {
+      #side-menu-title {
         pointer-events: none;
-        span:nth-child(1) {
-          top: 50%;
-          transform: translate(-50%, -50%) rotate(45deg);
-        }
-        span:nth-child(2) {
-          display: none;
-        }
-        span:nth-child(3) {
-          top: 50%;
-          transform: translate(-50%, -50%) rotate(-45deg);
+        .hamburger {
+          span:nth-child(1) {
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+          }
+          span:nth-child(2) {
+            display: none;
+          }
+          span:nth-child(3) {
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+          }
         }
       }
     }
 
-    #side-menu-hamburger {
+    #side-menu-title {
       cursor: pointer;
-      display: block;
-      position: relative;
       width: 50px;
-      height: 50px;
-      background-color: #a0e1ec;
-      span {
-        position: absolute;
-        width: 50%;
-        height: 2px;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #747474;
-        transition: all 0.3s;
+      padding: 0 10px 10px 10px;
+      background-color: #5fb3f5;
+      border-radius: 10px 0 0 10px;
+      box-shadow: 0 2px 10px #747474;
+
+      &:hover {
+        background-color: #78c0f7;
       }
-      span:nth-child(1) {
-        top: 30%;
+
+      .hamburger {
+        display: block;
+        width: 100%;
+        height: 50px;
+        position: relative;
+        span {
+          position: absolute;
+          width: 80%;
+          height: 2px;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background-color: #ffffff;
+          transition: all 0.3s;
+        }
+        span:nth-child(1) {
+          top: 30%;
+        }
+        span:nth-child(2) {
+          top: 50%;
+        }
+        span:nth-child(3) {
+          top: 70%;
+        }
       }
-      span:nth-child(2) {
-        top: 50%;
-      }
-      span:nth-child(3) {
-        top: 70%;
+
+      .title {
+        margin: auto;
+        font-size: 1.2rem;
+        color: white;
+        writing-mode: vertical-rl;
       }
     }
 
     #setting-window {
       width: calc(100% - 50px);
+      border-radius: 0 10px 10px 10px;
     }
   }
 }
