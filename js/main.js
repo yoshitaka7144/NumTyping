@@ -1,7 +1,7 @@
 window.onload = function () {
 
   // ジャンルボタン
-  const radioBtns = document.querySelectorAll("input[type='radio']");
+  const menuBtns = document.querySelectorAll("input[name='menu']");
 
   // スタートボタン
   const startBtn = document.getElementById("start-btn");
@@ -27,11 +27,11 @@ window.onload = function () {
   // 問題数セレクトボックス
   const questionCountSelectBox = document.getElementById("question-count");
 
-  // もぐら出現間隔セレクトボックス
-  const showMoleIntervalSelectBox = document.getElementById("show-mole-interval");
+  // もぐら出現間隔ボタン
+  const showMoleIntervalBtns = document.querySelectorAll("input[name='show-mole-interval']");
 
   // もぐら滞在時間セレクトボックス
-  const moleDurationSelectBox = document.getElementById("mole-duration");
+  const moleDurationBtns = document.querySelectorAll("input[name='mole-duration']");
 
   // もぐらたたき回数セレクトボックス
   const whackMoleClearCountSelectBox = document.getElementById("whack-mole-clear-count");
@@ -247,10 +247,10 @@ window.onload = function () {
   });
 
   // 各ジャンルボタンへイベント設定
-  for (let radio of radioBtns) {
+  for (let radio of menuBtns) {
     radio.addEventListener("change", function () {
       if (this.checked) {
-        for (let i = 1; i <= radioBtns.length; i++) {
+        for (let i = 1; i <= menuBtns.length; i++) {
           document.getElementById("menu-" + i + "-text").style.display = "none";
         }
         document.getElementById(radio.id + "-text").style.display = "block";
@@ -406,20 +406,40 @@ window.onload = function () {
     }
 
     // もぐら出現間隔の設定値チェック
+    let isCheckedShowMoleInterval = false;
     pattern = /^[1-9]+[0-9]*$/;
-    if (pattern.test(showMoleIntervalSelectBox.value)) {
-      showMoleInterval = Number(showMoleIntervalSelectBox.value);
-    } else {
-      alert(ERROR_SELECT_SHOW_MOLE_INTERVAL);
+    showMoleIntervalBtns.forEach(button => {
+      if (button.checked) {
+        if (pattern.test(button.value)) {
+          showMoleInterval = Number(button.value);
+          isCheckedShowMoleInterval = true;
+        } else {
+          alert(ERROR_SELECT_SHOW_MOLE_INTERVAL);
+          return;
+        }
+      }
+    });
+    if(!isCheckedShowMoleInterval){
+      alert(NOT_CHECKED_SHOW_MOLE_INTERVAL);
       return;
     }
 
     // もぐら滞在時間の設定値チェック
+    let isCheckedMoleDuration = false;
     pattern = /^[1-9]+[0-9]*$/;
-    if (pattern.test(moleDurationSelectBox.value)) {
-      moleDuration = Number(moleDurationSelectBox.value);
-    } else {
-      alert(ERROR_SELECT_MOLE_DURATION);
+    moleDurationBtns.forEach(button => {
+      if (button.checked) {
+        if (pattern.test(button.value)) {
+          moleDuration = Number(button.value);
+          isCheckedMoleDuration = true;
+        } else {
+          alert(ERROR_MOLE_DURATION);
+          return;
+        }
+      }
+    });
+    if(!isCheckedMoleDuration){
+      alert(NOT_CHECKED_MOLE_DURATION);
       return;
     }
 
@@ -434,7 +454,7 @@ window.onload = function () {
 
 
     // 選択カテゴリー
-    for (let radio of radioBtns) {
+    for (let radio of menuBtns) {
       if (radio.checked) {
         selectedId = radio.id;
         break;

@@ -379,8 +379,8 @@ img {
     #time-limit-counter {
       display: none;
       position: absolute;
-      top: 0;
-      right: 0;
+      top: 10px;
+      right: 10px;
 
       .circle {
         $circle-width: 84px;
@@ -743,12 +743,12 @@ $target-finger-color: orange;
 サイドコンテンツ
 ********************************/
 #side-contents {
-  width: calc(30% - 10px);
-  margin-left: 10px;
+  width: calc(30% - 15px);
+  margin-left: 15px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  z-index: 100;
+  z-index: 1000;
 
   #side-menu-title {
     cursor: default;
@@ -802,6 +802,49 @@ $target-finger-color: orange;
       }
     }
 
+    .label-wrapper{
+      margin-bottom: 10px;
+      &:last-child{
+        margin-bottom: 0;
+      }
+    }
+
+    $selected-color: #5fb3f5;
+
+    .radio-wrapper{
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      input{
+        display: none;
+
+        &:checked + label{
+          background-color: $selected-color;
+          border: 3px solid #0b88fd;
+          color: white;
+          &:hover{
+            opacity: 1;
+          }
+        }
+      }
+
+      label{
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        width: 18%;
+        padding: 5px;
+        border: 3px solid transparent;
+        border-radius: 5px;
+        background-color: #d7f3bd;
+        transition: 0.4s;
+
+        &:hover{
+          opacity: 0.7;
+        }
+      }
+    }
+
     .checkbox-wrapper {
       .checkbox {
         display: none;
@@ -826,23 +869,22 @@ $target-finger-color: orange;
             left: 0;
             border: 1px solid #e4e3e1;
             border-radius: 18px;
-            background: #ffffff;
+            background-color: #ffffff;
           }
 
           &::after {
             width: 19px;
             height: 18px;
             left: 0;
-            border: 1px solid #e4e3e1;
             border-radius: 50%;
-            background: #bdbdbd;
+            background-color: #bdbdbd;
             transition: all 0.3s ease-out;
           }
         }
 
         &:checked + label::after {
           left: 19px;
-          background: #3cc2da;
+          background-color: $selected-color;
         }
 
         &:not(:checked) ~ .select-wrapper {
@@ -854,8 +896,9 @@ $target-finger-color: orange;
     .select-wrapper {
       display: inline-block;
       width: 70px;
+      margin-left: 5px;
       position: relative;
-      border: 2px solid rgb(111, 226, 247);
+      border: 2px solid $selected-color;
       border-radius: 35px;
       background: #ffffff;
 
@@ -900,6 +943,7 @@ $target-finger-color: orange;
   opacity: 0;
   transition: 0.3s;
   background: #000;
+  z-index: 100;
 }
 
 /********************************
@@ -924,7 +968,7 @@ $target-finger-color: orange;
     margin-left: 0;
     flex-direction: row;
     position: absolute;
-    top: 50%;
+    top: 35%;
     right: calc(-50% + 50px);
 
     &:focus-within {

@@ -28,11 +28,13 @@ const ERROR_SELECT_WEAK_KEY = "苦手キーセレクトボックスに不正な�
 // 時間制限セレクトボックスエラーメッセージ
 const ERROR_SELECT_TIME_LIMIT = "時間制限セレクトボックスに不正な値が選択されています。";
 
-// もぐら出現間隔セレクトボックスエラーメッセージ
-const ERROR_SELECT_SHOW_MOLE_INTERVAL = "もぐら出現間隔セレクトボックスに不正な値が選択されています。";
+// もぐら出現間隔エラーメッセージ
+const ERROR_SHOW_MOLE_INTERVAL = "もぐら出現間隔に不正な値が選択されています。";
+const NOT_CHECKED_SHOW_MOLE_INTERVAL = "もぐら出現間隔を選択してください。";
 
-// もぐら滞在時間セレクトボックスエラーメッセージ
-const ERROR_SELECT_MOLE_DURATION = "もぐら滞在時間セレクトボックスに不正な値が選択されています。";
+// もぐら滞在時間エラーメッセージ
+const ERROR_MOLE_DURATION = "もぐら滞在時間に不正な値が選択されています。";
+const NOT_CHECKED_MOLE_DURATION = "もぐら滞在時間を選択してください。";
 
 // もぐらたたきクリア回数セレクトボックスエラーメッセージ
 const ERROR_SELECT_WHACK_MOLE_CLEAR_COUNT = "もぐらたたきクリア回数セレクトボックスに不正な値が選択されています。";
