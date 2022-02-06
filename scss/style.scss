@@ -802,33 +802,33 @@ $target-finger-color: orange;
       }
     }
 
-    .label-wrapper{
+    .label-wrapper {
       margin-bottom: 10px;
-      &:last-child{
+      &:last-child {
         margin-bottom: 0;
       }
     }
 
     $selected-color: #5fb3f5;
 
-    .radio-wrapper{
+    .radio-wrapper {
       display: flex;
       justify-content: space-between;
       width: 100%;
-      input{
+      input {
         display: none;
 
-        &:checked + label{
+        &:checked + label {
           background-color: $selected-color;
           border: 3px solid #0b88fd;
           color: white;
-          &:hover{
+          &:hover {
             opacity: 1;
           }
         }
       }
 
-      label{
+      label {
         cursor: pointer;
         display: inline-block;
         text-align: center;
@@ -839,7 +839,7 @@ $target-finger-color: orange;
         background-color: #d7f3bd;
         transition: 0.4s;
 
-        &:hover{
+        &:hover {
           opacity: 0.7;
         }
       }
@@ -964,38 +964,12 @@ $target-finger-color: orange;
   }
 
   #side-contents {
-    width: 50%;
+    width: 50px;
     margin-left: 0;
     flex-direction: row;
     position: absolute;
     top: 35%;
-    right: calc(-50% + 50px);
-
-    &:focus-within {
-      right: 0;
-
-      & ~ #background-mask {
-        visibility: visible;
-        opacity: 0.6;
-      }
-
-      #side-menu-title {
-        pointer-events: none;
-        .hamburger {
-          span:nth-child(1) {
-            top: 50%;
-            transform: translate(-50%, -50%) rotate(45deg);
-          }
-          span:nth-child(2) {
-            display: none;
-          }
-          span:nth-child(3) {
-            top: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-          }
-        }
-      }
-    }
+    right: 0;
 
     #side-menu-title {
       cursor: pointer;
@@ -1043,8 +1017,39 @@ $target-finger-color: orange;
     }
 
     #setting-window {
-      width: calc(100% - 50px);
-      border-radius: 0 10px 10px 10px;
+      display: none;
+    }
+
+    &:focus-within {
+      width: 50%;
+
+      & ~ #background-mask {
+        visibility: visible;
+        opacity: 0.6;
+      }
+
+      #setting-window {
+        display: block;
+        width: calc(100% - 50px);
+        border-radius: 0 10px 10px 10px;
+      }
+
+      #side-menu-title {
+        pointer-events: none;
+        .hamburger {
+          span:nth-child(1) {
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+          }
+          span:nth-child(2) {
+            display: none;
+          }
+          span:nth-child(3) {
+            top: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+          }
+        }
+      }
     }
   }
 }

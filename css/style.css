@@ -1249,7 +1249,7 @@ img {
     width: 100%;
   }
   #side-contents {
-    width: 50%;
+    width: 50px;
     margin-left: 0;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
@@ -1257,30 +1257,7 @@ img {
             flex-direction: row;
     position: absolute;
     top: 35%;
-    right: calc(-50% + 50px);
-  }
-  #side-contents:focus-within {
     right: 0;
-  }
-  #side-contents:focus-within ~ #background-mask {
-    visibility: visible;
-    opacity: 0.6;
-  }
-  #side-contents:focus-within #side-menu-title {
-    pointer-events: none;
-  }
-  #side-contents:focus-within #side-menu-title .hamburger span:nth-child(1) {
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%) rotate(45deg);
-            transform: translate(-50%, -50%) rotate(45deg);
-  }
-  #side-contents:focus-within #side-menu-title .hamburger span:nth-child(2) {
-    display: none;
-  }
-  #side-contents:focus-within #side-menu-title .hamburger span:nth-child(3) {
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%) rotate(-45deg);
-            transform: translate(-50%, -50%) rotate(-45deg);
   }
   #side-contents #side-menu-title {
     cursor: pointer;
@@ -1329,8 +1306,35 @@ img {
             writing-mode: vertical-rl;
   }
   #side-contents #setting-window {
+    display: none;
+  }
+  #side-contents:focus-within {
+    width: 50%;
+  }
+  #side-contents:focus-within ~ #background-mask {
+    visibility: visible;
+    opacity: 0.6;
+  }
+  #side-contents:focus-within #setting-window {
+    display: block;
     width: calc(100% - 50px);
     border-radius: 0 10px 10px 10px;
+  }
+  #side-contents:focus-within #side-menu-title {
+    pointer-events: none;
+  }
+  #side-contents:focus-within #side-menu-title .hamburger span:nth-child(1) {
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%) rotate(45deg);
+            transform: translate(-50%, -50%) rotate(45deg);
+  }
+  #side-contents:focus-within #side-menu-title .hamburger span:nth-child(2) {
+    display: none;
+  }
+  #side-contents:focus-within #side-menu-title .hamburger span:nth-child(3) {
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+            transform: translate(-50%, -50%) rotate(-45deg);
   }
 }
 /*# sourceMappingURL=style.css.map */
