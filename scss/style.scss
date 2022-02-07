@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 html {
+  font-family: "游ゴシック体", "YuGothic", "游ゴシック", "Yu Gothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
   font-size: 100%;
 }
 
@@ -28,10 +29,14 @@ img {
 .btn {
   cursor: pointer;
   display: block;
-  padding: 10px 25px;
+  padding: 10px 15px;
   border-radius: 50px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
   font-size: 1.3rem;
+  font-weight: bold;
+  i{
+    margin-right: 5px;
+  }
 }
 
 .btn-orange {
@@ -41,6 +46,16 @@ img {
   &:hover {
     margin-top: 3px;
     border-bottom: 2px solid #b84c00;
+  }
+}
+
+.btn-gray {
+  background-color: #6b6764;
+  border-bottom: 5px solid #474644;
+  color: #fff;
+  &:hover {
+    margin-top: 3px;
+    border-bottom: 2px solid #474644;
   }
 }
 
@@ -79,6 +94,9 @@ img {
         margin-right: 25px;
         &:last-child {
           margin-right: 0;
+        }
+        &:hover{
+          opacity: 0.7;
         }
       }
     }
@@ -149,8 +167,7 @@ img {
           display: none;
 
           &:checked + label {
-            background-color: #5fb3f5;
-            border: 3px solid #0b88fd;
+            background-color: orange;
             color: white;
             &:hover {
               opacity: 1;
@@ -164,10 +181,9 @@ img {
           text-align: center;
           width: 100%;
           padding: 7px;
-          border: 3px solid transparent;
-          border-radius: 5px;
-          background-color: #d7f3bd;
-          color: rgb(136, 136, 136);
+          border: 3px solid white;
+          border-radius: 30px 0px 0px 30px;
+          color: white;
           font-size: 1.3rem;
           font-weight: bold;
           transition: 0.4s;
@@ -190,9 +206,9 @@ img {
 
             .title {
               font-weight: bold;
-              font-size: 1.2rem;
+              font-size: 1.3rem;
               color: orange;
-              margin-bottom: 10px;
+              margin-bottom: 5px;
             }
             .text {
               font-size: 1rem;
@@ -212,8 +228,8 @@ img {
         #description-img {
           width: calc(50% - 15px);
           margin-left: 15px;
-          border-radius: 5px;
-          background-color: palegoldenrod;
+          border-radius: 10px;
+          border: 5px solid white;
         }
       }
     }
@@ -377,54 +393,88 @@ img {
 
     #result-window {
       display: none;
+      align-items: center;
       width: 100%;
       height: 100%;
-
-      .btn-wrapper {
-        display: flex;
-      }
+      padding: 15px;
 
       .table {
+        width: 45%;
         display: flex;
         flex-wrap: wrap;
         dt,
         dd {
-          padding: 10px;
+          color: white;
+          font-size: 1.2rem;
+          font-weight: bold;
+          padding: 3px 5px;
         }
         dt {
+          width: 60%;
+          border-top: 2px solid white;
+          border-left: 2px solid white;
+          &:last-of-type {
+            border-bottom: 2px solid white;
+          }
+        }
+        dd {
+          width: 40%;
+          text-align: right;
+          border-top: 2px solid white;
+          border-left: 2px solid white;
+          border-right: 2px solid white;
+          &:last-of-type {
+            border-bottom: 2px solid white;
+          }
+        }
+
+        .green{
+          color: #a4ff80;
+        }
+
+        .pink{
+          color: pink;
+        }
+      }
+
+      .evaluation-wrapper {
+        width: 25%;
+        text-align: center;
+        position: relative;
+
+        &::before{
+          content: "RANK";
+          position: absolute;
+          top: -40%;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 1.6rem;
           font-weight: bold;
-          border-top: 1px solid #383e45;
+          color: white;
         }
-        dd {
-          border-top: 1px solid #383e45;
-          border-bottom: 1px solid #383e45;
+
+        .circle{
+          display: inline-block;
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          line-height: 100px;
+          background-color: #00adff;
+        }
+
+        #evaluation-text {
+          font-size: 4.0rem;
+          font-weight: bold;
+          color: white;
         }
       }
 
-      #normal-result-table {
-        dt:nth-of-type(1),
-        dd:nth-of-type(1) {
-          width: 25%;
-        }
-        dt:nth-of-type(2),
-        dd:nth-of-type(2) {
-          width: 25%;
-        }
-        dt:nth-of-type(3),
-        dd:nth-of-type(3) {
-          width: 20%;
-        }
-        dt:nth-of-type(4),
-        dd:nth-of-type(4) {
-          width: 30%;
-        }
-      }
-
-      #whack-mole-result-table {
-        dt,
-        dd {
-          width: 20%;
-        }
+      .btn-wrapper {
+        width: 30%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
       }
     }
 
@@ -569,6 +619,7 @@ img {
   padding-top: 20px;
   margin-top: 20px;
   border-radius: 10px;
+  box-shadow: 0px 0px 3px #333;
   background: linear-gradient(90deg, rgba(208, 147, 82, 0.6), rgba(192, 134, 70, 0.6) 60%, rgba(208, 147, 82, 0.6)),
     repeating-radial-gradient(ellipse at 60% 500%, #c08646, #c08646 0.2%, #d09352 0.6%, #d09352 1%);
 }
@@ -767,6 +818,7 @@ $target-finger-color: orange;
 
     .target-finger {
       background-color: $target-finger-color;
+      border: 1px solid $target-finger-color;
     }
 
     .finger-little {
@@ -801,6 +853,8 @@ $target-finger-color: orange;
   flex-direction: column;
   align-items: flex-start;
   z-index: 1000;
+  border-radius: 10px;
+  box-shadow: 0px 0px 3px #333;
 
   #side-menu-title {
     cursor: default;
@@ -830,6 +884,7 @@ $target-finger-color: orange;
     border-radius: 0 0 10px 10px;
     background-color: white;
     position: relative;
+    font-size: 1rem;
 
     .tab-box {
       position: relative;
@@ -843,10 +898,10 @@ $target-finger-color: orange;
       .title {
         position: absolute;
         display: inline-block;
-        top: -28px;
+        top: -33px;
         left: -2px;
         padding: 5px;
-        height: 26px;
+        height: 33px;
         font-weight: bold;
         color: #fff;
         background-color: #8d93c8;
@@ -905,7 +960,7 @@ $target-finger-color: orange;
           position: relative;
           display: inline-block;
           cursor: pointer;
-          padding: 15px 0px 15px 55px;
+          padding: 15px 0px 15px 45px;
 
           &::before,
           &::after {
@@ -1003,8 +1058,8 @@ $target-finger-color: orange;
 ********************************/
 #footer {
   margin-top: auto;
-  padding: 10px 0;
   background-color: rgb(182, 181, 181);
+  padding: 20px;
   .copyright {
     text-align: center;
   }
@@ -1022,6 +1077,7 @@ $target-finger-color: orange;
     position: absolute;
     top: 20%;
     right: 0;
+    box-shadow: none;
 
     #side-menu-title {
       cursor: pointer;
@@ -1088,6 +1144,7 @@ $target-finger-color: orange;
 
       #side-menu-title {
         pointer-events: none;
+        box-shadow: none;
         .hamburger {
           span:nth-child(1) {
             top: 50%;

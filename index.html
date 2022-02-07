@@ -7,6 +7,7 @@
   <title>数字タイピング練習</title>
   <link rel="shortcut icon" href="img/favicon.ico">
   <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="fontawesome/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/util.js"></script>
   <script src="js/main.js"></script>
@@ -19,9 +20,9 @@
         <h1 class="logo"><a href="">数字タイピング</a></h1>
         <nav>
           <ul class="link-list">
-            <li><a href="">ポートフォリオ</a></li>
-            <li><a href="">aaaaaa</a></li>
-            <li><a href="">aaaaaa</a></li>
+            <li><a href="" target="_blank">作品紹介ページ</a></li>
+            <li><a href="https://portfolio.mikanbako.jp/" target="_blank">ポートフォリオ</a></li>
+            <li><a href="https://github.com/yoshitaka7144" target="_blank"><i class="fab fa-github fa-2x"></i></a></li>
           </ul>
         </nav>
       </div>
@@ -45,22 +46,22 @@
                     <div class="description-text">
                       <div id="menu-1-text">
                         <p class="title">数値</p>
-                        <p class="text">6桁までの正or負の整数値が表示されます。表示通りにタイピングして下さい。</p>
+                        <p class="text">6桁までの正or負の整数値が表示されます。表示通りにタイピング!!</p>
                       </div>
                       <div id="menu-2-text">
                         <p class="title">計算</p>
-                        <p class="text">足し算、引き算、掛け算の問題が表示されます。答えをタイピングして下さい。</p>
+                        <p class="text">足し算、引き算、掛け算の問題が表示されます。計算の答えをタイピング!!</p>
                       </div>
                       <div id="menu-3-text">
                         <p class="title">数字もぐらたたき</p>
-                        <p class="text">0～9の数値がもぐらたたきのように出現します。数値が見えたらタイピングして下さい。</p>
+                        <p class="text">0～9の数値がもぐらたたきのように出現します。数値が見えたらタイピング!!</p>
                       </div>
                     </div>
                     <div class="btn-wrapper">
-                      <button id="start-btn" class="btn btn-orange">スタート</button>
+                      <button id="start-btn" class="btn btn-orange"><i class="fas fa-play"></i>スタート</button>
                     </div>
                   </div>
-                  <img id="description-img" src="" alt="問題画面">
+                  <img id="description-img" src="img/menu-1.gif" alt="問題画面">
                 </div>
               </div>
               <div id="count-down-window">
@@ -96,29 +97,32 @@
               <div id="result-window">
                 <dl id="normal-result-table" class="table">
                   <dt>正解タイプ数</dt>
-                  <dt>ミスタイプ数</dt>
-                  <dt>正答率</dt>
-                  <dt>ミスキー（文字：回数）</dt>
                   <dd id="type-count"></dd>
+                  <dt>ミスタイプ数</dt>
                   <dd id="miss-type-count"></dd>
-                  <dd id="correct-percentage"></dd>
-                  <dd id="miss-key"></dd>
+                  <dt>正答率（％）</dt>
+                  <dd id="correct-percentage" class="green"></dd>
+                  <dt>ミスキーTOP3</dt>
+                  <dd id="miss-key" class="pink"></dd>
                 </dl>
                 <dl id="whack-mole-result-table" class="table">
                   <dt>もぐら出現数</dt>
-                  <dt>叩けた数</dt>
-                  <dt>逃げられた数</dt>
-                  <dt>撃破率</dt>
-                  <dt>ミスタイプ数</dt>
                   <dd id="whack-mole-show-count"></dd>
+                  <dt>叩けた数</dt>
                   <dd id="whack-mole-count"></dd>
+                  <dt>逃げられた数</dt>
                   <dd id="whack-mole-miss-count"></dd>
-                  <dd id="whack-mole-percentage"></dd>
-                  <dd id="whack-mole-miss-type-count"></dd>
+                  <dt>撃破率（％）</dt>
+                  <dd id="whack-mole-percentage" class="green"></dd>
+                  <dt>ミスタイプ数</dt>
+                  <dd id="whack-mole-miss-type-count" class="pink"></dd>
                 </dl>
+                <div class="evaluation-wrapper">
+                  <div id="evaluation-text" class="circle"></div>
+                </div>
                 <div class="btn-wrapper">
-                  <button id="retry-btn" class="btn">もう一度</button>
-                  <button id="back-btn" class="btn">トップへ戻る</button>
+                  <button id="retry-btn" class="btn btn-orange"><i class="fas fa-play"></i>もう一度</button>
+                  <button id="back-btn" class="btn btn-gray"><i class="fas fa-reply"></i>トップへ戻る</button>
                 </div>
               </div>
               <div id="time-limit-counter">
@@ -444,10 +448,7 @@
       </div>
     </main>
     <footer id="footer">
-      <div class="footer-inner wrapper">
-
-      </div>
-      <p class="copyright">&copy; YOSHITAKA NAGAI</p>
+      <p class="copyright"><i class="far fa-copyright"></i> YOSHITAKA NAGAI</p>
     </footer>
   </div>
 </body>

@@ -1,6 +1,6 @@
 window.onload = function () {
 
-  // ジャンルボタン
+  // メニューボタン
   const menuBtns = document.querySelectorAll("input[name='menu']");
 
   // スタートボタン
@@ -62,6 +62,9 @@ window.onload = function () {
 
   // 結果画面
   const resultWindow = document.getElementById("result-window");
+
+  // 結果評価
+  const resultEvaluation = document.getElementById("evaluation-text");
 
   // 結果表
   const normalResultTable = document.getElementById("normal-result-table");
@@ -246,7 +249,7 @@ window.onload = function () {
     }
   });
 
-  // 各ジャンルボタンへイベント設定
+  // メニューボタンイベント設定
   for (let radio of menuBtns) {
     radio.addEventListener("change", function () {
       if (this.checked) {
@@ -254,6 +257,7 @@ window.onload = function () {
           document.getElementById("menu-" + i + "-text").style.display = "none";
         }
         document.getElementById(radio.id + "-text").style.display = "block";
+        document.getElementById("description-img").setAttribute("src", "img/" + radio.id + ".gif")
       }
     });
   }
@@ -419,7 +423,7 @@ window.onload = function () {
         }
       }
     });
-    if(!isCheckedShowMoleInterval){
+    if (!isCheckedShowMoleInterval) {
       alert(NOT_CHECKED_SHOW_MOLE_INTERVAL);
       return;
     }
@@ -438,7 +442,7 @@ window.onload = function () {
         }
       }
     });
-    if(!isCheckedMoleDuration){
+    if (!isCheckedMoleDuration) {
       alert(NOT_CHECKED_MOLE_DURATION);
       return;
     }
@@ -720,9 +724,10 @@ window.onload = function () {
   /**
    * 結果表示用テキスト作成
    * @param {Object} obj キー連想配列
+   * @param {Number} count 表示上限数
    * @returns {String} 結果表示用テキスト
    */
-  function formatKeySet(obj) {
+  function formatKeySet(obj, count) {
     let result = "";
     let arr = Object.keys(obj).map(key => {
       return { key: key, value: obj[key] };
@@ -740,9 +745,14 @@ window.onload = function () {
       }
     });
 
-    arr.forEach(item => {
-      result += item.key + ": " + item.value + ", ";
-    });
+    let n = 0;
+    for (let i = 0; i < arr.length; i++) {
+      result += arr[i].key + ", ";
+      n++;
+      if (n === count) {
+        break;
+      }
+    }
 
     result = result.slice(0, -2);
     return result;
@@ -785,8 +795,14 @@ window.onload = function () {
       // 各結果値設定
       resultTypeCount.textContent = typeCount;
       resultMissTypeCount.textContent = missTypeCount;
-      resultCorrectPercentage.textContent = Math.floor((typeCount / (typeCount + missTypeCount)) * 100);
-      resultMissKey.textContent = formatKeySet(missTypeKey);
+      if (typeCount === 0 && missTypeCount === 0) {
+        resultCorrectPercentage.textContent = 0;
+      } else {
+        resultCorrectPercentage.textContent = Math.floor((typeCount / (typeCount + missTypeCount)) * 100);
+      }
+      resultMissKey.textContent = formatKeySet(missTypeKey, 3);
+      // 評価算出処理
+      resultEvaluation.textContent = "H";
 
       // ミスキーのスタイル設定
       fillMissKey(missTypeCount, missTypeKey);
@@ -806,6 +822,8 @@ window.onload = function () {
       resultWhackMoleMissCount.textContent = whackMoleMissCount;
       resultWhackMolePercentage.textContent = Math.floor((typeCount / whackMoleShowCount) * 100);
       resultWhackMoleMissTypeCount.textContent = missTypeCount;
+      // 評価算出処理
+      resultEvaluation.textContent = "H";
 
       // 結果表表示
       whackMoleResultTable.style.display = "flex";
@@ -813,7 +831,7 @@ window.onload = function () {
     }
 
     // 結果画面表示
-    resultWindow.style.display = "block";
+    resultWindow.style.display = "flex";
   }
 
   /**
