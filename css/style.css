@@ -336,20 +336,40 @@ img {
   display: none;
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
-#window-container #main-window #question-window #question-text {
-  font-size: 1.5rem;
+#window-container #main-window #question-window .question-inner {
+  width: 70%;
+  height: 70%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+#window-container #main-window #question-window .question-inner #question-text {
+  font-size: 3.8rem;
   font-weight: bold;
+  color: white;
 }
 
-#window-container #main-window #question-window #remaining-text {
-  font-size: 1.2rem;
-  color: #c2c7ce;
+#window-container #main-window #question-window .question-inner .typing-text {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
-#window-container #main-window #question-window #inputed-text {
-  font-size: 1.2rem;
+#window-container #main-window #question-window .question-inner .typing-text #remaining-text {
+  font-size: 2.6rem;
+  font-weight: bold;
+  color: #8a8b8b8a;
+}
+
+#window-container #main-window #question-window .question-inner .typing-text #inputed-text {
+  font-size: 2.6rem;
+  font-weight: bold;
   color: orange;
 }
 

@@ -2,7 +2,7 @@
 const END_CHAR = "$";
 
 // 数値タイピング問題最大値
-const NUMBER_TYPING_QUESTION_MAX_VALUE = 10000;
+const NUMBER_TYPING_QUESTION_MAX_VALUE = 1000000;
 
 // 計算問題（加算）最大値
 const ADDITION_QUESTION_MAX_VALUE = 100;

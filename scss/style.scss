@@ -264,20 +264,36 @@ img {
       display: none;
       width: 100%;
       height: 100%;
+      position: relative;
 
-      #question-text {
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
+      .question-inner {
+        width: 70%;
+        height: 70%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
 
-      #remaining-text {
-        font-size: 1.2rem;
-        color: #c2c7ce;
-      }
+        #question-text {
+          font-size: 3.8rem;
+          font-weight: bold;
+          color: white;
+        }
 
-      #inputed-text {
-        font-size: 1.2rem;
-        color: orange;
+        .typing-text {
+          display: flex;
+          #remaining-text {
+            font-size: 2.6rem;
+            font-weight: bold;
+            color: #8a8b8b8a;
+          }
+
+          #inputed-text {
+            font-size: 2.6rem;
+            font-weight: bold;
+            color: orange;
+          }
+        }
       }
     }
 
