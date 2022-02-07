@@ -28,10 +28,22 @@ img {
 .btn {
   cursor: pointer;
   display: block;
-  margin: 0 auto;
-  padding: 10px 15px;
-  border-radius: 10px;
-  border: 2px solid #383e45;
+  padding: 10px 25px;
+  border-radius: 50px;
+  -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  font-size: 1.3rem;
+}
+
+.btn-orange {
+  background-color: #eb6100;
+  border-bottom: 5px solid #b84c00;
+  color: #fff;
+}
+
+.btn-orange:hover {
+  margin-top: 3px;
+  border-bottom: 2px solid #b84c00;
 }
 
 .container {
@@ -123,12 +135,12 @@ img {
 #window-container #main-window {
   width: 100%;
   height: 100%;
-  position: relative;
   background-color: #006633;
   border: 8px solid #c1beb9;
   border-radius: 3px;
   -webkit-box-shadow: 0 0 5px #333, 0 0 5px #555 inset;
           box-shadow: 0 0 5px #333, 0 0 5px #555 inset;
+  position: relative;
 }
 
 #window-container #main-window::before, #window-container #main-window::after {
@@ -161,7 +173,7 @@ img {
 }
 
 #window-container #main-window #start-window .menu {
-  width: 35%;
+  width: calc(35% - 15px);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -172,9 +184,10 @@ img {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-right: 15px;
 }
 
 #window-container #main-window #start-window .menu input[type="radio"] {
@@ -182,28 +195,38 @@ img {
 }
 
 #window-container #main-window #start-window .menu input[type="radio"]:checked + label {
-  background-color: orange;
+  background-color: #5fb3f5;
+  border: 3px solid #0b88fd;
+  color: white;
+}
+
+#window-container #main-window #start-window .menu input[type="radio"]:checked + label:hover {
+  opacity: 1;
 }
 
 #window-container #main-window #start-window .menu label {
   cursor: pointer;
   display: block;
   text-align: center;
-  width: 60%;
-  margin-bottom: 20px;
-  padding: 15px;
-  border: 2px solid #383e45;
-  border-radius: 10px;
+  width: 100%;
+  padding: 7px;
+  border: 3px solid transparent;
+  border-radius: 5px;
+  background-color: #d7f3bd;
+  color: #888888;
+  font-size: 1.3rem;
+  font-weight: bold;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
-#window-container #main-window #start-window .menu label:last-child {
-  margin-bottom: 0;
+#window-container #main-window #start-window .menu label:hover {
+  opacity: 0.7;
 }
 
 #window-container #main-window #start-window .description {
   width: 65%;
-  border-radius: 5px;
-  background-color: white;
+  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -213,17 +236,42 @@ img {
   width: 50%;
 }
 
-#window-container #main-window #start-window .description .text-area #description-text {
+#window-container #main-window #start-window .description .text-area .description-text {
   height: 70%;
 }
 
-#window-container #main-window #start-window .description .text-area #description-text #menu-2-text,
-#window-container #main-window #start-window .description .text-area #description-text #menu-3-text {
+#window-container #main-window #start-window .description .text-area .description-text .title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: orange;
+  margin-bottom: 10px;
+}
+
+#window-container #main-window #start-window .description .text-area .description-text .text {
+  font-size: 1rem;
+  color: white;
+}
+
+#window-container #main-window #start-window .description .text-area .description-text #menu-2-text,
+#window-container #main-window #start-window .description .text-area .description-text #menu-3-text {
   display: none;
 }
 
-#window-container #main-window #start-window .description .text-area #start-btn {
-  width: 70%;
+#window-container #main-window #start-window .description .text-area .btn-wrapper {
+  height: 30%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+#window-container #main-window #start-window .description #description-img {
+  width: calc(50% - 15px);
+  margin-left: 15px;
+  border-radius: 5px;
+  background-color: palegoldenrod;
 }
 
 #window-container #main-window #count-down-window {
@@ -1256,7 +1304,7 @@ img {
         -ms-flex-direction: row;
             flex-direction: row;
     position: absolute;
-    top: 35%;
+    top: 20%;
     right: 0;
   }
   #side-contents #side-menu-title {

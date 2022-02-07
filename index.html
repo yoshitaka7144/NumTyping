@@ -36,20 +36,31 @@
                   <input type="radio" name="menu" id="menu-1" value="menu-1" checked>
                   <label for="menu-1">数値</label>
                   <input type="radio" name="menu" id="menu-2" value="menu-2">
-                  <label for="menu-2">計算問題</label>
+                  <label for="menu-2">計算</label>
                   <input type="radio" name="menu" id="menu-3" value="menu-3">
                   <label for="menu-3">数字もぐらたたき</label>
                 </div>
                 <div class="description">
                   <div class="text-area">
-                    <p id="description-text">
-                      <span id="menu-1-text">ああああ</span>
-                      <span id="menu-2-text">いいいい</span>
-                      <span id="menu-3-text">うううう</span>
-                    </p>
-                    <button id="start-btn" class="btn">スタート</button>
+                    <div class="description-text">
+                      <div id="menu-1-text">
+                        <p class="title">数値</p>
+                        <p class="text">4桁までの正or負の整数値が表示されます。表示通りにタイピングして下さい。</p>
+                      </div>
+                      <div id="menu-2-text">
+                        <p class="title">計算</p>
+                        <p class="text">足し算、引き算、掛け算の問題が表示されます。答えをタイピングして下さい。</p>
+                      </div>
+                      <div id="menu-3-text">
+                        <p class="title">数字もぐらたたき</p>
+                        <p class="text">0～9の数値がもぐらたたきのように出現します。数値が見えたらタイピングして下さい。</p>
+                      </div>
+                    </div>
+                    <div class="btn-wrapper">
+                      <button id="start-btn" class="btn btn-orange">スタート</button>
+                    </div>
                   </div>
-                  <img id="description-img" src="" alt="">
+                  <img id="description-img" src="" alt="問題画面">
                 </div>
               </div>
               <div id="count-down-window">
@@ -330,7 +341,7 @@
             </div>
 
             <div class="tab-box">
-              <span class="title">数値　計算問題</span>
+              <span class="title">数値　計算</span>
               <div class="label-wrapper">
                 <label for="question-count">問題数</label>
                 <div class="select-wrapper">
