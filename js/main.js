@@ -827,7 +827,7 @@ window.onload = function () {
    */
   function calcWhackMoleEvaluationRank(percentage, missTypeCount) {
     let result = { score: "", evaluation: "" };
-    const score = percentage - missTypeCount;
+    let score = percentage - missTypeCount;
     if (score === 100) {
       result.evaluation = "S";
     } else if (90 <= score && score <= 99) {
@@ -842,6 +842,7 @@ window.onload = function () {
       result.evaluation = "E";
     } else {
       result.evaluation = "F";
+      score = 0;
     }
     result.score = score;
 
