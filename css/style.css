@@ -546,7 +546,7 @@ img {
 }
 
 #window-container #main-window #result-window .table dt {
-  width: 60%;
+  width: 65%;
   border-top: 2px solid white;
   border-left: 2px solid white;
 }
@@ -556,7 +556,7 @@ img {
 }
 
 #window-container #main-window #result-window .table dd {
-  width: 40%;
+  width: 35%;
   text-align: right;
   border-top: 2px solid white;
   border-left: 2px solid white;
@@ -577,20 +577,19 @@ img {
 
 #window-container #main-window #result-window .evaluation-wrapper {
   width: 25%;
-  text-align: center;
-  position: relative;
-}
-
-#window-container #main-window #result-window .evaluation-wrapper::before {
-  content: "RANK";
-  position: absolute;
-  top: -40%;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: white;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
 }
 
 #window-container #main-window #result-window .evaluation-wrapper .circle {
@@ -600,12 +599,50 @@ img {
   border-radius: 50%;
   line-height: 100px;
   background-color: #00adff;
+  text-align: center;
 }
 
 #window-container #main-window #result-window .evaluation-wrapper #evaluation-text {
   font-size: 4.0rem;
   font-weight: bold;
   color: white;
+}
+
+#window-container #main-window #result-window .evaluation-wrapper #score-text {
+  width: 100px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  font-size: 3rem;
+  position: relative;
+}
+
+#window-container #main-window #result-window .evaluation-wrapper #score-text::before {
+  content: "";
+  width: 68%;
+  height: 3px;
+  position: absolute;
+  top: 73%;
+  left: 50%;
+  -webkit-transform: translateX(-45%) rotate(-4deg);
+          transform: translateX(-45%) rotate(-4deg);
+  background-color: white;
+  border-radius: 5px;
+}
+
+#window-container #main-window #result-window .evaluation-wrapper #score-text::after {
+  content: "";
+  width: 73%;
+  height: 3px;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  -webkit-transform: translateX(-40%) rotate(-4deg);
+          transform: translateX(-40%) rotate(-4deg);
+  background-color: white;
+  border-radius: 5px;
 }
 
 #window-container #main-window #result-window .btn-wrapper {

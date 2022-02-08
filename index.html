@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>数字タイピング練習</title>
+  <title>数字タイピング</title>
+  <meta name="description" content="数字のタイピング練習ができます。表示通りにタイピングする数値タイピング、計算結果をタイピングする計算タイピング、数値が出現したタイミングでタイピングするもぐらたたきタイピングで遊べます。">
   <link rel="shortcut icon" href="img/favicon.ico">
   <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
   <link rel="stylesheet" href="fontawesome/css/all.min.css">
@@ -20,9 +21,9 @@
         <h1 class="logo"><a href="">数字タイピング</a></h1>
         <nav>
           <ul class="link-list">
-            <li><a href="" target="_blank">作品紹介ページ</a></li>
-            <li><a href="https://portfolio.mikanbako.jp/" target="_blank">ポートフォリオ</a></li>
-            <li><a href="https://github.com/yoshitaka7144" target="_blank"><i class="fab fa-github fa-2x"></i></a></li>
+            <li><a href="" target="_blank" rel="noopener">作品紹介ページ</a></li>
+            <li><a href="https://portfolio.mikanbako.jp/" target="_blank" rel="noopener">ポートフォリオ</a></li>
+            <li><a href="https://github.com/yoshitaka7144" target="_blank" rel="noopener"><i class="fab fa-github fa-2x"></i></a></li>
           </ul>
         </nav>
       </div>
@@ -96,10 +97,12 @@
               </div>
               <div id="result-window">
                 <dl id="normal-result-table" class="table">
-                  <dt>正解タイプ数</dt>
+                  <dt>WPM</dt>
+                  <dd id="wpm"></dd>
+                  <dt>正解タイプ / 総数</dt>
                   <dd id="type-count"></dd>
                   <dt>ミスタイプ数</dt>
-                  <dd id="miss-type-count"></dd>
+                  <dd id="miss-type-count" class="pink"></dd>
                   <dt>正答率（％）</dt>
                   <dd id="correct-percentage" class="green"></dd>
                   <dt>ミスキーTOP3</dt>
@@ -119,6 +122,7 @@
                 </dl>
                 <div class="evaluation-wrapper">
                   <div id="evaluation-text" class="circle"></div>
+                  <p id="score-text"></p>
                 </div>
                 <div class="btn-wrapper">
                   <button id="retry-btn" class="btn btn-orange"><i class="fas fa-play"></i>もう一度</button>

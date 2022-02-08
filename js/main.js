@@ -66,8 +66,14 @@ window.onload = function () {
   // 結果評価
   const resultEvaluation = document.getElementById("evaluation-text");
 
+  // 結果スコア
+  const resultScore = document.getElementById("score-text");
+
   // 結果表
   const normalResultTable = document.getElementById("normal-result-table");
+
+  // 結果表：WPM
+  const resultWpm = document.getElementById("wpm");
 
   // 結果表：タイプ数
   const resultTypeCount = document.getElementById("type-count");
@@ -117,6 +123,9 @@ window.onload = function () {
   // 時間制限
   let timeLimit;
 
+  // タイピング時間計測
+  let typingTime;
+
   // もぐら出現間隔
   let showMoleInterval;
 
@@ -143,6 +152,7 @@ window.onload = function () {
   let typeCount = 0;
   let missTypeCount = 0;
   let missTypeKey = {};
+  let totalQuestionTypeCount = 0;
 
   // 結果表示用（もぐらたたき）
   let whackMoleShowCount = 0;
@@ -330,6 +340,7 @@ window.onload = function () {
     typeCount = 0;
     missTypeCount = 0;
     missTypeKey = {};
+    totalQuestionTypeCount = 0;
 
     // ミスタイプキーのスタイルクリア
     clearMissTypeKeyStyle();
@@ -498,6 +509,9 @@ window.onload = function () {
         }, 1000);
       }
 
+      // タイピング時間計測スタート
+      typingTime = performance.now();
+
       // タイピング判定
       canTypeKey = true;
 
@@ -661,6 +675,7 @@ window.onload = function () {
 
       // 作成した問題追加
       questionData.push(data);
+      totalQuestionTypeCount += data.typingText.length;
     }
 
     // 問題表示初期化
@@ -706,6 +721,7 @@ window.onload = function () {
 
       // 作成問題を追加
       questionData.push(data);
+      totalQuestionTypeCount += data.typingText.length;
     }
 
     // 問題表示初期化
@@ -772,9 +788,73 @@ window.onload = function () {
   }
 
   /**
+   * 数値、計算タイピングの評価ランクを取得
+   * @param {Number} wpm wpm
+   * @param {Number} typeCount 正解タイプ数
+   * @param {Number} totalQuestionTypeCount 問題総タイプ数
+   * @param {Number} correctPercentage 正答率
+   * @returns {Object} 評価データ
+   */
+  function calcNumTypingEvaluationRank(wpm, typeCount, totalQuestionTypeCount, correctPercentage) {
+    let result = { score: "", evaluation: "" };
+    const wpmRank = wpm / 250;
+    const score = Math.floor((correctPercentage - Math.floor((1 - (typeCount / totalQuestionTypeCount)) * 100)) * wpmRank);
+    if (score === 100) {
+      result.evaluation = "S";
+    } else if (90 <= score && score <= 99) {
+      result.evaluation = "A";
+    } else if (75 <= score && score <= 89) {
+      result.evaluation = "B"
+    } else if (60 <= score && score <= 74) {
+      result.evaluation = "C";
+    } else if (30 <= score && score <= 59) {
+      result.evaluation = "D";
+    } else if (1 <= score && score <= 29) {
+      result.evaluation = "E";
+    } else {
+      result.evaluation = "F";
+    }
+    result.score = score;
+
+    return result;
+  }
+
+  /**
+   * もぐらたたきの評価ランクを取得
+   * @param {Number} percentage 撃破率
+   * @param {Number} missTypeCount ミスタイプ数
+   * @returns {Object} 評価データ
+   */
+  function calcWhackMoleEvaluationRank(percentage, missTypeCount) {
+    let result = { score: "", evaluation: "" };
+    const score = percentage - missTypeCount;
+    if (score === 100) {
+      result.evaluation = "S";
+    } else if (90 <= score && score <= 99) {
+      result.evaluation = "A";
+    } else if (75 <= score && score <= 89) {
+      result.evaluation = "B"
+    } else if (60 <= score && score <= 74) {
+      result.evaluation = "C";
+    } else if (30 <= score && score <= 59) {
+      result.evaluation = "D";
+    } else if (1 <= score && score <= 29) {
+      result.evaluation = "E";
+    } else {
+      result.evaluation = "F";
+    }
+    result.score = score;
+
+    return result;
+  }
+
+  /**
    * 結果表示
    */
   function showResultWindow() {
+    // タイピング時間計測ストップ
+    typingTime = performance.now() - typingTime;
+
     // 制限時間タイマーストップ処理
     if (settingTimeLimitCheckBox.checked) {
       clearInterval(timeLimitIntervalId);
@@ -793,16 +873,21 @@ window.onload = function () {
       watchKeyObj.missTypeKey = "";
 
       // 各結果値設定
-      resultTypeCount.textContent = typeCount;
-      resultMissTypeCount.textContent = missTypeCount;
+      const wpm = Math.floor((typeCount / typingTime) * 1000 * 60);
+      let percentage;
       if (typeCount === 0 && missTypeCount === 0) {
-        resultCorrectPercentage.textContent = 0;
+        percentage = 0;
       } else {
-        resultCorrectPercentage.textContent = Math.floor((typeCount / (typeCount + missTypeCount)) * 100);
+        percentage = Math.floor((typeCount / (typeCount + missTypeCount)) * 100);
       }
+      const evaluationData = calcNumTypingEvaluationRank(wpm, typeCount, totalQuestionTypeCount, percentage);
+      resultWpm.textContent = wpm;
+      resultTypeCount.textContent = typeCount + " / " + totalQuestionTypeCount;
+      resultMissTypeCount.textContent = missTypeCount;
+      resultCorrectPercentage.textContent = percentage;
       resultMissKey.textContent = formatKeySet(missTypeKey, 3);
-      // 評価算出処理
-      resultEvaluation.textContent = "H";
+      resultEvaluation.textContent = evaluationData.evaluation;
+      resultScore.textContent = evaluationData.score;
 
       // ミスキーのスタイル設定
       fillMissKey(missTypeCount, missTypeKey);
@@ -820,10 +905,12 @@ window.onload = function () {
       resultWhackMoleShowCount.textContent = whackMoleShowCount;
       resultWhackMoleCount.textContent = typeCount;
       resultWhackMoleMissCount.textContent = whackMoleMissCount;
-      resultWhackMolePercentage.textContent = Math.floor((typeCount / whackMoleShowCount) * 100);
+      const percentage = Math.floor((typeCount / whackMoleShowCount) * 100);
+      resultWhackMolePercentage.textContent = percentage;
       resultWhackMoleMissTypeCount.textContent = missTypeCount;
-      // 評価算出処理
-      resultEvaluation.textContent = "H";
+      const evaluationData = calcWhackMoleEvaluationRank(percentage, missTypeCount);
+      resultEvaluation.textContent = evaluationData.evaluation;
+      resultScore.textContent = evaluationData.score;
 
       // 結果表表示
       whackMoleResultTable.style.display = "flex";
