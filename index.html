@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>数字タイピング</title>
-  <meta name="description" content="数字のタイピング練習ができます。表示通りにタイピングする数値タイピング、計算結果をタイピングする計算タイピング、数値が出現したタイミングでタイピングするもぐらたたきタイピングで遊べます。">
+  <meta name="description"
+    content="数字のタイピング練習ができます。表示通りにタイピングする数値タイピング、計算結果をタイピングする計算タイピング、数値が出現したタイミングでタイピングするもぐらたたきタイピングで遊べます。">
   <link rel="shortcut icon" href="img/favicon.ico">
   <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
   <link rel="stylesheet" href="fontawesome/css/all.min.css">
@@ -18,12 +19,15 @@
   <div class="container">
     <header id="header">
       <div class="header-inner wrapper">
-        <h1 class="logo"><a href="">数字タイピング</a></h1>
+        <div class="logo">
+          <a href="./index.html">数字タイピング</a>
+        </div>
         <nav>
           <ul class="link-list">
-            <li><a href="" target="_blank" rel="noopener">作品紹介ページ</a></li>
+            <li><a href="" target="_blank" rel="noopener">作品紹介</a></li>
             <li><a href="https://portfolio.mikanbako.jp/" target="_blank" rel="noopener">ポートフォリオ</a></li>
-            <li><a href="https://github.com/yoshitaka7144" target="_blank" rel="noopener"><i class="fab fa-github fa-2x"></i></a></li>
+            <li><a href="https://github.com/yoshitaka7144" target="_blank" rel="noopener"><i
+                  class="fab fa-github fa-2x"></i></a></li>
           </ul>
         </nav>
       </div>
@@ -121,12 +125,14 @@
                   <dd id="whack-mole-miss-type-count" class="pink"></dd>
                 </dl>
                 <div class="evaluation-wrapper">
-                  <div id="evaluation-text" class="circle"></div>
+                  <div class="circle">
+                    <span id="evaluation-text"></span>
+                  </div>
                   <p id="score-text"></p>
                 </div>
                 <div class="btn-wrapper">
-                  <button id="retry-btn" class="btn btn-orange"><i class="fas fa-play"></i>もう一度</button>
-                  <button id="back-btn" class="btn btn-gray"><i class="fas fa-reply"></i>トップへ戻る</button>
+                  <button id="retry-btn" class="btn btn-orange"><i class="fas fa-play"></i>もう一回</button>
+                  <button id="back-btn" class="btn btn-gray"><i class="fas fa-reply"></i>戻る</button>
                 </div>
               </div>
               <div id="time-limit-counter">
@@ -337,7 +343,7 @@
             </div>
             <div class="checkbox-wrapper">
               <input type="checkbox" id="setting-time-limit" class="checkbox">
-              <label for="setting-time-limit">時間制限（秒）</label>
+              <label for="setting-time-limit">時間制限(秒)</label>
               <div class="select-wrapper">
                 <select id="time-limit" class="select">
                   <option value="15">15</option>
@@ -351,7 +357,7 @@
             </div>
 
             <div class="tab-box">
-              <span class="title">数値　計算</span>
+              <span class="title">数値 計算</span>
               <div class="label-wrapper">
                 <label for="question-count">問題数</label>
                 <div class="select-wrapper">
@@ -395,7 +401,7 @@
             <div class="tab-box">
               <span class="title">もぐらたたき</span>
               <div class="label-wrapper">
-                <label for="whack-mole-clear-count">クリアまでの回数</label>
+                <label for="whack-mole-clear-count">クリア回数</label>
                 <div class="select-wrapper">
                   <select id="whack-mole-clear-count" class="select">
                     <option value="5">5</option>
@@ -425,7 +431,7 @@
                   <label for="interval-normal"></label>
                   <input type="radio" name="show-mole-interval" id="interval-long" value="950">
                   <label for="interval-long"></label>
-                  <input type="radio" name="show-mole-interval" id="interval-very-long" value="1300">
+                  <input type="radio" name="show-mole-interval" id="interval-very-long" value="1200">
                   <label for="interval-very-long">長</label>
                 </div>
               </div>
@@ -436,9 +442,9 @@
                   <label for="duration-very-short">短</label>
                   <input type="radio" name="mole-duration" id="duration-short" value="750">
                   <label for="duration-short"></label>
-                  <input type="radio" name="mole-duration" id="duration-normal" value="1000" checked>
+                  <input type="radio" name="mole-duration" id="duration-normal" value="1000">
                   <label for="duration-normal"></label>
-                  <input type="radio" name="mole-duration" id="duration-long" value="1250">
+                  <input type="radio" name="mole-duration" id="duration-long" value="1250" checked>
                   <label for="duration-long"></label>
                   <input type="radio" name="mole-duration" id="duration-very-long" value="1500">
                   <label for="duration-very-long">長</label>

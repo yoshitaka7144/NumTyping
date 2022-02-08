@@ -850,6 +850,21 @@ window.onload = function () {
   }
 
   /**
+   * スコアのカウントアップ表示処理
+   * @param {Number} score 結果スコア
+   */
+  function setResultScore(score) {
+    let n = 0;
+    const intervalId = setInterval(() => {
+      resultScore.textContent = n;
+      if (n === score) {
+        clearInterval(intervalId);
+      }
+      n++;
+    }, 10);
+  }
+
+  /**
    * 結果表示
    */
   function showResultWindow() {
@@ -888,7 +903,7 @@ window.onload = function () {
       resultCorrectPercentage.textContent = percentage;
       resultMissKey.textContent = formatKeySet(missTypeKey, 3);
       resultEvaluation.textContent = evaluationData.evaluation;
-      resultScore.textContent = evaluationData.score;
+      setResultScore(evaluationData.score);
 
       // ミスキーのスタイル設定
       fillMissKey(missTypeCount, missTypeKey);
@@ -911,7 +926,7 @@ window.onload = function () {
       resultWhackMoleMissTypeCount.textContent = missTypeCount;
       const evaluationData = calcWhackMoleEvaluationRank(percentage, missTypeCount);
       resultEvaluation.textContent = evaluationData.evaluation;
-      resultScore.textContent = evaluationData.score;
+      setResultScore(evaluationData.score);
 
       // 結果表表示
       whackMoleResultTable.style.display = "flex";

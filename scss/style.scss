@@ -1,7 +1,8 @@
 @charset "UTF-8";
 
 html {
-  font-family: "游ゴシック体", "YuGothic", "游ゴシック", "Yu Gothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+  font-family: "游ゴシック体", "YuGothic", "游ゴシック", "Yu Gothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro",
+    "メイリオ", "Meiryo", sans-serif;
   font-size: 100%;
 }
 
@@ -29,13 +30,13 @@ img {
 .btn {
   cursor: pointer;
   display: block;
-  padding: 10px 15px;
+  padding: 10px 20px;
   border-radius: 50px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  i{
-    margin-right: 5px;
+  i {
+    margin-right: 10px;
   }
 }
 
@@ -70,7 +71,6 @@ img {
   margin: 0 auto;
   padding: 10px;
   display: flex;
-  align-items: flex-start;
   position: relative;
 }
 
@@ -86,16 +86,22 @@ img {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    .logo {
+      display: flex;
+      align-items: center;
+    }
     .link-list {
       display: flex;
+      align-items: center;
 
       li {
         padding: 10px 0;
         margin-right: 25px;
+        font-size: 1.2rem;
         &:last-child {
           margin-right: 0;
         }
-        &:hover{
+        &:hover {
           opacity: 0.7;
         }
       }
@@ -225,6 +231,7 @@ img {
             justify-content: center;
           }
         }
+
         #description-img {
           width: calc(50% - 15px);
           margin-left: 15px;
@@ -249,6 +256,7 @@ img {
         font-weight: bold;
         color: orange;
         opacity: 0;
+        user-select: none;
 
         &:nth-child(1) {
           animation: count-down 1s 0s;
@@ -399,7 +407,7 @@ img {
       padding: 15px;
 
       .table {
-        width: 45%;
+        width: 47%;
         display: flex;
         flex-wrap: wrap;
         dt,
@@ -423,16 +431,17 @@ img {
           border-top: 2px solid white;
           border-left: 2px solid white;
           border-right: 2px solid white;
+
           &:last-of-type {
             border-bottom: 2px solid white;
           }
         }
 
-        .green{
+        .green {
           color: #a4ff80;
         }
 
-        .pink{
+        .pink {
           color: pink;
         }
       }
@@ -445,23 +454,46 @@ img {
         align-items: center;
         justify-content: space-around;
 
-        .circle{
+        .circle {
           display: inline-block;
           width: 100px;
           height: 100px;
           border-radius: 50%;
-          line-height: 100px;
           background-color: #00adff;
-          text-align: center;
+          position: relative;
+          visibility: hidden;
+          animation: stamp 0.5s 1.1s ease-in forwards;
+
+          @keyframes stamp {
+            0% {
+              visibility: visible;
+              opacity: 0;
+              transform: rotate(-30deg) scale(4);
+            }
+            50% {
+              visibility: visible;
+              opacity: 0.8;
+              transform: rotate(-15deg) scale(2);
+            }
+            100% {
+              visibility: visible;
+              opacity: 1;
+              transform: rotate(0deg) scale(1);
+            }
+          }
+
+          #evaluation-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3.8rem;
+            font-weight: bold;
+            color: white;
+          }
         }
 
-        #evaluation-text {
-          font-size: 4.0rem;
-          font-weight: bold;
-          color: white;
-        }
-
-        #score-text{
+        #score-text {
           width: 100px;
           height: 100px;
           line-height: 100px;
@@ -471,35 +503,54 @@ img {
           font-size: 3rem;
           position: relative;
 
-          &::before{
+          &::before {
             content: "";
-            width: 68%;
+            width: 0;
             height: 3px;
             position: absolute;
             top: 73%;
-            left: 50%;
-            transform: translateX(-45%) rotate(-4deg);
+            left: 13%;
+            transform: rotate(-5deg);
             background-color: white;
             border-radius: 5px;
-            
+            animation: show-under-line-1 0.2s 0.7s linear forwards;
           }
 
-          &::after{
+          &::after {
             content: "";
-            width: 73%;
+            width: 0;
             height: 3px;
             position: absolute;
             top: 80%;
-            left: 50%;
-            transform: translateX(-40%) rotate(-4deg);
+            left: 13%;
+            transform: rotate(-5deg);
             background-color: white;
             border-radius: 5px;
+            animation: show-under-line-2 0.2s 0.9s linear forwards;
+          }
+
+          @keyframes show-under-line-1 {
+            0% {
+              width: 0;
+            }
+            100% {
+              width: 77%;
+            }
+          }
+
+          @keyframes show-under-line-2 {
+            0% {
+              width: 0;
+            }
+            100% {
+              width: 83%;
+            }
           }
         }
       }
 
       .btn-wrapper {
-        width: 30%;
+        width: 28%;
         height: 100%;
         display: flex;
         flex-direction: column;
@@ -646,7 +697,7 @@ img {
   flex-direction: column;
   width: 100%;
   padding-top: 20px;
-  margin-top: 20px;
+  margin-top: 18px;
   border-radius: 10px;
   box-shadow: 0px 0px 3px #333;
   background: linear-gradient(90deg, rgba(208, 147, 82, 0.6), rgba(192, 134, 70, 0.6) 60%, rgba(208, 147, 82, 0.6)),
@@ -669,12 +720,13 @@ $miss-key-background-color: red;
 #keyboard-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   #keyboard {
     padding: 15px;
     border-radius: 10px;
     background-color: $keyboard-color;
     box-shadow: 3px 3px 3px #606468, -1px -1px 3px #606468;
+    user-select: none;
     .row {
       display: flex;
       margin-bottom: 5px;
@@ -883,7 +935,7 @@ $target-finger-color: orange;
   align-items: flex-start;
   z-index: 1000;
   border-radius: 10px;
-  box-shadow: 0px 0px 3px #333;
+  box-shadow: 0px 0px 5px #333;
 
   #side-menu-title {
     cursor: default;
@@ -918,7 +970,7 @@ $target-finger-color: orange;
     .tab-box {
       position: relative;
       width: 100%;
-      margin: 2.3rem auto 0 auto;
+      margin: 2rem auto 0 auto;
       padding: 10px;
       border: 2px solid #8d93c8;
       border-radius: 0 10px 10px 10px;
@@ -935,6 +987,10 @@ $target-finger-color: orange;
         color: #fff;
         background-color: #8d93c8;
         border-radius: 8px 8px 0 0;
+      }
+
+      &:last-of-type {
+        margin-top: 3rem;
       }
     }
 
@@ -972,7 +1028,8 @@ $target-finger-color: orange;
         padding: 5px;
         border: 3px solid transparent;
         border-radius: 5px;
-        background-color: #d7f3bd;
+        background-color: #dfdfdf;
+        font-size: 1.1rem;
         transition: 0.4s;
 
         &:hover {
@@ -989,7 +1046,7 @@ $target-finger-color: orange;
           position: relative;
           display: inline-block;
           cursor: pointer;
-          padding: 15px 0px 15px 45px;
+          padding: 11px 0px 11px 45px;
 
           &::before,
           &::after {
@@ -1032,11 +1089,12 @@ $target-finger-color: orange;
     .select-wrapper {
       display: inline-block;
       width: 70px;
-      margin-left: 5px;
+      margin-left: 4px;
       position: relative;
       border: 2px solid $selected-color;
       border-radius: 35px;
-      background: #ffffff;
+      background-color: white;
+      z-index: 0;
 
       &::before {
         content: "";
@@ -1049,6 +1107,7 @@ $target-finger-color: orange;
         border-top: 5px solid #383e45;
         border-left: 5px solid transparent;
         border-right: 5px solid transparent;
+        z-index: -1;
       }
 
       .select {
@@ -1070,11 +1129,11 @@ $target-finger-color: orange;
 背景マスク
 ********************************/
 #background-mask {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: 100vh;
   visibility: hidden;
   opacity: 0;
   transition: 0.3s;

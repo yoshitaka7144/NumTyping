@@ -1,6 +1,6 @@
 @charset "UTF-8";
 html {
-  font-family: "游ゴシック体", "YuGothic", "游ゴシック", "Yu Gothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
+  font-family: "游ゴシック体", "YuGothic", "游ゴシック", "Yu Gothic", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", "Meiryo", sans-serif;
   font-size: 100%;
 }
 
@@ -29,16 +29,16 @@ img {
 .btn {
   cursor: pointer;
   display: block;
-  padding: 10px 15px;
+  padding: 10px 20px;
   border-radius: 50px;
   -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
           box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: bold;
 }
 
 .btn i {
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .btn-orange {
@@ -81,9 +81,6 @@ img {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
   position: relative;
 }
 
@@ -111,15 +108,28 @@ img {
           justify-content: space-between;
 }
 
+#header .header-inner .logo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 #header .header-inner .link-list {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 #header .header-inner .link-list li {
   padding: 10px 0;
   margin-right: 25px;
+  font-size: 1.2rem;
 }
 
 #header .header-inner .link-list li:last-child {
@@ -310,6 +320,10 @@ img {
   font-weight: bold;
   color: orange;
   opacity: 0;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 #window-container #main-window #count-down-window p:nth-child(1) {
@@ -529,7 +543,7 @@ img {
 }
 
 #window-container #main-window #result-window .table {
-  width: 45%;
+  width: 47%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -597,13 +611,62 @@ img {
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  line-height: 100px;
   background-color: #00adff;
-  text-align: center;
+  position: relative;
+  visibility: hidden;
+  -webkit-animation: stamp 0.5s 1.1s ease-in forwards;
+          animation: stamp 0.5s 1.1s ease-in forwards;
 }
 
-#window-container #main-window #result-window .evaluation-wrapper #evaluation-text {
-  font-size: 4.0rem;
+@-webkit-keyframes stamp {
+  0% {
+    visibility: visible;
+    opacity: 0;
+    -webkit-transform: rotate(-30deg) scale(4);
+            transform: rotate(-30deg) scale(4);
+  }
+  50% {
+    visibility: visible;
+    opacity: 0.8;
+    -webkit-transform: rotate(-15deg) scale(2);
+            transform: rotate(-15deg) scale(2);
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: rotate(0deg) scale(1);
+            transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes stamp {
+  0% {
+    visibility: visible;
+    opacity: 0;
+    -webkit-transform: rotate(-30deg) scale(4);
+            transform: rotate(-30deg) scale(4);
+  }
+  50% {
+    visibility: visible;
+    opacity: 0.8;
+    -webkit-transform: rotate(-15deg) scale(2);
+            transform: rotate(-15deg) scale(2);
+  }
+  100% {
+    visibility: visible;
+    opacity: 1;
+    -webkit-transform: rotate(0deg) scale(1);
+            transform: rotate(0deg) scale(1);
+  }
+}
+
+#window-container #main-window #result-window .evaluation-wrapper .circle #evaluation-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  font-size: 3.8rem;
   font-weight: bold;
   color: white;
 }
@@ -621,32 +684,72 @@ img {
 
 #window-container #main-window #result-window .evaluation-wrapper #score-text::before {
   content: "";
-  width: 68%;
+  width: 0;
   height: 3px;
   position: absolute;
   top: 73%;
-  left: 50%;
-  -webkit-transform: translateX(-45%) rotate(-4deg);
-          transform: translateX(-45%) rotate(-4deg);
+  left: 13%;
+  -webkit-transform: rotate(-5deg);
+          transform: rotate(-5deg);
   background-color: white;
   border-radius: 5px;
+  -webkit-animation: show-under-line-1 0.2s 0.7s linear forwards;
+          animation: show-under-line-1 0.2s 0.7s linear forwards;
 }
 
 #window-container #main-window #result-window .evaluation-wrapper #score-text::after {
   content: "";
-  width: 73%;
+  width: 0;
   height: 3px;
   position: absolute;
   top: 80%;
-  left: 50%;
-  -webkit-transform: translateX(-40%) rotate(-4deg);
-          transform: translateX(-40%) rotate(-4deg);
+  left: 13%;
+  -webkit-transform: rotate(-5deg);
+          transform: rotate(-5deg);
   background-color: white;
   border-radius: 5px;
+  -webkit-animation: show-under-line-2 0.2s 0.9s linear forwards;
+          animation: show-under-line-2 0.2s 0.9s linear forwards;
+}
+
+@-webkit-keyframes show-under-line-1 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 77%;
+  }
+}
+
+@keyframes show-under-line-1 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 77%;
+  }
+}
+
+@-webkit-keyframes show-under-line-2 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 83%;
+  }
+}
+
+@keyframes show-under-line-2 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 83%;
+  }
 }
 
 #window-container #main-window #result-window .btn-wrapper {
-  width: 30%;
+  width: 28%;
   height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -884,7 +987,7 @@ img {
           flex-direction: column;
   width: 100%;
   padding-top: 20px;
-  margin-top: 20px;
+  margin-top: 18px;
   border-radius: 10px;
   -webkit-box-shadow: 0px 0px 3px #333;
           box-shadow: 0px 0px 3px #333;
@@ -902,7 +1005,7 @@ img {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 #keyboard-container #keyboard {
@@ -911,6 +1014,10 @@ img {
   background-color: #eeeded;
   -webkit-box-shadow: 3px 3px 3px #606468, -1px -1px 3px #606468;
           box-shadow: 3px 3px 3px #606468, -1px -1px 3px #606468;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 
 #keyboard-container #keyboard .row {
@@ -1192,8 +1299,8 @@ img {
           align-items: flex-start;
   z-index: 1000;
   border-radius: 10px;
-  -webkit-box-shadow: 0px 0px 3px #333;
-          box-shadow: 0px 0px 3px #333;
+  -webkit-box-shadow: 0px 0px 5px #333;
+          box-shadow: 0px 0px 5px #333;
 }
 
 #side-contents #side-menu-title {
@@ -1233,7 +1340,7 @@ img {
 #side-contents #setting-window .tab-box {
   position: relative;
   width: 100%;
-  margin: 2.3rem auto 0 auto;
+  margin: 2rem auto 0 auto;
   padding: 10px;
   border: 2px solid #8d93c8;
   border-radius: 0 10px 10px 10px;
@@ -1252,6 +1359,10 @@ img {
   color: #fff;
   background-color: #8d93c8;
   border-radius: 8px 8px 0 0;
+}
+
+#side-contents #setting-window .tab-box:last-of-type {
+  margin-top: 3rem;
 }
 
 #side-contents #setting-window .label-wrapper {
@@ -1294,7 +1405,8 @@ img {
   padding: 5px;
   border: 3px solid transparent;
   border-radius: 5px;
-  background-color: #d7f3bd;
+  background-color: #dfdfdf;
+  font-size: 1.1rem;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
@@ -1311,7 +1423,7 @@ img {
   position: relative;
   display: inline-block;
   cursor: pointer;
-  padding: 15px 0px 15px 45px;
+  padding: 11px 0px 11px 45px;
 }
 
 #side-contents #setting-window .checkbox-wrapper .checkbox + label::before, #side-contents #setting-window .checkbox-wrapper .checkbox + label::after {
@@ -1353,11 +1465,12 @@ img {
 #side-contents #setting-window .select-wrapper {
   display: inline-block;
   width: 70px;
-  margin-left: 5px;
+  margin-left: 4px;
   position: relative;
   border: 2px solid #5fb3f5;
   border-radius: 35px;
-  background: #ffffff;
+  background-color: white;
+  z-index: 0;
 }
 
 #side-contents #setting-window .select-wrapper::before {
@@ -1372,6 +1485,7 @@ img {
   border-top: 5px solid #383e45;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
+  z-index: -1;
 }
 
 #side-contents #setting-window .select-wrapper .select {
@@ -1393,11 +1507,11 @@ img {
 背景マスク
 ********************************/
 #background-mask {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: 100vh;
   visibility: hidden;
   opacity: 0;
   -webkit-transition: 0.3s;
