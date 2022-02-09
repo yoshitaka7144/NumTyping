@@ -1086,30 +1086,41 @@ window.onload = function () {
   function getChar(code) {
     switch (code) {
       case "Digit0":
+      case "Numpad0":
         return "0";
       case "Digit1":
+      case "Numpad1":
         return "1";
       case "Digit2":
+      case "Numpad2":
         return "2";
       case "Digit3":
+      case "Numpad3":
         return "3";
       case "Digit4":
+      case "Numpad4":
         return "4";
       case "Digit5":
+      case "Numpad5":
         return "5";
       case "Digit6":
+      case "Numpad6":
         return "6";
       case "Digit7":
+      case "Numpad7":
         return "7";
       case "Digit8":
+      case "Numpad8":
         return "8";
       case "Digit9":
+      case "Numpad9":
         return "9";
       case "Comma":
         return ",";
       case "Period":
         return ".";
       case "Minus":
+      case "NumpadSubtract":
         return "-";
       default:
         return "";
