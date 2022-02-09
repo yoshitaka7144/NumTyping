@@ -95,12 +95,13 @@ img {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 80px;
-  background-color: #ecf1f3;
+  height: 70px;
+  background-color: #cdcdcd;
 }
 
 #header .header-inner {
   width: 100%;
+  height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -118,26 +119,31 @@ img {
           align-items: center;
 }
 
-#header .header-inner .link-list {
+#header .header-inner .logo img {
+  height: 50px;
+}
+
+#header .header-inner nav .link-list {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  height: 100%;
 }
 
-#header .header-inner .link-list li {
+#header .header-inner nav .link-list li {
   padding: 10px 0;
   margin-right: 25px;
   font-size: 1.2rem;
 }
 
-#header .header-inner .link-list li:last-child {
+#header .header-inner nav .link-list li:last-child {
   margin-right: 0;
 }
 
-#header .header-inner .link-list li:hover {
+#header .header-inner nav .link-list li:hover {
   opacity: 0.7;
 }
 
@@ -149,7 +155,7 @@ img {
 }
 
 /********************************
-問題表示画面
+各画面
 ********************************/
 #window-container {
   width: 100%;
@@ -976,7 +982,7 @@ img {
 }
 
 /********************************
-
+タイピングツール
 ********************************/
 #typing-container {
   display: -webkit-box;
@@ -987,6 +993,7 @@ img {
       -ms-flex-direction: column;
           flex-direction: column;
   width: 100%;
+  min-width: 650px;
   padding-top: 20px;
   margin-top: 18px;
   border-radius: 10px;
@@ -1526,21 +1533,28 @@ img {
 ********************************/
 #footer {
   margin-top: auto;
-  background-color: #b6b5b5;
+  background-color: #565662;
   padding: 20px;
 }
 
 #footer .copyright {
   text-align: center;
+  color: white;
 }
 
-@media screen and (max-width: 950px) {
+/********************************
+メディアクエリ
+********************************/
+@media screen and (max-width: 1024px) {
   .wrapper {
     padding: 10px 20px;
   }
   #main-contents {
     width: 100%;
   }
+  /********************************
+  サイドコンテンツ
+  ********************************/
   #side-contents {
     width: 50%;
     margin-left: 0;
