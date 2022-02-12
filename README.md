@@ -88,7 +88,7 @@
 ⑨：戻るボタン　トップ画面へ戻る  
 
 # リンク
-* 数値（0～9）画像、もぐらたたきの穴画像、ピコピコハンマー画像：<a href="">いらすとや</a>
+* 数値（0～9）画像、もぐらたたきの穴画像、ピコピコハンマー画像：<a href="https://www.irasutoya.com/">いらすとや</a>
 * ミスタイプ音、ピコピコハンマー叩き音：<a href="https://soundeffect-lab.info/">効果音ラボ</a>
 * <a href="https://github.com/yoshitaka7144" target="_blank" rel="noopener noreferrer">Githubアカウント</a>
 * <a href="https://portfolio.mikanbako.jp" target="_blank" rel="noopener noreferrer">ポートフォリオ</a>
