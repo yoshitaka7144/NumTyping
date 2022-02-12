@@ -796,11 +796,12 @@ window.onload = function () {
    * @returns {Object} 評価データ
    */
   function calcNumTypingEvaluationRank(wpm, typeCount, totalQuestionTypeCount, correctPercentage) {
+    const wpmRank = wpm / BASE_WPM_VALUE;
     let result = { score: "", evaluation: "" };
-    const wpmRank = wpm / 250;
-    const score = Math.floor((correctPercentage - Math.floor((1 - (typeCount / totalQuestionTypeCount)) * 100)) * wpmRank);
-    if (score === 100) {
+    let score = Math.floor((correctPercentage - Math.floor((1 - (typeCount / totalQuestionTypeCount)) * 100)) * wpmRank);
+    if (100 <= score) {
       result.evaluation = "S";
+      score = 100;
     } else if (90 <= score && score <= 99) {
       result.evaluation = "A";
     } else if (75 <= score && score <= 89) {

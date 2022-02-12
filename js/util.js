@@ -13,6 +13,9 @@ const SUBTRACTION_QUESTION_MAX_VALUE = 100;
 // 計算問題（乗算）最大値
 const MULTIPLICATION_QUESTION_MAX_VALUE = 10;
 
+// 数値、計算問題WPM基準値
+const BASE_WPM_VALUE = 300;
+
 // もぐらたたきエフェクト画像表示時間（ms）
 const WHACK_MOLE_EFFECT_IMAGE_DURATION = 400;
 
