@@ -29,7 +29,7 @@ const ADJUSTMENT_MAX_RANDOM_VALUE = 300;
 const ERROR_SELECT_QUESTION_COUNT = "問題数セレクトボックスに不正な値が選択されています。";
 
 // 苦手キーセレクトボックスエラーメッセージ
-const ERROR_SELECT_WEAK_KEY = "苦手キーセレクトボックスに不正な値が選択されています。す。";
+const ERROR_SELECT_WEAK_KEY = "苦手キーセレクトボックスに不正な値が選択されています。";
 
 // 時間制限セレクトボックスエラーメッセージ
 const ERROR_SELECT_TIME_LIMIT = "時間制限セレクトボックスに不正な値が選択されています。";

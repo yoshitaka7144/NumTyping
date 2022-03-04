@@ -421,15 +421,14 @@ window.onload = function () {
 
     // もぐら出現間隔の設定値チェック
     let isCheckedShowMoleInterval = false;
+    let isMatchedShowMoleInterval = false;
     pattern = /^[1-9]+[0-9]*$/;
     showMoleIntervalBtns.forEach(button => {
       if (button.checked) {
+        isCheckedShowMoleInterval = true;
         if (pattern.test(button.value)) {
           showMoleInterval = Number(button.value);
-          isCheckedShowMoleInterval = true;
-        } else {
-          alert(ERROR_SELECT_SHOW_MOLE_INTERVAL);
-          return;
+          isMatchedShowMoleInterval = true;
         }
       }
     });
@@ -437,23 +436,30 @@ window.onload = function () {
       alert(NOT_CHECKED_SHOW_MOLE_INTERVAL);
       return;
     }
+    if (!isMatchedShowMoleInterval) {
+      alert(ERROR_SHOW_MOLE_INTERVAL);
+      return;
+    }
 
     // もぐら滞在時間の設定値チェック
     let isCheckedMoleDuration = false;
+    let isMatchedMoleDuration = false;
     pattern = /^[1-9]+[0-9]*$/;
     moleDurationBtns.forEach(button => {
       if (button.checked) {
+        isCheckedMoleDuration = true;
         if (pattern.test(button.value)) {
           moleDuration = Number(button.value);
-          isCheckedMoleDuration = true;
-        } else {
-          alert(ERROR_MOLE_DURATION);
-          return;
+          isMatchedMoleDuration = true;
         }
       }
     });
     if (!isCheckedMoleDuration) {
       alert(NOT_CHECKED_MOLE_DURATION);
+      return;
+    }
+    if (!isMatchedMoleDuration) {
+      alert(ERROR_MOLE_DURATION);
       return;
     }
 
