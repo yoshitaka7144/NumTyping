@@ -857,6 +857,16 @@ img {
           animation-duration: 120s;
 }
 
+#window-container #main-window #time-limit-counter .circle.circle-180::after, #window-container #main-window #time-limit-counter .circle.circle-180::before {
+  -webkit-animation-duration: 180s;
+          animation-duration: 180s;
+}
+
+#window-container #main-window #time-limit-counter .circle.circle-240::after, #window-container #main-window #time-limit-counter .circle.circle-240::before {
+  -webkit-animation-duration: 240s;
+          animation-duration: 240s;
+}
+
 @-webkit-keyframes rotate-circle-right {
   0% {
     -webkit-transform: rotate(0deg);

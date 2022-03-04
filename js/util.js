@@ -16,6 +16,9 @@ const MULTIPLICATION_QUESTION_MAX_VALUE = 10;
 // 数値、計算問題WPM基準値
 const BASE_WPM_VALUE = 300;
 
+// 時間制限デフォルト秒数リスト
+const DEFAULT_TIME_LIMIT_LIST = [15, 30, 45, 60, 90, 120, 180, 240];
+
 // もぐらたたきエフェクト画像表示時間（ms）
 const WHACK_MOLE_EFFECT_IMAGE_DURATION = 400;
 

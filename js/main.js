@@ -411,8 +411,7 @@ window.onload = function () {
 
     // 制限時間の設定値チェック
     if (settingTimeLimitCheckBox.checked) {
-      pattern = /^[1-9]+[0-9]*$/;
-      if (pattern.test(timeLimitSelectBox.value)) {
+      if (DEFAULT_TIME_LIMIT_LIST.includes(Number(timeLimitSelectBox.value))) {
         timeLimit = timeLimitSelectBox.value;
       } else {
         alert(ERROR_SELECT_TIME_LIMIT);

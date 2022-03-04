@@ -618,7 +618,7 @@ img {
           animation-fill-mode: forwards;
         }
 
-        $times: 15, 30, 45, 60, 90, 120;
+        $times: 15, 30, 45, 60, 90, 120, 180, 240;
         @each $time in $times {
           &.circle-#{$time}::after,
           &.circle-#{$time}::before {
